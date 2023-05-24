@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Enforce all in and ans files use LF
+*.in eol=lf
+*.ans eol=lf
