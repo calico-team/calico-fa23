@@ -1,9 +1,8 @@
-def solve(A: int, B: int) -> int:
+def solve(N: int) -> int:
     """
-    Return the sum of A and B.
+    TODO write problem summary
     
-    A: a non-negative integer
-    B: another non-negative integer
+    N: the height of the tower
     """
     # YOUR CODE HERE
     return 0
@@ -12,9 +11,8 @@ def solve(A: int, B: int) -> int:
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        A, B = int(temp[0]), int(temp[1])
-        print(solve(A, B))
+        N = int(input())
+        print(solve(N))
 
 if __name__ == '__main__':
     main()
