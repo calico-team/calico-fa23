@@ -31,9 +31,8 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, N):
+        self.N = N
 
 
 def make_sample_tests():
@@ -49,17 +48,24 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(1),
+        TestCase(2),
+        TestCase(69),
+        TestCase(420),
     ]
     make_sample_test(main_sample_cases, 'main')
     
     bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
+        TestCase(420420420420420),
+        TestCase(6969696969696969),
     ]
     make_sample_test(bonus_sample_cases, 'bonus')
+
+    bonus2_sample_cases = [
+        TestCase(42042042042042069696969696969694204204204204206969696969696969),
+        TestCase(69696969696969694204204204204206969696969696969420420420420420),
+    ]
+    make_sample_test(bonus2_sample_cases, 'bonus2')
 
 
 def make_secret_tests():
@@ -76,35 +82,40 @@ def make_secret_tests():
     def make_random_case(max_digits):
         def random_n_digit_number(n):
             return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
-    
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
+        N_digits = random.randint(0, max_digits)
+        N = random_n_digit_number(N_digits)
+        return TestCase(N)
+
+    # main_edge_cases = [
+    #     TestCase(0, 0),
+    #     TestCase(1, 0),
+    #     TestCase(0, 1),
+    #     TestCase(10 ** 9, 0),
+    #     TestCase(0, 10 ** 9),
+    #     TestCase(10 ** 9, 10 ** 9),
+    # ]
+    # make_secret_test(main_edge_cases, 'main_edge')
     
     for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
+        main_random_cases = [make_random_case(4) for _ in range(100)] # Are we allowing 10^4 ?? Check this!
         make_secret_test(main_random_cases, 'main_random')
     
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
+    # bonus_edge_cases = [
+    #     TestCase(10 ** 100, 0),
+    #     TestCase(0, 10 ** 100),
+    #     TestCase(10 ** 100, 10 ** 100),
+    # ]
+    # make_secret_test(bonus_edge_cases, 'bonus_edge')
     
     for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
+        bonus_random_cases = [make_random_case(18) for _ in range(100)]
         make_secret_test(bonus_random_cases, 'bonus_random')
+
+    for i in range(50):
+        bonus2_random_cases = [make_random_case(10 ** 5) for _ in range(10)]
+        make_secret_test(bonus2_random_cases, 'bonus2_random_small')
+        bonus2_random_cases = [make_random_Case(10 ** 6) for _ in range(1)]
+        make_secret_test(bonus2_random_cases, 'bonus2_random_big')
 
 
 def make_test_in(cases, file):
@@ -132,7 +143,7 @@ def make_test_out(cases, file):
     """
     from submissions.accepted.add_arbitrary import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.N), file=file)
 
 
 def main():
