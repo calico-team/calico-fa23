@@ -3,12 +3,11 @@
 using namespace std;
 
 /**
- * Return the sum of A and B.
+ * Return the last 9 digits of the number of ways that Big Ben can build his Benga Bricks tower.
  * 
- * A: a non-negative integer
- * B: another non-negative integer
+ * @param N : height of the Benga Bricks tower (positive).
  */
-int solve(int A, int B) {
+int solve(long long N) {
     // YOUR CODE HERE
     return -1;
 }
@@ -17,8 +16,8 @@ int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; i++) {
-        int A, B;
-        cin >> A >> B;
-        cout << solve(A, B) << '\n';
+        long long N;
+        cin >> N; // CAUTION! For the last Bonus you might want to change this.
+        cout << solve(N) << '\n';
     }
 }

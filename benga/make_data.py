@@ -82,7 +82,7 @@ def make_secret_tests():
     def make_random_case(max_digits):
         def random_n_digit_number(n):
             return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        N_digits = random.randint(0, max_digits)
+        N_digits = random.randint(1, max_digits)
         N = random_n_digit_number(N_digits)
         return TestCase(N)
 

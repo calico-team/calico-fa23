@@ -2,12 +2,11 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the sum of A and B.
+     * Return the last 9 digits of the number of ways that Big Ben can build his Benga Bricks tower.
      * 
-     * A: a non-negative integer
-     * B: another non-negative integer
+     * @param N : height of the Benga Bricks tower (positive).
      */
-    static int solve(int A, int B) {
+    static int solve(long N) {
         // YOUR CODE HERE
         return -1;
     }
@@ -19,8 +18,8 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            int A = Integer.parseInt(temp[0]), B = Integer.parseInt(temp[1]);
-            out.println(solve(A, B));
+            long N = Long.parseLong(temp[0]); // CAUTION! For the last Bonus you might want to change this.
+            out.println(solve(N));
         }
         out.flush();
     }

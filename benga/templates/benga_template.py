@@ -1,6 +1,6 @@
 def solve(N: int) -> int:
     """
-    TODO write problem summary
+    Return the last 9 digits of the number of ways that Big Ben can build his Benga Bricks Tower.
     
     N: the height of the tower
     """
