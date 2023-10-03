@@ -480,10 +480,8 @@ int main() {
 	/**
 	 * We can use:
 	 * 				auto [mu, lambda] = floydCycleFinding(A)
-	 * 
 	 * Do it offline for both MOD = 2 and MOD = 5.
-	 * Then, interpolate the result for MOD = 1E9.
-	 * 
+	 * Then, interpolate the result for MOD = 1E9 using Benga's Theorem :3
 	*/
 
 	B = pow(B, WIDTH);
