@@ -111,11 +111,23 @@ def make_secret_tests():
         bonus_random_cases = [make_random_case(18) for _ in range(100)]
         make_secret_test(bonus_random_cases, 'bonus_random')
 
+    def make_last_case(max_queries):
+        def random_n_digit_number(n):
+            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
+        digits = 1e6
+        case = []
+        while digits != 0 and max_queries != 0 :
+            N_digits = random.randint(max(1, digits // max_queries), digits)
+            digits -= N_digits
+            case.append(random_n_digit_number(N_digits))
+            max_queries -= 1
+        return case
+            
+            
+
     for i in range(50):
-        bonus2_random_cases = [make_random_case(10 ** 5) for _ in range(10)]
-        make_secret_test(bonus2_random_cases, 'bonus2_random_small')
-        bonus2_random_cases = [make_random_Case(10 ** 6) for _ in range(1)]
-        make_secret_test(bonus2_random_cases, 'bonus2_random_big')
+        bonus2_random_cases = make_last_case(100)
+        make_secret_test(bonus2_random_cases, 'bonus2_random')
 
 
 def make_test_in(cases, file):
