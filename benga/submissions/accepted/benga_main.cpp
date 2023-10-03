@@ -240,11 +240,13 @@ void computeMat(Mat& A, bool letMiddleBlocks) {
 }
 
 int solveSmallN(ll N, Mat const& A, Mat const& B) {
-    if (N <= 3) return int(pow(B, N)[0][0]);
-	Mat aux = pow(A, N - 3);
-	aux.resize(sz(B));
-	F0R(i, sz(aux)) aux[i].resize(sz(B));
-    return int((pow(B, 3) * aux)[0][0]);
+	if (N == 1) return 2;
+	else if (N == 2) return 4;
+	else if (N == 3) return 8;
+	else if (N == 4) return 45;
+    Mat aux = makeId(sz(A));
+    F0R(i, N - WIDTH) aux = aux * A; // This doesn't use binary exponentiation
+    return int((B * aux)[0][0]);
 }
 
 void printMatrix(Mat const& A) {
@@ -268,9 +270,9 @@ int main() {
     computeMat(A, false);
     computeMat(B, true);
 
-    vi first_cases = { 1, 2, 4, 21 };
-
-    B *= B; B *= B; // check if this works??????????? it should!
+    B = pow(B, WIDTH);
+	B.rsz(sz(A));
+	F0R(i, sz(B)) B[i].rsz(sz(A));
 
     B.rsz(sz(A));
     F0R(i, sz(B)) B[i].rsz(sz(A));
@@ -279,8 +281,7 @@ int main() {
 	cin >> TC;
 	while (TC--) {
 		ll N; cin >> N;
-        if (N <= 3) cout << first_cases[N] << '\n';
-		else cout << solveSmallN(N, A, B) << '\n';
+		cout << solveSmallN(N, A, B) << '\n';
 	}
 
     return 0;

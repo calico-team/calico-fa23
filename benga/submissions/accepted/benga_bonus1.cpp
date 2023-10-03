@@ -257,11 +257,12 @@ void computeMat(Mat& A, bool letMiddleBlocks) {
 }
 
 int solveSmallN(ll N, Mat const& A, Mat const& B) {
-    if (N <= 3) return int(pow(B, N)[0][0]);
-	Mat aux = pow(A, N - 3);
-	aux.resize(sz(B));
-	F0R(i, sz(aux)) aux[i].resize(sz(B));
-    return int((pow(B, 3) * aux)[0][0]);
+	if (N == 1) return 2;
+	else if (N == 2) return 4;
+	else if (N == 3) return 8;
+	else if (N == 4) return 45;
+	Mat aux = pow(A, N - WIDTH);
+    return int((B * aux)[0][0]);
 }
 
 void printMatrix(Mat const& A) {
@@ -283,6 +284,11 @@ int main() {
     Mat A, B;
     computeMat(A, false);
     computeMat(B, true);
+
+    B = pow(B, WIDTH);
+	B.rsz(sz(A));
+	F0R(i, sz(B)) B[i].rsz(sz(A));
+
 	int TC;
 	cin >> TC;
 	while (TC--) {
