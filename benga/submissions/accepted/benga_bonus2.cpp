@@ -158,7 +158,9 @@ Mat pow(Mat m, ll p) {
 
 /**
  * Description: Big Integer
- * Source: (BenQ) https://github.com/bqi343/cp-notebook/blob/master/Implementations/content/numerical/Arithmetic/BigInt.h
+ * Source: https://github.com/indy256/codelibrary/blob/master/cpp/numeric/bigint.cpp
+	* oops that one uses FFT instead of Karatsuba now ....
+ * Verification: https://oj.uz/problem/view/IOI11_parrots
  */
 
 // base and base_digits must be consistent
@@ -170,7 +172,7 @@ struct bigint { // value == 0 is represented by empty z
 	bigint(ll v) { *this = v; }
 	bigint &operator=(ll v) {
 		sign = v < 0 ? -1 : 1; v *= sign; // make v positive
-		z.clear(); for (;v;v/=base) z.pb(int(v%base));
+		z.clear(); for (;v;v/=base) z.pb(v%base);
 		return *this;
 	}
 	bigint(const str &s) { read(s); } // add char by char
@@ -209,7 +211,7 @@ struct bigint { // value == 0 is represented by empty z
 		for (int i = 0, carry = 0; i < sz(z) || carry; ++i) {
 			if (i == sz(z)) z.pb(0);
 			ll cur = (ll)z[i]*v+carry;
-			carry = int(cur/base); z[i] = int(cur%base);
+			carry = cur/base; z[i] = cur%base;
 		}
 		trim(); return *this;
 	}
@@ -222,30 +224,53 @@ struct bigint { // value == 0 is represented by empty z
 			r *= base; r += a.z[i];
 			int s1 = sz(b.z) < sz(r.z) ? r.z[sz(b.z)] : 0;
 			int s2 = sz(b.z)-1 < sz(r.z) ? r.z[sz(b.z)-1] : 0;
-			int d = (int)((ll)s1*base+s2)/b.z.bk; // best approximation
+			int d = ((ll)s1*base+s2)/b.z.bk; // best approximation
 			r -= b*d; while (r < 0) r += b, --d;
 			q.z[i] = d;
 		}
 		q.sign = a1.sign*b1.sign; r.sign = a1.sign;
 		q.trim(); r.trim(); return {q,r/norm};
 	}
-
+	friend bigint sqrt(const bigint &a1) {
+		bigint a = a1; while (!sz(a.z) || sz(a.z)&1) a.z.pb(0);
+		int n = sz(a.z), firstDigit = ::sqrt((db)a.z[n-1]*base+a.z[n-2]);
+		int norm = base/(firstDigit+1); a *= norm; a *= norm;
+		while (!sz(a.z) || sz(a.z)&1) a.z.pb(0);
+		bigint r = (ll)a.z[n-1]*base+a.z[n-2];
+		firstDigit = (int)::sqrt((db)a.z[n-1]*base+a.z[n-2]);
+		int q = firstDigit; bigint res;
+		R0F(j,n/2) {
+			for (;; --q) {
+				bigint r1 = (r-(res*2*base+q)*q)*base*base +
+							(j>0?(ll)a.z[2*j-1]*base+a.z[2*j-2]:0);
+				if (r1 >= 0) { r = r1; break; }
+			}
+			res *= base; res += q; // add a bit to sqrt
+			if (j > 0) {
+				int d1 = sz(res.z)+2 < sz(r.z) ? r.z[sz(res.z)+2] : 0; // always 0/1?
+				int d2 = sz(res.z)+1 < sz(r.z) ? r.z[sz(res.z)+1] : 0;
+				int d3 = sz(res.z) < sz(r.z) ? r.z[sz(res.z)] : 0;
+				q = ((ll) d1*base*base+(ll)d2*base+d3)/(firstDigit*2);
+			}
+		}
+		res.trim(); return res/norm;
+	}
 	bigint operator/(const bigint &v) const { return divmod(*this, v).f; }
 	bigint operator%(const bigint &v) const { return divmod(*this, v).s; }
 	bigint &operator/=(int v) {
 		if (v < 0) sign = -sign, v = -v;
 		for (int i = sz(z)-1, rem = 0; i >= 0; --i) {
 			ll cur = z[i]+rem*(ll)base;
-			z[i] = (int)cur/v; rem = (int)cur%v;
+			z[i] = cur/v; rem = cur%v;
 		}
 		trim(); return *this;
 	}
 	bigint operator/(int v) const { return bigint(*this) /= v; }
 	int operator%(int v) const {
 		if (v < 0) v = -v;
-		int m = 0; R0F(i,sz(z)) m = (int)(z[i]+m*(ll)base)%v;
+		int m = 0; R0F(i,sz(z)) m = (z[i]+m*(ll)base)%v;
 		return m*sign; }
-
+	bigint &operator*=(const bigint &v) { return *this = *this*v; }
 	bigint &operator/=(const bigint &v) { return *this = *this/v; }
 
 	bool operator<(const bigint &v) const {
@@ -271,6 +296,10 @@ struct bigint { // value == 0 is represented by empty z
 	ll longValue() const {
 		ll res = 0; R0F(i,sz(z)) res = res*base+z[i];
 		return res*sign; }
+	friend bigint gcd(const bigint &a, const bigint &b) {
+		return b.isZero() ? a : gcd(b, a % b); } // euclidean algo
+	friend bigint lcm(const bigint &a, const bigint &b) {
+		return a/gcd(a, b) * b; }
 
 	void read(const str &s) {
 		sign = 1; z.clear(); int pos = 0;
@@ -285,8 +314,77 @@ struct bigint { // value == 0 is represented by empty z
 		}
 		trim();
 	}
-	
+	friend istream &operator>>(istream &is, bigint &v) {
+		str s; is >> s; v.read(s); return is; }
+	friend ostream &operator<<(ostream &os, const bigint &v) {
+		if (v.sign == -1) os << '-';
+		os << (!sz(v.z) ? 0 : v.z.bk);
+		R0F(i,sz(v.z)-1) os << setw(base_digits) << setfill('0') << v.z[i];
+		return os; // pad with zeroes
+	}
+	static vi convert_base(const vi &a, int old_digits, int new_digits) {
+		vl p(max(old_digits, new_digits) + 1); // blocks of 10^{old} -> 10^{new}
+		p[0] = 1; FOR(i,1,sz(p)) p[i] = p[i-1]*10;
+		vi res; ll cur = 0; int cur_digits = 0;
+		for (int v:a) {
+			cur += v*p[cur_digits]; cur_digits += old_digits;
+			while (cur_digits >= new_digits) {
+				res.pb(cur%p[new_digits]);
+				cur /= p[new_digits]; cur_digits -= new_digits;
+			}
+		}
+		res.pb(cur); while (sz(res) && res.bk == 0) res.pop_back();
+		return res;
+	}
+	static vl karatMul(const vl &a, const vl &b) { // karatsuba
+		int n = sz(a); vl res(2*n);
+		if (n <= 32) { // naive multiply
+			F0R(i,n) F0R(j,n) res[i+j] += a[i]*b[j];
+			return res; }
+		int k = n/2;
+		vl a1(begin(a),begin(a)+k), a2(k+all(a));
+		vl b1(begin(b),begin(b)+k), b2(k+all(b));
+		vl a1b1 = karatMul(a1, b1), a2b2 = karatMul(a2, b2);
+		F0R(i,k) a2[i] += a1[i], b2[i] += b1[i];
+		vl r = karatMul(a2, b2); // three instead of four products
+		F0R(i,sz(a1b1)) r[i] -= a1b1[i];
+		F0R(i,sz(a2b2)) r[i] -= a2b2[i];
+		F0R(i,sz(r)) res[i+k] += r[i];
+		F0R(i,sz(a1b1)) res[i] += a1b1[i];
+		F0R(i,sz(a2b2)) res[i+n] += a2b2[i];
+		return res;
+	}
+	bigint operator*(const bigint &v) const {
+		if (min(sz(z),sz(v.z)) < 150) return mul_simple(v);
+		bigint res; res.sign = sign*v.sign; // should work as long as # of digits isn't too large (> LLONG_MAX/10^{12})
+		vi a6 = convert_base(this->z, base_digits, 6); // blocks of 10^6 instead of 10^9
+		vi b6 = convert_base(v.z, base_digits, 6);
+		vl a(all(a6)), b(all(b6));
+		while (sz(a) < sz(b)) a.pb(0);
+		while (sz(b) < sz(a)) b.pb(0);
+		while (sz(a)&(sz(a)-1)) a.pb(0), b.pb(0); // make size power of 2
+		vl c = karatMul(a, b);
+		ll cur = 0; F0R(i,sz(c)) { // process carries
+			cur += c[i]; res.z.pb(cur%1000000); cur /= 1000000; } 
+		res.z = convert_base(res.z,6,base_digits); 
+		res.trim(); return res;
+	}
+	bigint mul_simple(const bigint &v) const {
+		bigint res; res.sign = sign*v.sign;
+		res.z.rsz(sz(z)+sz(v.z));
+		F0R(i,sz(z)) if (z[i]) {
+			ll cur = 0; for (int j = 0; j < sz(v.z) || cur; ++j) {
+				cur += res.z[i+j]+(ll)z[i]*(j<sz(v.z)?v.z[j]:0);
+				res.z[i+j] = cur%base; cur /= base;
+			}
+		}
+		res.trim(); return res;
+	}
+	friend str ts(const bigint& v) {
+		stringstream ss; ss << v;
+		str s; ss >> s; return s; }
 };
+
 
 
 // Actual Benga
