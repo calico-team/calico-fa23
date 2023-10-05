@@ -2,10 +2,10 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the last 9 digits of the number of ways that Big Ben can build his Benga Bricks tower.
-     * 
-     * @param N : height of the Benga Bricks tower (positive).
-     */
+    * Return the number of possible towers that Big Ben can build with N blocks.
+    * 
+    * @param N : number of 1x1x3 Benga Bricks we can use to construct the Benga tower.
+    */
     static int solve(long N) {
         // YOUR CODE HERE
         return -1;

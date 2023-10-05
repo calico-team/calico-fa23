@@ -517,6 +517,7 @@ int solveSmallN(ll N, Mat const& A) {
 
 int solve(string& S, Mat const& A) {
 	bigint N = S;
+	
 	N /= 3;
 	if (N == 0) return 0;
 	N += 1;

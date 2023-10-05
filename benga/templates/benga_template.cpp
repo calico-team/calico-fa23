@@ -3,9 +3,9 @@
 using namespace std;
 
 /**
- * Return the last 9 digits of the number of ways that Big Ben can build his Benga Bricks tower.
+ * Return the number of possible towers that Big Ben can build with N blocks.
  * 
- * @param N : height of the Benga Bricks tower (positive).
+ * @param N : number of 1x1x3 Benga Bricks we can use to construct the Benga tower.
  */
 int solve(long long N) {
     // YOUR CODE HERE

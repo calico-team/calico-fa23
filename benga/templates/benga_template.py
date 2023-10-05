@@ -1,8 +1,8 @@
 def solve(N: int) -> int:
     """
-    Return the last 9 digits of the number of ways that Big Ben can build his Benga Bricks Tower.
+    Return the number of possible towers that Big Ben can build with N blocks.
     
-    N: the height of the tower
+    N : number of 1x1x3 Benga Bricks we can use to construct the Benga tower.
     """
     # YOUR CODE HERE
     return 0
