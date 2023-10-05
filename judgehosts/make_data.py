@@ -31,9 +31,12 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, N, M, S, U, V):
+        self.N = N
+        self.M = M
+        self.S = S
+        self.U = U
+        self.V = V
 
 
 def make_sample_tests():
@@ -49,15 +52,12 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(7, 8, 2, [5, 7, 7, 1, 1, 2, 3, 3], [1, 1, 2, 2, 3, 4, 4, 6])
     ]
     make_sample_test(main_sample_cases, 'main')
     
     bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
+        TestCase(7, 8, 1, [5, 7, 7, 1, 1, 2, 3, 3], [1, 1, 2, 2, 3, 4, 4, 6]) ## CHANGE THIS
     ]
     make_sample_test(bonus_sample_cases, 'bonus')
 
@@ -73,38 +73,38 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    # def make_random_case(max_digits):
+    #     def random_n_digit_number(n):
+    #         return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
+    #     A_digits = random.randint(0, max_digits)
+    #     B_digits = random.randint(0, max_digits)
+    #     A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
+    #     return TestCase(A, B)
     
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
+    # main_edge_cases = [
+    #     TestCase(0, 0),
+    #     TestCase(1, 0),
+    #     TestCase(0, 1),
+    #     TestCase(10 ** 9, 0),
+    #     TestCase(0, 10 ** 9),
+    #     TestCase(10 ** 9, 10 ** 9),
+    # ]
+    # make_secret_test(main_edge_cases, 'main_edge')
     
-    for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
-        make_secret_test(main_random_cases, 'main_random')
+    # for i in range(5):
+    #     main_random_cases = [make_random_case(9) for _ in range(100)]
+    #     make_secret_test(main_random_cases, 'main_random')
     
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
+    # bonus_edge_cases = [
+    #     TestCase(10 ** 100, 0),
+    #     TestCase(0, 10 ** 100),
+    #     TestCase(10 ** 100, 10 ** 100),
+    # ]
+    # make_secret_test(bonus_edge_cases, 'bonus_edge')
     
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+    # for i in range(5):
+    #     bonus_random_cases = [make_random_case(100) for _ in range(100)]
+    #     make_secret_test(bonus_random_cases, 'bonus_random')
 
 
 def make_test_in(cases, file):
@@ -117,7 +117,9 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f'{case.N} {case.M} {case.S}', file=file)
+        for u, v in zip(case.U, case.V):
+            print(f'{u} {v}', file=file)
 
 
 def make_test_out(cases, file):
@@ -130,9 +132,14 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
-    for case in cases:
-        print(solve(case.A, case.B), file=file)
+    # from submissions.accepted.add_arbitrary import solve
+    # for case in cases:
+    #     print(solve(case.A, case.B), file=file)
+    for case in cases :
+        if case.S == 1:
+            print("IMPOSSIBLE", file = file)
+        else :
+            print("1 2", file = file)
 
 
 def main():
