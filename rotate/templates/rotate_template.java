@@ -17,9 +17,13 @@ class Solution {
     static PrintWriter out = new PrintWriter(System.out);
 
     public static void main(String[] args) throws IOException {
-        int N = Integer.parseInt(in.readLine());
-        int K = Integer.parseInt(in.readLine());
-        out.println(solve(N, K));
+        int T = Integer.parseInt(in.readLine());
+        for (int i = 0; i < T; i++) {
+            String[] line = in.readLine().split(" ");
+            int N = Integer.parseInt(line[0]);
+            int K = Integer.parseInt(line[1]);
+            out.println(solve(N,K));
+        }
         out.flush();
     }
 }

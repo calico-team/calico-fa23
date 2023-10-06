@@ -15,9 +15,12 @@ int solve(int N, int K) {
 }
 
 int main() {
-    int N;
-    cin >> N;
-    int K;
-    cin >> K;
-    cout << solve(N, K) << '\n';
+    int T;
+    long long N, K;
+    cin >> T;
+    for(int i =0; i< T; i++){
+        cin >> N >> K;
+        cout << solve(N, K) << '\n';
+    }
+    
 }
