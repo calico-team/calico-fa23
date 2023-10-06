@@ -1,7 +1,6 @@
 def solve(N: int, K: int) -> int:
     """
-    Return the location of the K-th element in 
-    an array of N-length after shuffling.
+    Return the position of the card labelled K after shuffling a deck with N cards.
     
     N: a non-negative integer
     K: another non-negative integer
