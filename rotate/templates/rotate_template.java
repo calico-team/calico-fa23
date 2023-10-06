@@ -2,12 +2,13 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the position of the card labelled K after shuffling a deck with N cards.
+     * Return the position of the card labelled K after shuffling a deck with N
+     * cards.
      * 
-     * N: a non-negative integer
-     * K: another non-negative integer
+     * N: the number of cards in the deck
+     * K: the label of the target card
      */
-    static int solve(int N, int K) {
+    static long solve(long N, long K) {
         // YOUR CODE HERE
         return 0;
     }
@@ -19,9 +20,9 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] line = in.readLine().split(" ");
-            int N = Integer.parseInt(line[0]);
-            int K = Integer.parseInt(line[1]);
-            out.println(solve(N,K));
+            long N = Long.parseLong(line[0]);
+            long K = Long.parseLong(line[1]);
+            out.println(solve(N, K));
         }
         out.flush();
     }
