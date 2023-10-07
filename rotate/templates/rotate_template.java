@@ -8,7 +8,7 @@ class Solution {
      * N: the number of cards in the deck
      * K: the label of the target card
      */
-    static long solve(long N, long K) {
+    static int solve(int N, int K) {
         // YOUR CODE HERE
         return 0;
     }
@@ -20,8 +20,8 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] line = in.readLine().split(" ");
-            long N = Long.parseLong(line[0]);
-            long K = Long.parseLong(line[1]);
+            int N = Integer.parseInt(line[0]);
+            int K = Integer.parseInt(line[1]);
             out.println(solve(N, K));
         }
         out.flush();
