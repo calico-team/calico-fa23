@@ -17,5 +17,6 @@ def main():
         N, K = int(line[0]), int(line[1])
         print(solve(N, K))
 
+
 if __name__ == '__main__':
     main()

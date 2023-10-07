@@ -1,8 +1,8 @@
 #include <iostream>
 
-#define ll long long
-
 using namespace std;
+
+typedef long long ll;
 
 /**
  * Return the position of the card labelled K after shuffling a deck with N
