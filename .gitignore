@@ -6,9 +6,11 @@
 session
 desktop.ini
 
-# VisualStudioCode.gitignore
-.vscode/*
+# For JJ
 */.vscode/*
+
+# For Albert
+.ccls-cache/
 
 # Local History for Visual Studio Code
 .history/
