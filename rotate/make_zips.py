@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'rotate'
 
 """
 The time limit in seconds.
@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main']
+TEST_SET_NAMES = ['main', 'bonus_1', 'bonus_2']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -55,10 +55,13 @@ def is_data_in_test_set(data_file_name, test_set_name):
     
     TODO Change this to reflect your tests and test sets.
     """
-    if test_set_name == 'main':
-        return 'main' in data_file_name
-    elif test_set_name == 'bonus':
-        return 'main' in data_file_name or 'bonus' in data_file_name
+    if 'main' in data_file_name:
+        return True
+    if 'bonus_1' in data_file_name:
+        return test_set_name != 'main'
+    if 'bonus_2' in data_file_name:
+        return test_set_name == 'bonus_2'
+    assert False, 'bad test case: f{data_file_name}'
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -70,19 +73,15 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
-        
-        # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
-        
-        # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
-        
-        # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+        'rotate_simulation':     ['main'],
+        'rotate_queue':          ['main', 'bonus_1'],
+        'rotate_ll':             ['main', 'bonus_1'],
+        'rotate_dnc':            ['main', 'bonus_1', 'bonus_2'],
+
+        # time limit exceeded
+        'rotate_simulation_tle': ['bonus_1', 'bonus_2'],
+        'rotate_queue_tle':      ['bonus_2'],
+        'rotate_ll_tle':         ['bonus_2'],
     }
     
     # we only care about actual code files
