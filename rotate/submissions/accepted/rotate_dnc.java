@@ -1,16 +1,20 @@
 import java.io.*;
 
 class Solution {
-    /**
-     * Return the position of the card labelled K after shuffling a deck with N
-     * cards.
-     * 
-     * N: the number of cards in the deck
-     * K: the label of the target card
-     */
+    // We need to use long instead of int because 10^18 >= 2^31
     static long solve(long N, long K) {
-        // YOUR CODE HERE
-        return 0;
+        if (K % 2 == 0) {
+            return K / 2;
+        }
+        
+        if (N % 2 == 0) {
+            return N / 2 + solve(N / 2, K / 2 + 1);
+        } else {
+            if (K == 1) {
+                return N / 2 + 1;
+            }
+            return N / 2 + 1 + solve(N / 2, K / 2);
+        }
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

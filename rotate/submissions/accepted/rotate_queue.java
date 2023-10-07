@@ -1,16 +1,20 @@
 import java.io.*;
+import java.util.*;
 
 class Solution {
-    /**
-     * Return the position of the card labelled K after shuffling a deck with N
-     * cards.
-     * 
-     * N: the number of cards in the deck
-     * K: the label of the target card
-     */
-    static long solve(long N, long K) {
-        // YOUR CODE HERE
-        return 0;
+    static int solve(int N, int K) {
+        List<Integer> shuffled = new ArrayList<>();
+        Deque<Integer> unshuffled = new ArrayDeque<>();
+        for (int i = 1; i <= N; i++) {
+            unshuffled.add(i);
+        }
+        
+        while (!unshuffled.isEmpty()) {
+            unshuffled.addLast(unshuffled.removeFirst());
+            shuffled.add(unshuffled.removeFirst());
+        }
+        
+        return shuffled.indexOf(K) + 1;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -20,8 +24,8 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] line = in.readLine().split(" ");
-            long N = Long.parseLong(line[0]);
-            long K = Long.parseLong(line[1]);
+            int N = Integer.parseInt(line[0]);
+            int K = Integer.parseInt(line[1]);
             out.println(solve(N, K));
         }
         out.flush();
