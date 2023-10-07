@@ -14,13 +14,21 @@ You can also run this file with the -v argument to see debug prints.
 
 import random
 from calico_lib import make_sample_test, make_secret_test, make_data
+import numpy as np
 
 """
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'two dice, thirty-six numbers; the rule is what is thirty-six minus two?'
 
+def make_sums(d1, d2):
+    lst = []
+    for i in d1:
+        for j in d2:
+            lst.append(i + j)
+    random.shuffle(lst)
+    return lst
 
 class TestCase:
     """
@@ -31,9 +39,8 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, mat):
+        self.mat = mat
 
 
 def make_sample_tests():
@@ -49,9 +56,7 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(make_sums(range(1, 7), range(1, 7))), # standard six-sided dice
     ]
     make_sample_test(main_sample_cases, 'main')
     
@@ -117,7 +122,8 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        for row in range(0, 36, 6):
+            print(' '.join(case.mat[row:row+6]), file=file)
 
 
 def make_test_out(cases, file):
