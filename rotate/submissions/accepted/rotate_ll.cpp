@@ -6,31 +6,30 @@ class LinkedListNode{
     public:
         int val;
         LinkedListNode* next;
-    LinkedListNode(int val){
-        this->val = val;
-        this->next = NULL;
-    }
+        LinkedListNode(int val) {
+            this->val = val;
+            this->next = NULL;
+        }
 };
 
 int solve(int N, int K) {
-    // YOUR CODE HERE
     LinkedListNode* sentinel = new LinkedListNode(-1);
     LinkedListNode* curr = sentinel;
     LinkedListNode* top = sentinel;
-    int k_position =0;
     for (int i = 1; i <= N; i++) {
         top->next = new LinkedListNode(i);
         top = top->next;
     }
 
-    for (int i=0; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         top->next = curr->next;
         curr->next = curr->next->next;
         top = top->next;
         curr = curr->next;
     }
 
-    for (int i=0; i <= N; i++) {
+    int k_position = -1;
+    for (int i = 0; i <= N; i++) {
         if (sentinel->val == K) {
             k_position = i;
         }
@@ -39,7 +38,7 @@ int solve(int N, int K) {
         delete curr;
     }
 
-    return k_position;    
+    return k_position;
 }
 
 int main() {

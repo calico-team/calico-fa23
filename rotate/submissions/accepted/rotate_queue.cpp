@@ -1,6 +1,6 @@
 #include <iostream>
 #include <queue>
-#include<vector>
+#include <vector>
 #include <algorithm>
 
 using namespace std;
@@ -19,7 +19,7 @@ int solve(int N, int K) {
         unshuffled.pop();
     }
 
-    return find(shuffled.begin(), shuffled.end(), K)- shuffled.begin() + 1;
+    return find(shuffled.begin(), shuffled.end(), K) - shuffled.begin() + 1;
 }
 
 int main() {

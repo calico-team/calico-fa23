@@ -1,12 +1,15 @@
 #include <iostream>
-#define ll long long
+
 using namespace std;
 
+#typedef long long ll
+
+// We need to use long long instead of int because 10^18 >= 2^31
 ll solve(ll N, ll K) {
-    // We need to use long instead of int because 10^18 >= 2^31
     if (K % 2 == 0) {
         return K / 2;
     }
+    
     if (N % 2 == 0) {
         return N / 2 + solve(N / 2, K / 2 + 1);
     } else {
