@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include<vector>
+#include <algorithm>
 #define ll long long
 
 using namespace std;
@@ -13,7 +14,19 @@ using namespace std;
  */
 ll solve(ll N, ll K) {
     // YOUR CODE HERE
-    return 0;
+    vector<ll> deck(N);
+
+    for (ll i= 0; i < N; i++){
+        deck[i] = i + 1;
+    }
+    
+    for (ll i=0; i < N; i++){
+        int card = deck[i];
+        deck.erase(deck.begin() + i, deck.begin() + i + 1);
+        deck.push_back(card);
+    }
+    
+    return find(deck.begin(), deck.end(), K) - deck.begin() + 1;  
 }
 
 int main() {

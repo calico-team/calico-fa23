@@ -1,5 +1,7 @@
 #include <iostream>
-
+#include <queue>
+#include<vector>
+#include <algorithm>
 #define ll long long
 
 using namespace std;
@@ -12,8 +14,18 @@ using namespace std;
  * K: the label of the target card
  */
 ll solve(ll N, ll K) {
-    // YOUR CODE HERE
-    return 0;
+    queue<ll> unshuffled;
+    for (ll i = 1; i <= N; i++){
+        unshuffled.push(i);
+    }
+    vector<ll> shuffled;
+    while (!unshuffled.empty()){
+        unshuffled.push(unshuffled.front());
+        unshuffled.pop();
+        shuffled.push_back(unshuffled.front());
+        unshuffled.pop();
+    }
+    return find(shuffled.begin(), shuffled.end(), K)- shuffled.begin() + 1;
 }
 
 int main() {
