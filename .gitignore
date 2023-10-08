@@ -8,6 +8,7 @@ desktop.ini
 
 # For JJ
 */.vscode/*
+.vscode/
 
 # For Albert
 .ccls-cache/
