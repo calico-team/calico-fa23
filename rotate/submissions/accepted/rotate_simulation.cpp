@@ -1,19 +1,18 @@
 #include <iostream>
-#include<vector>
 #include <algorithm>
-#define ll long long
+#include <vector>
+
 using namespace std;
 
-ll solve(ll N, ll K) {
-    vector<ll> deck(N);
-
-    for (ll i= 0; i < N; i++) {
-        deck[i] = i + 1;
+int solve(int N, int K) {
+    vector<int> deck(N);
+    for (int i = 1; i <= N; i++) {
+        deck[i] = i;
     }
     
-    for (ll i=0; i < N; i++) {
+    for (int i = 0; i < N; i++) {
         int card = deck[i];
-        deck.erase(deck.begin() + i, deck.begin() + i + 1);
+        deck.erase(deck.begin() + i);
         deck.push_back(card);
     }
     
@@ -22,7 +21,7 @@ ll solve(ll N, ll K) {
 
 int main() {
     int T;
-    ll N, K;
+    int N, K;
     cin >> T;
     for (int i = 0; i < T; i++) {
         cin >> N >> K;
