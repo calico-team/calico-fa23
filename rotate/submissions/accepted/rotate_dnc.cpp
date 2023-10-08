@@ -3,6 +3,7 @@
 using namespace std;
 
 ll solve(ll N, ll K) {
+    // We need to use long instead of int because 10^18 >= 2^31
     if (K % 2 == 0) {
         return K / 2;
     }

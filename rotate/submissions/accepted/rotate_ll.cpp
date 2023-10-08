@@ -1,23 +1,23 @@
 #include <iostream>
-#define ll long long
+
 using namespace std;
 
 class LinkedListNode{
     public:
-        ll val;
+        int val;
         LinkedListNode* next;
-    LinkedListNode(ll val){
+    LinkedListNode(int val){
         this->val = val;
         this->next = NULL;
     }
 };
 
-ll solve(ll N, ll K) {
+int solve(int N, int K) {
     // YOUR CODE HERE
     LinkedListNode* sentinel = new LinkedListNode(-1);
     LinkedListNode* curr = sentinel;
     LinkedListNode* top = sentinel;
-    ll k_position =0;
+    int k_position =0;
     for (int i = 1; i <= N; i++) {
         top->next = new LinkedListNode(i);
         top = top->next;
@@ -44,7 +44,7 @@ ll solve(ll N, ll K) {
 
 int main() {
     int T;
-    ll N, K;
+    int N, K;
     cin >> T;
     for (int i = 0; i < T; i++) {
         cin >> N >> K;

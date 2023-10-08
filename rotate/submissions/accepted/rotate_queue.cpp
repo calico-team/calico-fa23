@@ -2,13 +2,13 @@
 #include <queue>
 #include<vector>
 #include <algorithm>
-#define ll long long
+
 using namespace std;
 
-ll solve(ll N, ll K) {
-    queue<ll> unshuffled;
-    vector<ll> shuffled;
-    for (ll i = 1; i <= N; i++) {
+int solve(int N, int K) {
+    queue<int> unshuffled;
+    vector<int> shuffled;
+    for (int i = 1; i <= N; i++) {
         unshuffled.push(i);
     }
    
@@ -24,7 +24,7 @@ ll solve(ll N, ll K) {
 
 int main() {
     int T;
-    ll N, K;
+    int N, K;
     cin >> T;
     for (int i = 0; i < T; i++) {
         cin >> N >> K;
