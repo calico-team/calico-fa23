@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#typedef long long ll
+typedef long long ll;
 
 // We need to use long long instead of int because 10^18 >= 2^31
 ll solve(ll N, ll K) {

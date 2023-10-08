@@ -6,8 +6,8 @@ using namespace std;
 
 int solve(int N, int K) {
     vector<int> deck(N);
-    for (int i = 1; i <= N; i++) {
-        deck[i] = i;
+    for (int i = 0; i < N; i++) {
+        deck[i] = i + 1;
     }
     
     for (int i = 0; i < N; i++) {
@@ -16,7 +16,7 @@ int solve(int N, int K) {
         deck.push_back(card);
     }
     
-    return find(deck.begin(), deck.end(), K) - deck.begin() + 1;  
+    return find(deck.begin(), deck.end(), K) - deck.begin() + 1;
 }
 
 int main() {
