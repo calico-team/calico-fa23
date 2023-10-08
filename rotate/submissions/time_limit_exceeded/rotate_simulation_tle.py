@@ -1,13 +1,11 @@
 def solve(N: int, K: int) -> int:
-    """
-    Return the position of the card labelled K after shuffling a deck with N
-    cards.
+    deck = list(range(1, N + 1))
     
-    N: the number of cards in the deck
-    K: the label of the target card
-    """
-    # YOUR CODE HERE
-    return 0
+    for i in range(N):
+        card = deck.pop(i)
+        deck.append(card)
+    
+    return deck.index(K) + 1
 
 
 def main():

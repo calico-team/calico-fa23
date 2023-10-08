@@ -13,27 +13,31 @@ You can also run this file with the -v argument to see debug prints.
 """
 
 import random
+
 from calico_lib import make_sample_test, make_secret_test, make_data
+from submissions.accepted.rotate_dnc import solve
 
 """
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'you can rotate my red black tree ;))'
+
+MAX_T = 100
+MAX_N_MAIN = 100
+MAX_N_BONUS_1 = 10 ** 4
+MAX_N_BONUS_2 = 10 ** 18
 
 
 class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-    
-    TODO Change this to store the relevant information for your problem.
     """
-
-
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    
+    def __init__(self, N, K):
+        self.N = N
+        self.K = K
 
 
 def make_sample_tests():
@@ -43,23 +47,26 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-    
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(1, 1), # N = 1 edge case
+        TestCase(6, 3), # generic, even N odd K
+        TestCase(6, 4), # generic, even N even K
+        TestCase(17, 15), # generic, odd N odd K
+        TestCase(17, 14), # generic, odd N even K
     ]
     make_sample_test(main_sample_cases, 'main')
     
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
+    bonus_1_sample_cases = [
+        TestCase(1337, 420), # haha funny numbers
+        TestCase(6666, 999), # haha moar funny numbers
     ]
-    make_sample_test(bonus_sample_cases, 'bonus')
+    make_sample_test(bonus_1_sample_cases, 'bonus_1')
+
+    bonus_2_sample_cases = [
+        TestCase(31415926535897932, 3846264338327950), # i liek pi
+    ]
+    make_sample_test(bonus_2_sample_cases, 'bonus_2')
 
 
 def make_secret_tests():
@@ -69,55 +76,76 @@ def make_secret_tests():
     To create a pair of sample test files, call make_secret_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
-    
-    TODO Write sample tests. Consider creating edge cases and large randomized
-    tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+
+    '''
+    main_ones_cases
+    main_Ns_cases
+    main_first_cases
+    main_last_cases
+    main_rand_cases
     
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
+    bonus_1_rand_cases x5
+    
+    bonus_2_rand_cases x5
+    bonus_2_last_cases
+    '''
+
+    def make_random_case(max_N):
+        N = random.randint(1, max_N)
+        K = random.randint(1, N)
+        return TestCase(N, K)
+
+    def last_card(N):
+        if N == 1:
+            return 1
+        if N % 2 == 0:
+            return last_card(N // 2) * 2 - 1
+        else:
+            return last_card(N // 2) * 2 + 1
+
+    main_ones = [TestCase(i, 1) for i in range(1, 101)]
+    make_secret_test(main_ones, 'main_ones')
+    
+    main_Ns = [TestCase(i, i) for i in range(1, 101)]
+    make_secret_test(main_Ns, 'main_Ns')
+    
+    main_firsts = [TestCase(1, 1)] + [TestCase(i, 2) for i in range(2, 101)]
+    make_secret_test(main_firsts, 'main_firsts')
+    
+    main_lasts = [TestCase(i, last_card(i)) for i in range(1, 101)]
+    make_secret_test(main_lasts, 'main_lasts')
+    
+    main_rands = [make_random_case(MAX_N_MAIN) for _ in range(MAX_T)]
+    make_secret_test(main_rands, 'main_rands')
     
     for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
-        make_secret_test(main_random_cases, 'main_random')
-    
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
+        bonus_1_rands = [make_random_case(MAX_N_BONUS_1) for _ in range(MAX_T)]
+        make_secret_test(bonus_1_rands, 'bonus_1_rands')
     
     for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+        bonus_2_rands = [make_random_case(MAX_N_BONUS_2) for _ in range(MAX_T)]
+        make_secret_test(bonus_2_rands, 'bonus_2_rands')
 
 
 def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-    
-    TODO Implement this for your problem.
     """
     T = len(cases)
+    assert 1 <= T <= 100, f'invalid T: {T}'
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        if 'main' in file.name:
+            assert 1 <= case.N <= MAX_N_MAIN, f'invalid N for main: {case.N}'
+        elif 'bonus_1' in file.name:
+            assert 1 <= case.N <= MAX_N_BONUS_1, f'invalid N for bonus 1: {case.N}'
+        elif 'bonus_2' in file.name:
+            assert 1 <= case.N <= MAX_N_BONUS_2, f'invalid N for bonus 2: {case.N}'
+        assert 1 <= case.K <= case.N, f'invalid K: {case.K} (N is {case.N})'
+        
+        print(f'{case.N} {case.K}', file=file)
 
 
 def make_test_out(cases, file):
@@ -127,12 +155,9 @@ def make_test_out(cases, file):
     
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-    
-    TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.N, case.K), file=file)
 
 
 def main():

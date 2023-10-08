@@ -1,16 +1,19 @@
 import java.io.*;
+import java.util.*;
 
 class Solution {
-    /**
-     * Return the position of the card labelled K after shuffling a deck with N
-     * cards.
-     * 
-     * N: the number of cards in the deck
-     * K: the label of the target card
-     */
     static int solve(int N, int K) {
-        // YOUR CODE HERE
-        return 0;
+        List<Integer> deck = new ArrayList<>();
+        for (int i = 1; i <= N; i++) {
+            deck.add(i);
+        }
+        
+        for (int i = 0; i < N; i++) {
+            int card = deck.remove(i);
+            deck.add(card);
+        }
+        
+        return deck.indexOf(K) + 1;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

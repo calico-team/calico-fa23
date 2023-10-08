@@ -1,13 +1,13 @@
 def solve(N: int, K: int) -> int:
-    """
-    Return the position of the card labelled K after shuffling a deck with N
-    cards.
+    if K % 2 == 0:
+        return K // 2
     
-    N: the number of cards in the deck
-    K: the label of the target card
-    """
-    # YOUR CODE HERE
-    return 0
+    if N % 2 == 0:
+        return N // 2 + solve(N // 2, K // 2 + 1)
+    else:
+        if K == 1:
+            return N // 2 + 1
+        return N // 2 + 1 + solve(N // 2, K // 2)
 
 
 def main():
