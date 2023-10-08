@@ -25,7 +25,7 @@ SEED = 'you can rotate my red black tree ;))'
 
 MAX_T = 100
 MAX_N_MAIN = 100
-MAX_N_BONUS_1 = 10 ** 4
+MAX_N_BONUS_1 = 10 ** 6
 MAX_N_BONUS_2 = 10 ** 18
 
 
@@ -78,23 +78,14 @@ def make_secret_tests():
     See calico_lib.make_secret_test for more info.
     """
 
-    '''
-    main_ones_cases
-    main_Ns_cases
-    main_first_cases
-    main_last_cases
-    main_rand_cases
-    
-    bonus_1_rand_cases x5
-    
-    bonus_2_rand_cases x5
-    bonus_2_last_cases
-    '''
-
     def make_random_case(max_N):
-        N = random.randint(1, max_N)
+        N = random.randint(9 * max_N // 10, max_N)
         K = random.randint(1, N)
         return TestCase(N, K)
+
+    def make_last_card_case(max_N):
+        N = random.randint(9 * max_N // 10, max_N)
+        return TestCase(N, last_card(N))
 
     def last_card(N):
         if N == 1:
@@ -104,28 +95,36 @@ def make_secret_tests():
         else:
             return last_card(N // 2) * 2 + 1
 
-    main_ones = [TestCase(i, 1) for i in range(1, 101)]
+    main_ones = [TestCase(N, 1) for N in range(1, 101)]
     make_secret_test(main_ones, 'main_ones')
     
-    main_Ns = [TestCase(i, i) for i in range(1, 101)]
+    main_Ns = [TestCase(N, N) for N in range(1, 101)]
     make_secret_test(main_Ns, 'main_Ns')
     
-    main_firsts = [TestCase(1, 1)] + [TestCase(i, 2) for i in range(2, 101)]
+    main_firsts = [TestCase(1, 1)] + [TestCase(N, 2) for N in range(2, 101)]
     make_secret_test(main_firsts, 'main_firsts')
     
-    main_lasts = [TestCase(i, last_card(i)) for i in range(1, 101)]
+    main_lasts = [TestCase(N, last_card(N)) for N in range(1, 101)]
     make_secret_test(main_lasts, 'main_lasts')
     
     main_rands = [make_random_case(MAX_N_MAIN) for _ in range(MAX_T)]
     make_secret_test(main_rands, 'main_rands')
     
-    for i in range(5):
-        bonus_1_rands = [make_random_case(MAX_N_BONUS_1) for _ in range(MAX_T)]
+    for i in range(3):
+        bonus_1_rands = [make_random_case(MAX_N_BONUS_1)]
         make_secret_test(bonus_1_rands, 'bonus_1_rands')
     
-    for i in range(5):
+    for i in range(3):
+        bonus_1_lasts = [make_last_card_case(MAX_N_BONUS_1)]
+        make_secret_test(bonus_1_lasts, 'bonus_1_lasts')
+    
+    for i in range(3):
         bonus_2_rands = [make_random_case(MAX_N_BONUS_2) for _ in range(MAX_T)]
         make_secret_test(bonus_2_rands, 'bonus_2_rands')
+    
+    for i in range(3):
+        bonus_2_lasts = [make_last_card_case(MAX_N_BONUS_2) for _ in range(MAX_T)]
+        make_secret_test(bonus_2_lasts, 'bonus_2_lasts')
 
 
 def make_test_in(cases, file):
@@ -146,6 +145,10 @@ def make_test_in(cases, file):
         assert 1 <= case.K <= case.N, f'invalid K: {case.K} (N is {case.N})'
         
         print(f'{case.N} {case.K}', file=file)
+    
+    sum_N = sum(case.N for case in cases)
+    if 'bonus_1' in file.name:
+        assert 1 <= sum_N <= MAX_N_BONUS_1, f'invalid total N for bonus 1: {sum_N}'
 
 
 def make_test_out(cases, file):
