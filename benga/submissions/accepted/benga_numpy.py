@@ -22,10 +22,10 @@ A = np.array([
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 ], dtype=np.int64)
 MOD = 2 ** (3 ** 2) * 3 ** (2 ** 3)
-
+LAMBDA = 84 * 312 * 6 * MOD
 
 def solve(N: int) -> int:
-    B_N = matpowmod(A, N // 3, MOD)
+    B_N = matpowmod(A, (N // 3) % LAMBDA + LAMBDA, MOD)
     return (B_N[0][-1] + B_N[0][0] - 1) % MOD
 
 
