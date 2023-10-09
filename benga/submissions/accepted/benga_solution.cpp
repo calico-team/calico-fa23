@@ -57,7 +57,7 @@ tcT> bool ckmax(T& a, const T& b) {
  */
 
 
-const int MOD = 1e9;
+const int MOD = 3359232;
 
 
 template<int MOD, int RT> struct mint {
@@ -505,7 +505,7 @@ void computeMat(Mat& A) {
  *  
 */
 
-const bigint LAMBDA = (ll) lcm(84LL, 312LL) * 6LL * (ll) MOD;
+const bigint LAMBDA = (ll) 84LL * 312LL * 6LL * (ll) MOD;
 
 int solveLargeN(bigint& N, Mat const& A) {
 	return (int) ((pow(A, LAMBDA.longValue()) * pow(A, (N % LAMBDA).longValue()))[sz(A)-1][0] - 1);
@@ -517,7 +517,6 @@ int solveSmallN(ll N, Mat const& A) {
 
 int solve(string& S, Mat const& A) {
 	bigint N = S;
-	
 	N /= 3;
 	if (N == 0) return 0;
 	N += 1;
