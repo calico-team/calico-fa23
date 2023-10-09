@@ -48,12 +48,14 @@ def make_sample_tests():
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
     """
+    
     main_sample_cases = [
         TestCase(1, 1), # N = 1 edge case
+        TestCase(5, 1), # generic, odd N odd K
+        TestCase(5, 2), # generic, odd N even K
         TestCase(6, 3), # generic, even N odd K
         TestCase(6, 4), # generic, even N even K
-        TestCase(17, 15), # generic, odd N odd K
-        TestCase(17, 14), # generic, odd N even K
+        TestCase(98, 57), # big numbers ft. reva
     ]
     make_sample_test(main_sample_cases, 'main')
     
