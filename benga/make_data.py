@@ -12,7 +12,9 @@ Everything else will be handled by the make_data function in calico_lib.py.
 You can also run this file with the -v argument to see debug prints.
 """
 
+import math
 import random
+import sys
 
 import numpy as np
 
@@ -23,13 +25,14 @@ from submissions.accepted.benga_numpy import solve
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 2 ** (3 ** (2 ** 3)) * 3 ** (2 ** (3 ** 2))
 
-MAX_T = 100
+MAX_T = 10
 MAX_N_MAIN = 10 ** 18
-MAX_N_BONUS = 10 ** (10 ** 6)
+MAX_N_BONUS = 10 ** (10 ** 5)
 MOD = 2 ** (3 ** 2) * 3 ** (2 ** 3)
 
+sys.set_int_max_str_digits(10 ** 6)
 
 class TestCase:
     """
@@ -75,7 +78,32 @@ def make_secret_tests():
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
     """
-
+    
+    def make_rand_test(max_N):
+        N = random.randint(9 * max_N // 10, max_N)
+        return TestCase(N)
+    
+    def make_stress_test(max_N):
+        max_bits = len(bin(max_N)) - 3
+        bits = random.randint(9 * max_bits // 10, max_bits)
+        N = int('1' * bits, 2)
+        return TestCase(N)
+    
+    for _ in range(5):
+        main_rands = [make_rand_test(MAX_N_MAIN) for _ in range(MAX_T)]
+        make_secret_test(main_rands, 'main_rands')
+    
+    for _ in range(5):
+        main_stress = [make_stress_test(MAX_N_MAIN) for _ in range(MAX_T)]
+        make_secret_test(main_stress, 'main_stress')
+    
+    for _ in range(5):
+        bonus_rands = [make_rand_test(MAX_N_BONUS) for _ in range(MAX_T)]
+        make_secret_test(bonus_rands, 'bonus_rands')
+    
+    for _ in range(5):
+        bonus_stress = [make_stress_test(MAX_N_BONUS) for _ in range(MAX_T)]
+        make_secret_test(bonus_stress, 'bonus_stress')
 
 def make_test_in(cases, file):
     """
