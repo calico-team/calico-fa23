@@ -386,7 +386,11 @@ struct bigint { // value == 0 is represented by empty z
 };
 
 
-
+Mat powbigint(Mat m, bigint p) {
+	Mat res = makeId(sz(m));
+	for (; p != 0; p /= 2, m *= m) if (p % 2 == 1) res *= m;
+	return res;
+}
 
 // Actual Benga
 
@@ -509,7 +513,7 @@ void computeMat(Mat& A) {
 const bigint LAMBDA = (ll) 84LL * 312LL * 6LL * (ll) MOD;
 
 int solveLargeN(bigint& N, Mat const& A) {
-	return (int) ((pow(A, LAMBDA.longValue()) * pow(A, (N % LAMBDA).longValue()))[sz(A)-1][0] - 1);
+    return (int) (powbigint(A, N)[sz(A) - 1][0] - 1);
 }
 
 int solveSmallN(ll N, Mat const& A) {
