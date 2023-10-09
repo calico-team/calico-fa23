@@ -2,9 +2,10 @@ import java.io.*;
 
 class Solution {
     /**
-    * Return the number of possible towers that Big Ben can build with N blocks.
+    * Return the number of unique Benga towers that can be built using N or
+    * fewer bricks. Give your answer modulo 3359232.
     * 
-    * @param N : number of 1x1x3 Benga Bricks we can use to construct the Benga tower.
+    * N: the maximum number of bricks to use
     */
     static int solve(long N) {
         // YOUR CODE HERE
@@ -18,7 +19,7 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            long N = Long.parseLong(temp[0]); // CAUTION! For the last Bonus you might want to change this.
+            long N = Long.parseLong(temp[0]);
             out.println(solve(N));
         }
         out.flush();

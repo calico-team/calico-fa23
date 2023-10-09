@@ -2,12 +2,15 @@
 
 using namespace std;
 
+typedef long long ll;
+
 /**
- * Return the number of possible towers that Big Ben can build with N blocks.
- * 
- * @param N : number of 1x1x3 Benga Bricks we can use to construct the Benga tower.
- */
-int solve(long long N) {
+* Return the number of unique Benga towers that can be built using N or fewer
+* bricks. Give your answer modulo 3359232.
+* 
+* N: the maximum number of bricks to use
+*/
+int solve(ll N) {
     // YOUR CODE HERE
     return -1;
 }
@@ -16,8 +19,8 @@ int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; i++) {
-        long long N;
-        cin >> N; // CAUTION! For the last Bonus you might want to change this.
+        ll N;
+        cin >> N;
         cout << solve(N) << '\n';
     }
 }

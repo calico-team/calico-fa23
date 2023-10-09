@@ -1,11 +1,12 @@
 def solve(N: int) -> int:
     """
-    Return the number of possible towers that Big Ben can build with N blocks.
+    Return the number of unique Benga towers that can be built using N or fewer
+    bricks. Give your answer modulo 3359232.
     
-    N : number of 1x1x3 Benga Bricks we can use to construct the Benga tower.
+    N: the maximum number of bricks to use
     """
     # YOUR CODE HERE
-    return 0
+    return -1
 
 
 def main():
@@ -13,6 +14,7 @@ def main():
     for _ in range(T):
         N = int(input())
         print(solve(N))
+
 
 if __name__ == '__main__':
     main()
