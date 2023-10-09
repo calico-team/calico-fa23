@@ -208,8 +208,7 @@ void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V) {
  * @param U Initial computer for each of the M connections.
  * @param V Final computer for each of the M connections.
  * 
- * @return  True if Bessie the Cow can eat enough computers with
- *          her S stomachs so that no submission is judged. False otherwise.
+ * 
  * 
 */
 void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
@@ -233,4 +232,5 @@ int main() {
         }
         solve(N, M, S, U, V);
     }
+    return 0;
 }

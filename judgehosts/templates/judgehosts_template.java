@@ -3,15 +3,15 @@ import java.io.*;
 
 class Solution {
     /**
+     * Print in the first line the number K of commputers Bessie the Cow should eat.
+     * Print in the next line K numbers, one for each different computer she should eat.
+     * If her task is not possible, print "IMPOSSIBLE"
      * 
      * @param N Number of computers.
      * @param M Number of connections between computers.
      * @param S Number of stomachs.
      * @param U Initial computer for each of the M connections.
      * @param V Final computer for each of the M connections.
-     * 
-     * @return  True if Bessie the Cow can eat enough computers with
-     *          her S stomachs so that no submission is judged. False otherwise.
     */
     static void solve(int N, int M, int S, int[] U, int[] V) {
         // YOUR CODE HERE

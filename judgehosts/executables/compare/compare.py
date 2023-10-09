@@ -28,22 +28,33 @@ def dfs(u, g, visited):
         if not visited[v]:
             dfs(v, g, visited)
 
-def flow(N, M, U, V, W):
+def flow(N, M, S, U, V, eaten):
     sources = [True] * (N + 1)
     visited = [False] * (N + 1)
     g = [[] for _ in range(N + 1)]
     for i in range(M):
         g[U[i]].append(V[i])
         sources[V[i]] = False
-    for i in W:
+    for i in eaten:
         visited[i] = True
-        sources[i] = False
     for i in range(1, N + 1):
-        if sources[i]:
+        if sources[i] and not visited[i]:
             if dfs(i, g, visited):
                 return True
     return False
 
+def calc_sources(U, V, N):
+    sources = set([i for i in range(1, N + 1)])
+    for i in V :
+        sources.discard(i)
+    return sources
+
+
+def calc_sinks(U, V, N):
+    sinks = set([i for i in range(1, N + 1)])
+    for i in U :
+        sinks.discard(i)
+    return sinks
 
 def compare(test_in, test_out):
     T = int(read_file(test_in))
@@ -51,12 +62,18 @@ def compare(test_in, test_out):
 
         # READ INPUT FROM INPUT FILE
         N, M, S = tuple([int(x) for x in read_file(test_in).split(' ')])
-        U = [int(x) for x in read_file(test_in).split()]
-        V = [int(x) for x in read_file(test_in).split()]
+        U, V = [], []
+        for i in range(M) :
+            ui, vi = tuple([int(x) for x in read_file(test_in).split(' ')])
+            U.append(ui)
+            V.append(vi)
+
+        contestants = calc_sources(U, V,N)
+        judgehosts = calc_sinks(U, V, N)
         
         # READ REFERENCE SOLUTION
 
-        ref_str = ''.join(read_file(test_out).split(' '))
+        ref_str = read_file(test_out).split(' ')
 
         # Check that the first line does not have more than 1 element
         if len(ref_str) > 1 :
@@ -111,6 +128,17 @@ def compare(test_in, test_out):
                         'The reference output is wrong.',
                         f'Item: {x}')
                     exit(1)
+                elif x in contestants:
+                    print(f'Test #{case}: [Reference] One of the elements of the computers list is not valid (It is a contestant).'
+                        'The reference output is wrong.',
+                        f'Item: {x}')
+                    exit(1)
+                elif x in judgehosts:
+                    print(f'Test #{case}: [Reference] One of the elements of the computers list is not valid (It is a judgehost).'
+                        'The reference output is wrong.',
+                        f'Item: {x}')
+                    exit(1)
+
             
             # Check that the solution given is correct
             if flow(N, M, S, U, V, ref_computers) :
@@ -122,7 +150,7 @@ def compare(test_in, test_out):
             
         # Read submitted solution
 
-        sub_str = ''.join(read().split(' '))
+        sub_str = read().split(' ')
         # Check that the first line does not have more than 1 element
         if len(sub_str) > 1 :
             print(f'Test #{case}: [Submission] The first line of output contains the wrong number of elements (more than one).')
@@ -152,7 +180,7 @@ def compare(test_in, test_out):
                 continue
 
             # Check that they are numbers lol
-            okay = true
+            okay = True
             for x in sub_computers_str :
                 if not x.isdigit() :
                     print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (NaN).')
@@ -168,6 +196,13 @@ def compare(test_in, test_out):
                 if x <= 0 or x > N :
                     print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (The index is out of bounds).')
                     okay = False
+                elif x in contestants:
+                    print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (It is a contestant).')
+                    okay = False
+                elif x in judgehosts:
+                    print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (It is a judgehost).')
+                    okay = False
+
 
             if not okay :
                 continue
@@ -178,11 +213,11 @@ def compare(test_in, test_out):
                 continue
 
 
-        if submitted_impossible and not ref_impossible :
+        if sub_impossible and not ref_impossible :
             print(f'Test #{case}: [Submission] The solution given states that it is IMPOSSIBLE, but it is actually possible.')
             continue
 
-        if ref_impossible and not submitted_impossible :
+        if ref_impossible and not sub_impossible :
             print(f'Test #{case}: [Reference] The solution given states that it is IMPOSSIBLE, but it is actually possible.'
                 'The reference output is wrong. THIS IS A MAJOR ERROR. CANCEL CALICO AFTER THIS.',
                 f'Item: {x}')

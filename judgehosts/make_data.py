@@ -19,7 +19,35 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = '''MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO
+ MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO
+ MoO MoO Moo MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO Moo MoO MoO
+ MoO MoO MoO MoO MoO Moo Moo MoO MoO MoO Moo OOO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO
+ MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO Moo MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO
+ MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO
+ MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO
+ MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO Moo MOo
+ MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo MOo
+ MOo MOo MOo MOo MOo Moo MOo MOo MOo MOo MOo MOo MOo MOo Moo MoO MoO MoO Moo MOo MOo MOo MOo MOo MOo Moo MOo MOo MOo MOo MOo MOo MOo MOo Moo
+ OOO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO MoO Moo '''
+
+
+class Graph :
+    def __init__(self, edges, n) :
+        self.n = n
+        self.edges = edges
+
+def generatePermutation(n) :
+    perm = [i for i in range(n)]
+    for i in range(i) :
+        j = random.randint(0, n - 1)
+        perm[i], perm[j] = perm[j], perm[i]
+    return perm
+
+def generateRandomEdges(n, max_edges) : 
+    return 0
+    
+
 
 
 class TestCase:
@@ -52,12 +80,12 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 8, 2, [5, 7, 7, 1, 1, 2, 3, 3], [1, 1, 2, 2, 3, 4, 4, 6])
+        TestCase(7, 8, 1, [5, 7, 7, 1, 1, 2, 3, 3], [1, 1, 2, 2, 3, 4, 4, 6])
     ]
     make_sample_test(main_sample_cases, 'main')
     
     bonus_sample_cases = [
-        TestCase(7, 8, 1, [5, 7, 7, 1, 1, 2, 3, 3], [1, 1, 2, 2, 3, 4, 4, 6]) ## CHANGE THIS
+        TestCase(7, 8, 2, [5, 7, 7, 1, 1, 2, 3, 3], [1, 1, 2, 2, 3, 4, 4, 6])
     ]
     make_sample_test(bonus_sample_cases, 'bonus')
 

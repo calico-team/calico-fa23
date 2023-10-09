@@ -56,7 +56,7 @@ def compare(test_in, test_out):
         
         # READ REFERENCE SOLUTION
 
-        ref_str = ''.join(read_file(test_out).split(' '))
+        ref_str = read_file(test_out).split(' ')
 
         # Check that the first line does not have more than 1 element
         if len(ref_str) > 1 :
@@ -122,7 +122,7 @@ def compare(test_in, test_out):
             
         # Read submitted solution
 
-        sub_str = ''.join(read().split(' '))
+        sub_str = read().split(' ')
         # Check that the first line does not have more than 1 element
         if len(sub_str) > 1 :
             print(f'Test #{case}: [Submission] The first line of output contains the wrong number of elements (more than one).')
