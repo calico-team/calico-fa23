@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 """
 Make zip files for each test set following the DOMjudge zip file format.
 
