@@ -19,7 +19,7 @@ import sys
 import numpy as np
 
 from calico_lib import make_sample_test, make_secret_test, make_data
-from submissions.accepted.benga_numpy import solve
+from submissions.accepted.benga_cycles_numpy import solve
 
 """
 Seed for the random number generator. We need this so randomized tests will

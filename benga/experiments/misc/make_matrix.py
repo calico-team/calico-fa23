@@ -1,10 +1,18 @@
-"""Generates border state transition matrices configurations of the problem
+"""Generates border state transition matrix configurations for the benga problem
 
 Usage:
-python3 make_matrix.py <k> [visible] [symmetry]
-- k:        the length and width of the kxkxN tower. must be within 1 <= k <= 9
-- visible:  True if we want to enforce all pieces visible else False
-- symmetry: True if we optimize for rotationally symmetric states else False
+python3 make_matrix.py <k> [visible] [symmetry] [cumulative] [noprint]
+- k:          the length and width of the kxkxN tower. must be within the bound
+              of 1 <= k <= 9
+- visible:    flag for if we want to enforce all pieces visible
+- symmetry:   flag for if we optimize for rotationally symmetric states
+- cumulative: flag for if we want to count the total number of ways including
+              shorter towers
+- noprint:    flag for if we don't want console prints and just make file
+              directly
+
+The parameters used to generate the matrix for the final version of the problem
+are: python3 make_matrix.py 3 symmetry cumulative
 """
 
 from itertools import chain, combinations
@@ -20,14 +28,16 @@ def main():
     visible = 'visible' in sys.argv
     symmetry = 'symmetry' in sys.argv
     noprint = 'noprint' in sys.argv
+    cumulative = 'cumulative' in sys.argv
     
-    transitions = make_transition_dict(k, visible, symmetry)
+    transitions = make_transition_dict(k, visible, symmetry, cumulative)
     if transitions:
         matrix, states = make_transition_matrix(transitions)
-        pretty_print_matrix(matrix, states, k, visible, symmetry, noprint)
+        pretty_print_matrix(matrix, states, k, visible, symmetry, cumulative, noprint)
         path = 'matrix_' + str(k) + \
                ('_v' if visible else '') + \
                ('_s' if symmetry else '') + \
+               ('_c' if cumulative else '') + \
                '.in'
         serialize_matrix(matrix, path)
         print()
@@ -46,7 +56,7 @@ def make_transition_matrix(transition_dict):
     return matrix, id_to_state
 
 
-def make_transition_dict(k, visible, symmetry):
+def make_transition_dict(k, visible, symmetry, cumulative):
     allowed_placements = find_allowed_placements(k, visible)
     flat_state = '0' * (k*k)
     known_states = {flat_state}
@@ -63,10 +73,15 @@ def make_transition_dict(k, visible, symmetry):
                 known_states.add(new_state)
         
         if len(known_states) > MAX_FEASIBLE_SIZE:
-            print(f'matrix for k={k}, visible={visible}, symmetry={symmetry}:')
+            print(f'matrix for k={k}, visible={visible}, symmetry={symmetry}, cumulative={cumulative}:')
             print(f'matrix is infeasible (n > {MAX_FEASIBLE_SIZE})')
             print()
             return None
+    
+    if cumulative:
+        cumulative_state = 'C' * (k*k)
+        transition_dict[cumulative_state] = {cumulative_state: 1}
+        transition_dict[flat_state][cumulative_state] = 1
     
     return transition_dict
 
@@ -155,11 +170,11 @@ def powerset(s):
     return chain.from_iterable(combinations(s,n) for n in range(len(s) + 1))
 
 
-def pretty_print_matrix(matrix, states, k, visible, symmetry, noprint):
+def pretty_print_matrix(matrix, states, k, visible, symmetry, cumulative, noprint):
     n = len(matrix)
     m = sum(sum(1 for w in r if w) for r in matrix)
     w = sum(sum(r) for r in matrix)
-    print(f'matrix for k={k}, visible={visible}, symmetry={symmetry}:')
+    print(f'matrix for k={k}, visible={visible}, symmetry={symmetry}, cumulative={cumulative}:')
     print(f'{n} nodes, {m} edges, {w} sum')
     if not noprint:
         for i in range(n):
