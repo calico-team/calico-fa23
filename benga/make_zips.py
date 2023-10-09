@@ -59,18 +59,20 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     added to the test set named test_set_name.
     """
     file_to_sets = {
-        # temp
-        'benga_naive':     ['main', 'bonus'],
-        'benga_numpy':     ['main', 'bonus'],
-        'benga_optimized': ['main', 'bonus'],
-        'benga_slow':      ['main', 'bonus'],
-        'benga_solution':  ['main', 'bonus'],
-        
         # accepted
-        'add_int':          ['main'],
+        'benga_naive':           ['main'],
+        'benga_naive_fast':      ['main'],
+        'benga_cycles':          ['main', 'bonus'],
+        'benga_cycles_fast':     ['main', 'bonus'],
+        'benga_cycles_numpy':    [],
+        'benga_solution':        [], # TODO delete this once renamed
         
         # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
+        'benga_naive_tle':       ['bonus'],
+        'benga_naive_fast_tle':  ['bonus'],
+        
+        # run_time_error
+        'benga_cycles_numpy_rte': ['main', 'bonus'],
     }
     
     # we only care about actual code files
