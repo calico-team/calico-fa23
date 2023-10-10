@@ -19,8 +19,18 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'hatsune miku'
 
+in_to_out = {
+    "H": ["Hello, world!"],
+    "9": ["99 bottles of beer on the wall, 99 bottles of beer.",
+"Take one down and pass it around, 98 bottles of beer on the wall.",
+"98 bottles of beer on the wall, 98 bottles of beer.",
+"Take one down and pass it around, 97 bottles of beer on the wall.",
+"97 bottles of beer on the wall, 97 bottles of beer.",
+"Take one down and pass it around, 96 bottles of beer on the wall.",
+],
+}
 
 class TestCase:
     """
@@ -31,10 +41,9 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
-
+    def __init__(self, length, src):
+        self.length = length
+        self.src = src
 
 def make_sample_tests():
     """
@@ -49,17 +58,42 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(1, '''Hello, world!'''),
+        TestCase(3, '''Hello, world!
+H++QH
+Hello, world!'''),
+        TestCase(7, '''99 bottles of beer on the wall, 99 bottles of beer.
+Take one down and pass it around, 98 bottles of beer on the wall.
+98 bottles of beer on the wall, 98 bottles of beer.
+Take one down and pass it around, 97 bottles of beer on the wall.
+97 bottles of beer on the wall, 97 bottles of beer.
+Take one down and pass it around, 96 bottles of beer on the wall.
+Hello, world!'''),
+        TestCase(15, '''99 bottles of beer on the wall, 99 bottles of beer.
+Take one down and pass it around98 bottles of beer on the wall.
+98 bottles of beer on the wall, 98 bottles of beer.
+Take one down and pass it around, 97 bottles of beer on the wall.
+97 bottles of beer on the wall, 97 bottles of beer.
+Take one down and pass it around, 96 bottles of beer on the wall.
+9Q++9+Q
+99 bottles of beer on the wall, 99 bottles of beer.
+Take one down and pass it around98 bottles of beer on the wall.
+98 bottles of beer on the wall, 98 bottles of beer.
+Take one down and pass it around, 97 bottles of beer on the wall.
+97 bottles of beer on the wall, 97 bottles of beer.
+Take one down and pass it around, 96 bottles of beer on the wall.
+9Q++9+QH
+Hello, world!'''),
+        TestCase(7, '''QQQQQQQ
+QQQQQQQ
+QQQQQQQ
+QQQQQQQ
+QQQQQQQ
+QQQQQQQ
+QQQQQQQ'''),
     ]
     make_sample_test(main_sample_cases, 'main')
     
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
 
 
 def make_secret_tests():
@@ -73,39 +107,35 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
-    
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
-    
+    def single_case():
+        chars = ["H", "9", "+"]
+        if random.randint(1, 2) == 1:
+            chars.append("Q")
+        
+        source = []
+        lines = random.randint(1, 10000)
+        for _ in range(lines):
+            source.append(random.choice(chars))
+
+        single_string = "\n".join(source)
+
+        useless_accumulator = 0
+
+        out = []
+        for char in source:
+            if char == "Q":
+                out.append(single_string)
+            elif char == "+":
+                useless_accumulator += 1
+            else:
+                out.extend(in_to_out[char])
+
+        return TestCase(len(out), "\n".join(out))
+
     for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
+        main_random_cases = [single_case() for _ in range(100)]
         make_secret_test(main_random_cases, 'main_random')
     
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
-    
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
-
 
 def make_test_in(cases, file):
     """
@@ -117,7 +147,8 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(case.length, file=file)
+        print(case.src, file=file)
 
 
 def make_test_out(cases, file):
@@ -132,7 +163,7 @@ def make_test_out(cases, file):
     """
     from submissions.accepted.add_arbitrary import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.length, case.src), file=file)
 
 
 def main():
@@ -144,4 +175,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    make_secret_tests()

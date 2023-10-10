@@ -57,8 +57,6 @@ def is_data_in_test_set(data_file_name, test_set_name):
     """
     if test_set_name == 'main':
         return 'main' in data_file_name
-    elif test_set_name == 'bonus':
-        return 'main' in data_file_name or 'bonus' in data_file_name
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -70,19 +68,19 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
+        'add_arbitrary':    ['main'],
         'add_int':          ['main'],
         
         # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
+        'add_div_re':       ['main'],
+        'add_parse_int_re': ['main'],
         
         # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
+        'add_loop_tle':     ['main'],
         
         # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+        'add_parse_int_wa': ['main'],
+        'add_sub_wa':       ['main'],
     }
     
     # we only care about actual code files
