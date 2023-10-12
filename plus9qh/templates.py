@@ -14,7 +14,7 @@ def main():
     for _ in range(T):
         info = input().strip().split(' ')
         N = int(info[0])
-        X  = [], [], []
+        X  = []
         for i in range(N):
             info = input().strip().split(' ')
             X.append(int(info[0]))
