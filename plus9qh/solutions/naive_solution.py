@@ -1,13 +1,28 @@
-def solve(N: int, M: int, X: list[int], Y: list[int], Z: list[int]):
+def solve(N: int, X: list[int]):
     """
     Output a program that outputs the given text.
 
     T: the number of Test Cases
-    N: the number of lines in the program
     X: the list of lines of the program
     """
-    # YOUR CODE HERE
-    return
+    program = ""
+    h = "Hello, world!"
+    for line in X:
+        if 'Q' in line:
+            result = line.split("Hello, world!")
+            return result[0]
+    for count, line in enumerate(X):
+        if 'beer' in line:
+            program += "9"
+            X.remove(count)
+            X.remove(count + 1)
+            X.remove(count + 2)
+        else:
+            while line:
+                if line[0:len(h)] == h:
+                    program += "H"
+                    line = line[len(h):]
+    return program
 
 def main():
     T = int(input())
