@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'hatsune miku'
+SEED = 'this is an esolang created by cliff bliffer'
 
 in_to_out = {
     "H": ["Hello, world!"],
@@ -93,7 +93,6 @@ QQQQQQQ
 QQQQQQQ
 QQQQQQQ'''),
     ]
-    # print([x.code for x in main_sample_cases])
     make_sample_test(main_sample_cases, 'main')
     
 
@@ -109,13 +108,26 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def single_case():
-        chars = ["H", "9", "+"]
+    def single_case(idx):
+        if idx < 10:
+            maxlines = random.randint(1, 5)
+        elif idx < 30:
+            maxlines = random.randint(1, 15)
+        elif idx < 50:
+            maxlines = random.randint(1, 45)
+        elif idx < 70:
+            maxlines = random.randint(1, 95)
+        elif idx < 90:
+            maxlines = random.randint(1, 195)
+        else:
+            maxlines = random.randint(1, 995)
+
+
+        chars = ["H", "H", "H", "+", "+", "9"]
         if random.randint(1, 2) == 1:
             chars.append("Q")
         
         source = []
-        maxlines = random.randint(1, 9995)
         lines = 0
         while lines < maxlines:
             char = random.choice(chars)
@@ -125,7 +137,7 @@ def make_secret_tests():
                 lines += 6
             source.append(char)
 
-        single_string = "\n".join(source)
+        single_string = "".join(source)
 
         useless_accumulator = 0
 
@@ -141,7 +153,7 @@ def make_secret_tests():
         return TestCase(len(out), "\n".join(out))
 
     for i in range(5):
-        main_random_cases = [single_case() for _ in range(100)]
+        main_random_cases = [single_case(j) for j in range(100)]
         make_secret_test(main_random_cases, 'main_random')
     
 
