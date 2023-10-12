@@ -41,9 +41,10 @@ class TestCase:
     """
 
 
-    def __init__(self, length, src):
+    def __init__(self, length, code):
         self.length = length
-        self.src = src
+        self.code = code
+        assert self.length == len(self.code.splitlines()), "Lengths do not match"
 
 def make_sample_tests():
     """
@@ -70,14 +71,14 @@ Take one down and pass it around, 97 bottles of beer on the wall.
 Take one down and pass it around, 96 bottles of beer on the wall.
 Hello, world!'''),
         TestCase(15, '''99 bottles of beer on the wall, 99 bottles of beer.
-Take one down and pass it around98 bottles of beer on the wall.
+Take one down and pass it around, 98 bottles of beer on the wall.
 98 bottles of beer on the wall, 98 bottles of beer.
 Take one down and pass it around, 97 bottles of beer on the wall.
 97 bottles of beer on the wall, 97 bottles of beer.
 Take one down and pass it around, 96 bottles of beer on the wall.
 9Q++9+Q
 99 bottles of beer on the wall, 99 bottles of beer.
-Take one down and pass it around98 bottles of beer on the wall.
+Take one down and pass it around, 98 bottles of beer on the wall.
 98 bottles of beer on the wall, 98 bottles of beer.
 Take one down and pass it around, 97 bottles of beer on the wall.
 97 bottles of beer on the wall, 97 bottles of beer.
@@ -92,6 +93,7 @@ QQQQQQQ
 QQQQQQQ
 QQQQQQQ'''),
     ]
+    print([x.code for x in main_sample_cases])
     make_sample_test(main_sample_cases, 'main')
     
 
@@ -113,9 +115,15 @@ def make_secret_tests():
             chars.append("Q")
         
         source = []
-        lines = random.randint(1, 10000)
-        for _ in range(lines):
-            source.append(random.choice(chars))
+        maxlines = random.randint(1, 9995)
+        lines = 0
+        while lines < maxlines:
+            char = random.choice(chars)
+            if char == "H":
+                lines += 1
+            elif char == "9":
+                lines += 6
+            source.append(char)
 
         single_string = "\n".join(source)
 
@@ -148,7 +156,7 @@ def make_test_in(cases, file):
     print(T, file=file)
     for case in cases:
         print(case.length, file=file)
-        print(case.src, file=file)
+        print(case.code, file=file)
 
 
 def make_test_out(cases, file):
@@ -161,9 +169,8 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
     for case in cases:
-        print(solve(case.length, case.src), file=file)
+        print('', file=file)
 
 
 def main():
@@ -176,4 +183,4 @@ def main():
 
 if __name__ == '__main__':
     #main()
-    make_secret_tests()
+    make_sample_tests()
