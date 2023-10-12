@@ -12,8 +12,6 @@ import zipfile
 
 _make_test_in, _make_test_out = None, None
 
-#s
-
 
 def make_data(make_sample_tests, make_secret_tests, \
               make_test_in, make_test_out, seed):

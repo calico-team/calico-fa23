@@ -93,7 +93,7 @@ QQQQQQQ
 QQQQQQQ
 QQQQQQQ'''),
     ]
-    print([x.code for x in main_sample_cases])
+    # print([x.code for x in main_sample_cases])
     make_sample_test(main_sample_cases, 'main')
     
 
@@ -182,5 +182,4 @@ def main():
 
 
 if __name__ == '__main__':
-    #main()
-    make_sample_tests()
+    main()
