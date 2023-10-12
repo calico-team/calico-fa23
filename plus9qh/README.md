@@ -1,9 +1,9 @@
-# add
+# plus9qh
 This is a problem in the CALICO problem package format, a derivative of the [DOMjudge Problem Package Format](https://www.domjudge.org/docs/manual/7.3/problem-format.html) which is itself a derivative of the [ICPC Problem Package Format](https://icpc.io/problem-package-format/).
 
 ## Resources
 Include resources for your problem here:
-- Problem statement: (TODO Copy problem statement link here)
+- Problem statement: https://docs.google.com/document/d/1HFiW8ItphDY8D9QVA3FIMg9aYOFTVKY9m_coIrJU1UY/edit?usp=sharing
 - Editorial: (TODO Copy editorial link here)
 
 ## Getting Started

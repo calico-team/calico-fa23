@@ -9,6 +9,7 @@ def solve(N: int, M: int, X: list[int], Y: list[int], Z: list[int]):
     # YOUR CODE HERE
     return
 
+
 def main():
     T = int(input())
     for _ in range(T):
@@ -19,6 +20,7 @@ def main():
             info = input().strip().split(' ')
             X.append(int(info[0]))
         solve(N, X)
+
 
 if __name__ == '__main__':
     main()
