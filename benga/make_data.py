@@ -89,6 +89,15 @@ def make_secret_tests():
         N = int('1' * bits, 2)
         return TestCase(N)
     
+    edge_case_Ns = [
+        559098, 960330, 1014090, 1519434, 1566858, 2125962, 2729375, 3009983,
+        5020488, 5660922, 5666897, 6121793, 6220026, 6621258, 7180362, 7227786,
+        7786890
+    ]
+    for i in range((len(edge_case_Ns) + 9) // 10):
+        main_edges = [TestCase(N) for N in edge_case_Ns[10 * i: 10 * (i + 1)]]
+        make_secret_test(main_edges, 'main_edges')
+    
     for _ in range(5):
         main_rands = [make_rand_test(MAX_N_MAIN) for _ in range(MAX_T)]
         make_secret_test(main_rands, 'main_rands')
