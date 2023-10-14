@@ -1,3 +1,4 @@
+HELLO = "Hello, world!"
 LYRICS = [
     "99 bottles of beer on the wall, 99 bottles of beer.",
     "Take one down and pass it around, 98 bottles of beer on the wall.",
@@ -7,15 +8,17 @@ LYRICS = [
     "Take one down and pass it around, 96 bottles of beer on the wall.",
 ]
 
+
 def solve(N: int, X: list[str]):
+    # process the text to find a predicted minimal program and predicted quine
     predicted_program = []
     predicted_quine = None
     i = 0
     while i < N:
-        if X[i] == 'Hello, world!': # is it the output of an H?
+        if X[i] == HELLO: # is it the output of an H?
             predicted_program.append('H')
             i += 1
-        elif X[i] == LYRICS[0]: # is it the output of an 9?
+        elif X[i] == LYRICS[0]: # is it the output of a 9?
             if X[i:i + 6] == LYRICS:
                 predicted_program.append('9')
             else:
@@ -32,6 +35,7 @@ def solve(N: int, X: list[str]):
                 return 'IMPOSSIBLE' # invalid quine
             i += 1
     
+    # if a quine is found, verify its consistency with the predicted program
     predicted_program = ''.join(predicted_program)
     if predicted_quine != None:
         if predicted_quine.replace('+', '') != predicted_program:
