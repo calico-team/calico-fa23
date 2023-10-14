@@ -18,28 +18,22 @@ def solve(N: int, X: list[str]):
         if X[i] == HELLO: # is it the output of an H?
             predicted_program.append('H')
             i += 1
-        elif X[i] == LYRICS[0]: # is it the output of a 9?
-            if X[i:i + 6] == LYRICS:
-                predicted_program.append('9')
-            else:
-                return 'IMPOSSIBLE' # wrong lyrics
+        elif X[i:i + 6] == LYRICS: # is it the output of a 9?
+            predicted_program.append('9')
             i += 6
-        else:
-            if all(c in 'HQ9+' for c in X[i]): # if not H or 9, must be a quine
-                if predicted_quine == None:
-                    predicted_quine = X[i]
-                else:
-                    if X[i] != predicted_quine:
-                        return 'IMPOSSIBLE' # quine contradicts earlier quine
-            else:
-                return 'IMPOSSIBLE' # invalid quine
+        elif all(c in 'HQ9+' for c in X[i]): # if not H or 9, must be a Q
+            if predicted_quine == None: # if this is the first Q, record it
+                predicted_quine = X[i]
+            else: # otherwise, verify consistency with prior Qs
+                if X[i] != predicted_quine:
+                    return 'IMPOSSIBLE'
             i += 1
-    
-    # if a quine is found, verify its consistency with the predicted program
     predicted_program = ''.join(predicted_program)
+    
+    # if a quine was found, verify its correctness with the predicted program
     if predicted_quine != None:
         if predicted_quine.replace('+', '') != predicted_program:
-            return 'IMPOSSIBLE' # only difference should be + instructions
+            return 'IMPOSSIBLE'
         predicted_program = predicted_quine
     
     return predicted_program
