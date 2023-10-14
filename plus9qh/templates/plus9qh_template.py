@@ -14,7 +14,7 @@ def main():
     for _ in range(T):
         N = int(input())
         X = [input() for _ in range(N)]
-        solve(N, X)
+        print(solve(N, X))
 
 
 if __name__ == '__main__':
