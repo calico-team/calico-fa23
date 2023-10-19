@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "calico_lib.cpp"
 #include "solution.cpp"
+#include "graph_generator.cpp"
 using namespace std;
 
 #define NUMBER_OF_TEST_CASES 1
@@ -23,6 +24,14 @@ struct TestCase {
     }
 
     TestCase(int N, int M, int S, vector<int> U, vector<int> V) : N(N), M(M), S(S), U(U), V(V) {}
+
+    void importGraph(Graph const& G) {
+        N = G.V, M = G.E;
+        for (auto& e : G.edgeList) {
+            U.push_back(e.first + 1);
+            V.push_back(e.second + 1);
+        }
+    }
 
     struct TopoSort {
         int N; vector<int> in, res;
@@ -74,7 +83,7 @@ bool is_correct_main_case(vector<TestCase> const& v) {
         if (!tc.isCorrect()) return false;
     }
 
-    return total_N <= 1e6 && total_M <= 1e6;
+    return total_N <= 1e3 && total_M <= 1e3;
 
 }
 
@@ -82,21 +91,30 @@ bool is_correct_main_case(vector<TestCase> const& v) {
  * Fill in with bonus test case restrictions.
  * Check for both restrictions on each test case and restrictions for the whole batch.
 */
-bool is_correct_bonus_case(vector<TestCase> const& v) {
+bool is_correct_bonus_a_case(vector<TestCase> const& v) {
     // A bonus test case is correct if the sum for values of N and M in the case of S=1 is less or equal than 1e6
     // and the values for N and M in the case S > 1 is less or equal than 1e4
-    int total_N_S1 = 0, total_M_S1 = 0, total_N_S2 = 0, total_M_S2 = 0;
+    int total_N = 0, total_M = 0;
     for (auto& tc : v) {
         if (!tc.isCorrect()) return false;
-        if (tc.S == 1) {
-            total_N_S1 += tc.N;
-            total_M_S1 += tc.M;
-        } else {
-            total_N_S2 += tc.N;
-            total_M_S2 += tc.M;
-        }
+        if (!tc.S != 1) return false;
+        total_N += tc.N;
+        total_M += tc.M;
     }
-    return total_N_S1 <= 1e6 && total_M_S1 <= 1e6 && total_N_S2 <= 1e4 && total_M_S2 <= 1e4;
+    return total_N <= 1e6 && total_M <= 1e6;
+}
+
+bool is_correct_bonus_b_case(vector<TestCase> const& v) {
+    // A bonus test case is correct if the sum for values of N and M in the case of S=1 is less or equal than 1e6
+    // and the values for N and M in the case S > 1 is less or equal than 1e4
+    int total_N = 0, total_M = 0;
+    for (auto& tc : v) {
+        if (!tc.isCorrect()) return false;
+        if (!tc.S != 1) return false;
+        total_N += tc.N;
+        total_M += tc.M;
+    }
+    return total_N <= 1e4 && total_M <= 1e4;
 }
 
 inline ostream& operator << (ostream& out, TestCase const& tc) {
@@ -116,43 +134,96 @@ void make_sample_tests() {
     assert(is_correct_main_case(main_sample_cases));
     make_sample_test(main_sample_cases, "main");
     
-    vector<TestCase> bonus_sample_cases = {
+    vector<TestCase> bonus_a_sample_cases = {
         // TODO : Fill in with bonus sample cases
     };
-    assert(is_correct_bonus_case(bonus_sample_cases));
-    make_sample_test(bonus_sample_cases, "bonus");
+    assert(is_correct_bonus_a_case(bonus_a_sample_cases));
+    make_sample_test(bonus_a_sample_cases, "bonus_a");
+
+    vector<TestCase> bonus_b_sample_cases = {
+        // TODO : Fill in with bonus sample cases
+    }
+    assert(is_correct_bonus_b_case(bonus_b_sample_cases));
+    make_sample_test(bonus_b_sample_cases, "bonus_b");
 }
 
 void make_secret_tests() {
 
-    vector<TestCase> main_edge_cases = {
-        // TODO : Fill in with cases logic
-    };
-    assert(is_correct_main_case(main_edge_cases));
-    make_secret_test(main_edge_cases, "main_edge");
+    // Test cases for main
 
-    for (int i = 0; i < 5; ++i) {
-        vector<TestCase> main_random_cases = {
-            // TODO : Fill in with random main cases logic
-        };
-        assert(is_correct_main_case(main_random_cases));
-        make_secret_test(main_random_cases, "main_random");
+    for (int i = 0; i < 10; ++i) {
+        // Small multiple cases
+        vector<TestCase> main_secret_multiple_random;
+        for (int i = 0; i < 5; ++i) {
+            Graph G = (rng() % 2) ? build_random_graph(200, 200, rng) : build_random_graph_one_articulation(200, 200, rng);
+            TestCase tc;
+            tc.importGraph(G);
+            tc.S = 1;
+            main_secret_multiple_random.push_back(tc);
+        }
+        assert(is_correct_main_case(main_secret_multiple_random));
+        make_secret_test(main_secret_multiple_random, "main_multiple");
+        // One big case
+        vector<TestCase> main_secret_one_random;
+        Graph G = (rng() % 2) ? build_random_graph(1000, 1000, rng) : build_random_graph_one_articulation(1000, 1000, rng);
+        TestCase tc;
+        tc.importGraph(G);
+        tc.S = 1;
+        main_secret_one_random.push_back(tc);
+        assert(is_correct_main_case(main_secret_one_random));
+        make_secret_test(main_secret_one_random, "main_single")
     }
 
-    vector<TestCase> bonus_edge_cases = {
-        // TODO : Fill in with bonus edge cases
-    };
-    assert(is_correct_bonus_case(bonus_edge_cases));
-    make_secret_test(bonus_edge_cases, "bonus_edge");
+    // Test cases for bonus A
 
-    for (int i = 0; i < 5; ++i) {
-        vector<TestCase> bonus_random_cases = {
-            // TODO : Fill in with random bonus cases
-        };
-        assert(is_correct_bonus_case(bonus_random_cases));
-        make_secret_test(bonus_random_cases, "bonus_random");
+    for (int i = 0; i < 10; ++i) {
+        // Small multiple cases
+        vector<TestCase> bonus_a_secret_multiple_random;
+        for (int i = 0; i < 5; ++i) {
+            Graph G = (rng() % 2) ? build_random_graph(200000, 200000, rng) : build_random_graph_one_articulation(200000, 200000, rng);
+            TestCase tc;
+            tc.importGraph(G);
+            tc.S = 1;
+            main_secret_multiple_random.push_back(tc);
+        }
+        assert(is_correct_main_case(bonus_a_secret_multiple_random));
+        make_secret_test(bonus_a_secret_multiple_random, "bonus_a_multiple");
+        // One big case
+        vector<TestCase> bonus_a_secret_one_random;
+        Graph G = (rng() % 2) ? build_random_graph(1000000, 1000000, rng) : build_random_graph_one_articulation(1000000, 1000000, rng);
+        TestCase tc;
+        tc.importGraph(G);
+        tc.S = 1;
+        bonus_a_secret_one_random.push_back(tc);
+        assert(is_correct_main_case(bonus_a_secret_one_random));
+        make_secret_test(bonus_a_secret_one_random, "bonus_a_single")
     }
-    
+
+    // Test cases for bonus B
+
+    for (int i = 0; i < 10; ++i) {
+        // Small multiple cases
+        vector<TestCase> bonus_b_secret_multiple_random;
+        for (int i = 0; i < 5; ++i) {
+            Graph G = (rng() % 2) ? build_random_graph(2000, 2000, rng) : build_random_graph_one_articulation(2000, 2000, rng);
+            TestCase tc;
+            tc.importGraph(G);
+            tc.S = 1;
+            main_secret_multiple_random.push_back(tc);
+        }
+        assert(is_correct_main_case(bonus_b_secret_multiple_random));
+        make_secret_test(bonus_b_secret_multiple_random, "bonus_b_multiple");
+        // One big case
+        vector<TestCase> bonus_b_secret_one_random;
+        Graph G = (rng() % 2) ? build_random_graph(1000000, 1000000, rng) : build_random_graph_one_articulation(1000000, 1000000, rng);
+        TestCase tc;
+        tc.importGraph(G);
+        tc.S = 1;
+        bonus_b_secret_one_random.push_back(tc);
+        assert(is_correct_main_case(bonus_b_secret_one_random));
+        make_secret_test(bonus_b_secret_one_random, "bonus_b_single")
+    }
+
 }
 
 void make_test_in(vector<TestCase>& cases, fstream& file) {

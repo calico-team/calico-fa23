@@ -196,6 +196,22 @@ Graph build_random_graph(int max_v, int max_e, mt19937_64& rng) {
 
 
 Graph build_random_graph_one_articulation(int max_v, int max_e, mt19937_64& rng) {
-    int V1 = 4 * max_v / 10 + (rng() % max_v) / 10;
-
+    Graph G1 = build_random_graph(4 * max_v / 10, 4 * max_e / 10, rng);
+    Graph G2 = build_random_graph(4 * max_v / 10, 4 * max_e / 10, rng);
+    int N1 = G1.V, N2 = G2.V;
+    Graph G(N1 + N2 + 1);
+    vector<int> p = generate_random_permutation(N1 + N2 + 1, rng);
+    for (auto& e : G1.edgeList) G.add_edge(p[e.first], p[e.second]);
+    for (auto& e : G2.edgeList) G.add_edge(p[N1 + e.first], p[N1 + e.second]);
+    for (int i = 0; i < N1; ++i) {
+        if (!G1.outDeg[i]) {
+            G.add_edge(p[i], p[N1 + N2]);
+        }
+    }
+    for (int i = 0; i < N2; ++i) {
+        if (!G2.inDeg[i]) {
+            G.add_edge(p[N1 + N2], p[N1 + i]);
+        }
+    }
+    return G;
 }
