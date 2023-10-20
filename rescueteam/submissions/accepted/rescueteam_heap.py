@@ -77,7 +77,8 @@ def main():
 
         U, V = [None] * F, [None] * F
         for i in range(F):
-            U[i], V[i] = map(int, input().split())
+            U[i] = int(input()) 
+            V[i] = 1
         
         print(solve(F, B, N, M, S, E, X, Y, U, V))
 

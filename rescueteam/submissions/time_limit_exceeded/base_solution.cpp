@@ -42,8 +42,9 @@ void solve() {
         adj[v].push_back(u);
     }
     for (int i = 0; i < F; i++) {
-        cin >> treasure[i].first >> treasure[i].second;
+        cin >> treasure[i].first;
         -- treasure[i].first;
+		treasure[i].second = 1;
     }
     vector<int> d_start = bfs(S);
     vector<int> d_end = bfs(E);
