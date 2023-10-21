@@ -1,22 +1,18 @@
-def solve(A: int) -> str:
-    """
-    Return the berkeleytime value of A.
-    
-    A: a non-negative integer
-    """
-    solutionString = "berkeley"
-    if A > 180:
-        return "canceled"
-    solutionString = solutionString * (A % 10)
-    return solutionString + "time"
+def solve(N: int) -> str:
+    if N == 0:
+        return 'haha good one'
+    elif N >= 180:
+        return 'canceled'
+    else:
+        return 'berkeley' * (N % 10)
 
 
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        A = int(temp[0])
-        print(solve(A))
+        N = int(input())
+        print(solve(N))
+
 
 if __name__ == '__main__':
     main()
