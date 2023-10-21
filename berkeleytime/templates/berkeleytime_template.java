@@ -2,13 +2,13 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the berkeleytime value of A.
+     * Return the appropriate text given the contest will start N minutes late.
      * 
-     * A: a non-negative integer
+     * N: the number of minutes late the contest will start
      */
-    static int solve(int A) {
+    static String solve(int N) {
         // YOUR CODE HERE
-        return -1;
+        return "";
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -17,9 +17,8 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
-            String[] temp = in.readLine().split(" ");
-            int A = Integer.parseInt(temp[0]);
-            out.println(solve(A));
+            int N = Integer.parseInt(in.readLine());
+            out.println(solve(N));
         }
         out.flush();
     }
