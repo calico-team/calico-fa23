@@ -23,23 +23,21 @@ SEED = 'this is an esolang created by cliff bliffer'
 
 in_to_out = {
     "H": ["Hello, world!"],
-    "9": ["99 bottles of beer on the wall, 99 bottles of beer.",
-"Take one down and pass it around, 98 bottles of beer on the wall.",
-"98 bottles of beer on the wall, 98 bottles of beer.",
-"Take one down and pass it around, 97 bottles of beer on the wall.",
-"97 bottles of beer on the wall, 97 bottles of beer.",
-"Take one down and pass it around, 96 bottles of beer on the wall.",
-],
+    "9": [
+        "99 bottles of beer on the wall, 99 bottles of beer.",
+        "Take one down and pass it around, 98 bottles of beer on the wall.",
+        "98 bottles of beer on the wall, 98 bottles of beer.",
+        "Take one down and pass it around, 97 bottles of beer on the wall.",
+        "97 bottles of beer on the wall, 97 bottles of beer.",
+        "Take one down and pass it around, 96 bottles of beer on the wall.",
+        ],
 }
 
 class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-    
-    TODO Change this to store the relevant information for your problem.
     """
-
 
     def __init__(self, length, code):
         self.length = length
@@ -104,9 +102,6 @@ def make_secret_tests():
     To create a pair of sample test files, call make_secret_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
-    
-    TODO Write sample tests. Consider creating edge cases and large randomized
-    tests.
     """
     def single_case(idx):
         if idx < 10:
@@ -161,8 +156,6 @@ def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-    
-    TODO Implement this for your problem.
     """
     T = len(cases)
     print(T, file=file)
