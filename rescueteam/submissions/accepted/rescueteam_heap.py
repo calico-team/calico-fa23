@@ -54,7 +54,7 @@ def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[
             curr_belly += curr_treasure_delta
         else:
             # if it's too expensive, see if we can trade for it
-            if curr_treasure_delta < -selected_treasure_deltas[0]:
+            if len(selected_treasure_deltas) > 0 and curr_treasure_delta < -selected_treasure_deltas[0]:
                 # trading is only worth it if it's cheaper than our 
                 curr_belly -= -heapq.heappop(selected_treasure_deltas)
                 heapq.heappush(selected_treasure_deltas, -curr_treasure_delta)
