@@ -205,24 +205,28 @@ void make_secret_tests() {
         // Small multiple cases
         vector<TestCase> bonus_b_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
-            Graph G = (rng() % 2) ? build_random_graph(2000, 2000, rng) : build_random_graph_one_articulation(2000, 2000, rng);
+            Graph G = build_random_graph(2000, 2000, rng);
             TestCase tc;
             tc.importGraph(G);
-            tc.S = 1;
+            tc.S = max(G.stomachs_needed() - rng() % 2);
             main_secret_multiple_random.push_back(tc);
         }
         assert(is_correct_main_case(bonus_b_secret_multiple_random));
         make_secret_test(bonus_b_secret_multiple_random, "bonus_b_multiple");
         // One big case
         vector<TestCase> bonus_b_secret_one_random;
-        Graph G = (rng() % 2) ? build_random_graph(1000000, 1000000, rng) : build_random_graph_one_articulation(1000000, 1000000, rng);
+        Graph G = build_random_graph(10000, 10000, rng);
         TestCase tc;
         tc.importGraph(G);
-        tc.S = 1;
+        tc.S = max(G.stomachs_needed() - rng() % 2);
         bonus_b_secret_one_random.push_back(tc);
         assert(is_correct_main_case(bonus_b_secret_one_random));
         make_secret_test(bonus_b_secret_one_random, "bonus_b_single")
     }
+    
+    // Make edge cases???
+
+        
 
 }
 
