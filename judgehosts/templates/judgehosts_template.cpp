@@ -8,11 +8,11 @@ using namespace std;
  * Print in the next line K numbers, one for each different computer she should eat.
  * If her task is not possible, print "IMPOSSIBLE"
  * 
- * @param N Number of computers.
- * @param M Number of connections between computers.
- * @param S Number of stomachs.
- * @param U Initial computer for each of the M connections.
- * @param V Final computer for each of the M connections.
+ * N: Number of computers.
+ * M: Number of connections between computers.
+ * S: Number of stomachs.
+ * U: Initial computer for each of the M connections.
+ * V: Final computer for each of the M connections.
  * 
 */
 void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {

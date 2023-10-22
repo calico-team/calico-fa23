@@ -37,15 +37,9 @@ void make_test_file(T cases, bool is_secret, int id, string file_name) {
         file_name = to_string(id) + "_" + file_name;
     }
     string in_path = get_path(is_secret, file_name, "in");
-    fstream in_file;
-    in_file.open(in_path);
-    make_test_in(cases, in_file);
-    in_file.close();
+    make_test_in(cases, in_path);
     string ans_path = get_path(is_secret, file_name, "ans");
-    fstream ans_file;
-    ans_file.open(ans_path);
-    make_test_out(cases, ans_file);
-    ans_file.close();
+    make_test_out(cases, ans_path);
 }
 
 int _secret_test_id = 0;
@@ -56,7 +50,7 @@ int _secret_test_id = 0;
 */
 template <class T>
 void make_secret_test(T cases, string file_name = "") {
-    debug_print("Creating secret test file\"" + file_name + "\"...");
+    debug_print("Creating secret test file \"" + file_name + "\"...");
     make_test_file(cases, true, _secret_test_id, file_name);
     ++_secret_test_id;
     debug_print("Done!");
@@ -69,7 +63,7 @@ int _sample_test_id = 0;
 */
 template <class T>
 void make_sample_test(T cases, string file_name = "") {
-    debug_print("Creating sample test file\"" + file_name + "\"...");
+    debug_print("Creating sample test file \"" + file_name + "\"...");
     make_test_file(cases, false, _sample_test_id, file_name);
     ++_sample_test_id;
     debug_print("Done!");
@@ -86,7 +80,12 @@ void delete_old_data() {
     string str(cwd);
     str += "/data/";
     
-    std::filesystem::path dir(str);
+    std::filesystem::path dir(str+"sample/");
+
+    for (auto const& entry : std::filesystem::directory_iterator(dir))
+        std::filesystem::remove_all(entry.path());
+
+    dir = str+"secret/";
 
     for (auto const& entry : std::filesystem::directory_iterator(dir))
         std::filesystem::remove_all(entry.path());

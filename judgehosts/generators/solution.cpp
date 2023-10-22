@@ -13,7 +13,7 @@ using namespace std;
  * 
  * Time complexity: O(N + M)
 */
-void bfs_solution(int N, int M, int S, vector<int>& U, vector<int>& V, fstream& file) {
+void bfs_solution(int N, int M, int S, vector<int>& U, vector<int>& V) {
     vector<vector<int>> adj(N + 1);
     // Add edges to the graph
     for (int i = 0; i < M; ++i) {
@@ -53,8 +53,8 @@ void bfs_solution(int N, int M, int S, vector<int>& U, vector<int>& V, fstream& 
             // Bessie can't eat imaginary computers (yet), judgehosts or contestant computers.
             if (contestant != 0 && !is_judge[contestant] && !is_initial_contestant[contestant]) {
                 // It's a solution
-                file << "1\n";
-                file << contestant << '\n';
+                cout << "1\n";
+                cout << contestant << '\n';
                 return;
             }
         }
@@ -67,7 +67,7 @@ void bfs_solution(int N, int M, int S, vector<int>& U, vector<int>& V, fstream& 
             }
         }
     }
-    file << "IMPOSSIBLE\n";
+    cout << "IMPOSSIBLE\n";
 }
 
 
@@ -137,7 +137,7 @@ struct Dinic {
  * 
  * Time complexity: O((M + N)√N) (the flow graph is bipartite since we are duplicating the nodes)
 */
-void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V, fstream& file) {
+void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V) {
 
     Dinic flow(2 * N + 2);
     // flow.init(2 * N + 2);
@@ -185,16 +185,16 @@ void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V, fstrea
     int S_ = flow.calc(source, sink);
     // If S' > S, there aren't enough stomachs
     if (S_ > S) {
-        file << "IMPOSSIBLE\n";
+        cout << "IMPOSSIBLE\n";
     } else {
-        file << S << '\n';
+        cout << S << '\n';
         // For each node, check if the input and the output are in different parts of the mincut
         for (int i = 1; i <= N; ++i) {
             if (flow.leftOfMinCut(in(i)) ^ flow.leftOfMinCut(out(i))) {
-                file << i << ' ';
+                cout << i << ' ';
             }
         }
-        file << '\n';
+        cout << '\n';
     }
 
 }
@@ -212,11 +212,11 @@ void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V, fstrea
  *          her S stomachs so that no submission is judged. False otherwise.
  * 
 */
-void solve(int N, int M, int S, vector<int>& U, vector<int>& V, fstream& file) {
+void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
     // YOUR CODE HERE
     if (S == 1) {
-        bfs_solution(N, M, S, U, V, file);
+        bfs_solution(N, M, S, U, V);
     } else {
-        mincut_solution(N, M, S, U, V, file);
+        mincut_solution(N, M, S, U, V);
     }
 }

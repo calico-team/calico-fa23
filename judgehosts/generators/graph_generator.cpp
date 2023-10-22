@@ -2,7 +2,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/**
+#define dbg(x) cerr << x << endl
+
+struct Graph {
+
+    /**
  * Description: Calculates maximum flow of a graph
  * Time: $O(N^2M)$ flow, $O(M\sqrt N)$ bipartite matching
  * Source: KACTL, https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/Dinic.h
@@ -67,23 +71,21 @@ struct TopoSort {
     }
 };
 
-struct Graph {
-
-    int V, E;
+    int V, E = 0;
     vector<vector<int>> adjList;
     vector<pair<int, int>> edgeList;
     vector<int> inDeg;
     vector<int> outDeg;
-    TopoSort topo;
     set<pair<int, int>> edge_set;
 
-    Graph(int V) : V(V), inDeg(V, true), outDeg(V, true) {}
+    Graph(int _V) : V(_V), adjList(_V), inDeg(_V), outDeg(_V) {}
 
     void add_edge(int u, int v) {
+        assert(u >= 0 && v >= 0);
         assert(u < V && v < V);
+        if (edge_set.count({u, v})) return;
         adjList[u].push_back(v);
         edgeList.push_back({u, v});
-        topo.ae(u, v);
         edge_set.insert({u,v});
         ++inDeg[v];
         ++outDeg[u];
@@ -110,87 +112,58 @@ struct Graph {
 
     }
 
-    void elongatePaths() {
-        // Make sure that all paths are of at least length 2
-        topo.sort();
-        vector<int>& toposort = topo.res;
-        if (!edge_set.count({toposort[0], toposort[V / 2]})) {
-            add_edge(toposort[0], toposort[V / 2]);
-        }
-        if (!edge_set.count({toposort[V / 2], toposort[V - 1]})) {
-            add_edge(toposort[V / 2], toposort[V - 1]);
-        }
-        topo.sort();
-        toposort = topo.res;
-        vector<int> dp(V); // dp[u] = lenght of shortest path that ends in u
-
-        for (int u : toposort) {
-            for (int v : adjList[u]) {
-                dp[v] = min(dp[u] + 1, dp[v]);
-            }           
-        }
-
-        for (int u : toposort) {
-            if (!outDeg[u]) {
-                if (dp[u] < 2) { // this might work i guess
-                    if (!edge_set.count({toposort[0], u})) add_edge(toposort[0], u);
-                    if (!edge_set.count({u, toposort[V - 1]})) add_edge(u, toposort[V - 1]);
-                    dp[toposort.back()] = 2; // lets not try to mess this up xdd
-                }
-            }
-        }
-
-    }
-
 };
 
 vector<int> generate_random_permutation(int N, mt19937_64& rng) {
+    assert(N > 0);
     vector<int> p(N);
     iota(p.begin(), p.end(), 0);
-    for (int i = 0; i < N; ++i) {
-        int j = rng() % N;
-        swap(p[i], p[j]);
-    }
-}
-
-vector<long long> generate_random_subset(long long maxN, int sz, mt19937_64& rng) {
-    vector<long long> ans;
-    for (int i = 0; i < sz; ++i) {
-        long long last = i ? ans.back() : 0;
-        long long choose = maxN - last + 1;
-        ans.push_back((long long)(rng()) % choose + last + 1LL);
-    }
-    return ans;
-}
-
-vector<pair<int, int>> edges(vector<long long> const& indices, int V) {
-    vector<pair<int, int>> ans;
-    V;
-    long long cur = 0;
-    int j = 0;
-    for (int i = 0; i < (int)(indices.size()); ++i) {
-        if (indices[i] < cur + V - j - 1) {
-            ans.push_back({j, indices[i] - cur});
-        } else {
-            --i; ++j; cur += V - j;
-        }
-    }
-    return ans;
+    shuffle(p.begin(), p.end(), rng);
+    return p;
 }
 
 Graph build_graph(int V, int E, mt19937_64& rng) {
-    vector<long long> edge_indices = generate_random_subset(V * (V - 1) / 2, E, rng);
-    vector<pair<int, int>> edge_list = edges(edge_indices, V);
+    // dbg("Calculating permutation");
     vector<int> perm = generate_random_permutation(V, rng);
-    // TODO : Check paths that aren't at don't have at least length 3 and append them to the first or the last one
     Graph G(V);
-    for (auto e : edge_list) G.add_edge(perm[e.first], perm[e.second]);
-    G.elongatePaths();
+    int sources = rng() % (V / 10) + 1;
+    int sinks = rng() % (V / 10) + 1;
+    // dbg("Generating random edges");
+    // dbg("Connecting all sources");
+    for (int i = 0; i < sources; ++i) {
+        int u = sources + rng() % (V - sources - sinks);
+        G.add_edge(perm[i], perm[u]);
+    }
+    // dbg("Connecting all middle nodes");
+    for (int i = sources; i < V - sinks; ++i) {
+        int source = rng() % sources;
+        G.add_edge(perm[source], perm[i]);
+        int sink = V - sinks + rng() % sinks;
+        G.add_edge(perm[i], perm[sink]);
+    }
+    // dbg("Connecting all sinks");
+    for (int i = V - sinks; i < V; ++i) {
+        int u = sources + rng() % (V - sources - sinks);
+        G.add_edge(perm[u], perm[i]);
+    }
+    while (G.E < E) {
+        int u = rng() % V;
+        int v = rng() % V;
+        if (u == v) continue;
+        if (u > v) swap(u, v);
+        if (u < sources)
+            if (v < sources || v >= V - sinks) continue;
+        if (v >= V - sinks)
+            if (u < sources || u >= V - sinks) continue;
+        G.add_edge(perm[u], perm[v]);
+    }
+    return G;
 }
 
 Graph build_random_graph(int max_v, int max_e, mt19937_64& rng) {
+    max_v = max_v / 2;
     int V = 9 * max_v / 10 + (rng() % max_v / 10);
-    int E = 8 * max_e / 10 + (rng() % max_e / 10); // this is so we can add some more if needed
+    int E = 9 * max_e / 10 + (rng() % max_e / 10);
     return build_graph(V, E, rng);
 }
 
