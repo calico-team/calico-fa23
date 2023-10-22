@@ -22,12 +22,15 @@ def solve(N: int, X: list[str]):
             predicted_program.append('9')
             i += 6
         elif all(c in 'HQ9+' for c in X[i]): # if not H or 9, must be a Q
+            predicted_program.append('Q')
             if predicted_quine == None: # if this is the first Q, record it
                 predicted_quine = X[i]
             else: # otherwise, verify consistency with prior Qs
                 if X[i] != predicted_quine:
                     return 'IMPOSSIBLE'
             i += 1
+        else:
+            return 'IMPOSSIBLE'
     predicted_program = ''.join(predicted_program)
     
     # if a quine was found, verify its correctness with the predicted program

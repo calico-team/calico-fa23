@@ -33,6 +33,28 @@ in_to_out = {
         ],
 }
 
+garbage = ["Somebody once told me the world is gonna roll me.",
+"I ain't the sharpest tool in the shed.",
+"She was looking kinda dumb with her finger and her thumb,",
+"In the shape of an L on her forehead.",
+"99 bottles of wine on the wall, 99 bottles of wine.",
+"Take one down and pass it around, 98 bottles of wine on the wall.",
+"49 bottles of beer on the wall, 49 bottles of beer.",
+"Take one down and pass it around, 48 bottles of beer on the wall.",
+"Hello World",
+]
+
+def different_quine(quine):
+    new = ""
+    for char in quine:
+        if char == "+":
+            new += char * random.randint(0, 2)
+        else:
+            new += char
+    return new
+
+
+
 class TestCase:
     """
     Represents all the information needed to create the input and output for a
@@ -42,7 +64,9 @@ class TestCase:
     def __init__(self, length, code):
         self.length = length
         self.code = code
-        assert self.length == len(self.code.splitlines()), "Lengths do not match"
+        if self.length != len(self.code):
+            print(self.length, self.code, len(self.code))
+            assert False, "Lengths do not match"
 
 def make_sample_tests():
     """
@@ -57,39 +81,49 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(1, '''Hello, world!'''),
-        TestCase(3, '''Hello, world!
-H++QH
-Hello, world!'''),
-        TestCase(7, '''99 bottles of beer on the wall, 99 bottles of beer.
-Take one down and pass it around, 98 bottles of beer on the wall.
-98 bottles of beer on the wall, 98 bottles of beer.
-Take one down and pass it around, 97 bottles of beer on the wall.
-97 bottles of beer on the wall, 97 bottles of beer.
-Take one down and pass it around, 96 bottles of beer on the wall.
-Hello, world!'''),
-        TestCase(15, '''99 bottles of beer on the wall, 99 bottles of beer.
-Take one down and pass it around, 98 bottles of beer on the wall.
-98 bottles of beer on the wall, 98 bottles of beer.
-Take one down and pass it around, 97 bottles of beer on the wall.
-97 bottles of beer on the wall, 97 bottles of beer.
-Take one down and pass it around, 96 bottles of beer on the wall.
-9Q++9+Q
-99 bottles of beer on the wall, 99 bottles of beer.
-Take one down and pass it around, 98 bottles of beer on the wall.
-98 bottles of beer on the wall, 98 bottles of beer.
-Take one down and pass it around, 97 bottles of beer on the wall.
-97 bottles of beer on the wall, 97 bottles of beer.
-Take one down and pass it around, 96 bottles of beer on the wall.
-9Q++9+QH
-Hello, world!'''),
-        TestCase(7, '''QQQQQQQ
-QQQQQQQ
-QQQQQQQ
-QQQQQQQ
-QQQQQQQ
-QQQQQQQ
-QQQQQQQ'''),
+        TestCase(1, ["Hello, world!",]),
+
+        TestCase(9, ["Hello, world!",
+"H++QH9",
+"Hello, world!",
+"99 bottles of beer on the wall, 99 bottles of beer.",
+"Take one down and pass it around, 98 bottles of beer on the wall.",
+"98 bottles of beer on the wall, 98 bottles of beer.",
+"Take one down and pass it around, 97 bottles of beer on the wall.",
+"97 bottles of beer on the wall, 97 bottles of beer.",
+"Take one down and pass it around, 96 bottles of beer on the wall.",]),
+
+        TestCase(7, ["69 bottles of beer on the wall, 69 bottles of beer.",
+"Take one down and pass it around, 68 bottles of beer on the wall.",
+"68 bottles of beer on the wall, 68 bottles of beer.",
+"Take one down and pass it around, 67 bottles of beer on the wall.",
+"67 bottles of beer on the wall, 67 bottles of beer.",
+"Take one down and pass it around, 66 bottles of beer on the wall.",
+"Hello, world!",]),
+
+        TestCase(10, ["We're no strangers to love.",
+"You know the rules, and so do I.",
+"A full commitment's what I'm thinking of.",
+"You wouldn't get this from any other guy.",
+"I just wanna tell you how I'm feeling.",
+"Gotta make you understand.",
+"9Q++QHH",
+"9Q++QHH",
+"Never gonna give you up, never gonna let you down.",
+"Never gonna run around and desert you.",]),
+
+        TestCase(7, ["QQQQQQQ",
+"QQQQQQQ",
+"QQQQQQQ",
+"QQQQQQQ",
+"QQQQQQQ",
+"QQQQQQQ",
+"QQQQQQQ",]),
+
+        TestCase(3, ["Hello, world!",
+"HQ+Q",
+"H+QQ",]),
+
     ]
     make_sample_test(main_sample_cases, 'main')
     
@@ -103,52 +137,57 @@ def make_secret_tests():
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
     """
-    def single_case(idx):
-        if idx < 10:
-            maxlines = random.randint(1, 5)
-        elif idx < 30:
-            maxlines = random.randint(1, 15)
-        elif idx < 50:
-            maxlines = random.randint(1, 45)
-        elif idx < 70:
-            maxlines = random.randint(1, 95)
-        elif idx < 90:
-            maxlines = random.randint(1, 195)
+    def single_case(group, num):
+        # group 0 = no quines
+        # group 1 = add quines
+        # group 2 = add conflicting quines
+        # group 3 = add periodic garbage text
+        # group 4 = everything, long
+
+        if group == 4:
+            maxlines = random.randint(3001, 5995)
         else:
-            maxlines = random.randint(1, 995)
+            maxlines = random.randint(1, 2995)
 
 
-        chars = ["H", "H", "H", "+", "+", "9"]
-        if random.randint(1, 2) == 1:
+        chars = ["H", "+", "9"]
+        if (group in [1, 2] and num % 2 == 0) or (group == 4 and random.randint(1, 2) == 1):
             chars.append("Q")
         
         source = []
         lines = 0
         while lines < maxlines:
             char = random.choice(chars)
-            if char == "H":
+            if char in ["H", "Q"]:
                 lines += 1
             elif char == "9":
                 lines += 6
             source.append(char)
 
-        single_string = "".join(source)
-
         useless_accumulator = 0
 
         out = []
+        idx = 0
         for char in source:
             if char == "Q":
-                out.append(single_string)
+                if group in [2, 4] and idx % 200 == 0:
+                    out.append(different_quine("".join(source)))
+                else:
+                    out.append("".join(source))
             elif char == "+":
                 useless_accumulator += 1
             else:
-                out.extend(in_to_out[char])
+                if group in [3, 4] and idx % 200 == 0 and char == "H":
+                    out.append(random.choice(garbage)) 
+                else:
+                    out.extend(in_to_out[char])
 
-        return TestCase(len(out), "\n".join(out))
+            idx += 1
+            
+        return TestCase(len(out), out)
 
-    for i in range(5):
-        main_random_cases = [single_case(j) for j in range(100)]
+    for group in range(5):
+        main_random_cases = [single_case(group, num) for num in range(10)]
         make_secret_test(main_random_cases, 'main_random')
     
 
@@ -161,7 +200,7 @@ def make_test_in(cases, file):
     print(T, file=file)
     for case in cases:
         print(case.length, file=file)
-        print(case.code, file=file)
+        print("\n".join(case.code), file=file)
 
 
 def make_test_out(cases, file):
@@ -174,8 +213,9 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
+    from submissions.accepted.plus9qh import solve
     for case in cases:
-        print('', file=file)
+        print(solve(case.length, case.code), file=file)
 
 
 def main():
