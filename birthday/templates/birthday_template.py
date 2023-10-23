@@ -1,19 +1,17 @@
-def solve(A: int) -> int:
+def solve(N: int) -> int:
     """
-    TODO: 
+    Return the number of days between Year 0 and Big Ben's Birthday
     
-    A: a non-negative integer
+    N: The number of years before Big Ben's Birthday
     """
     # YOUR CODE HERE
     return 0
 
-
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        A = int(temp[0])
-        print(solve(A))
+        N = int(input())
+        print(solve(N))
 
 if __name__ == '__main__':
     main()
