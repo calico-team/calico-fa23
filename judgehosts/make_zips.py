@@ -74,13 +74,21 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         # accepted
         'judgehosts':       ['main', 'bonus_a', 'bonus_b'],
         'judgehosts_bfs':   ['main', 'bonus_a'],
+        'judgehosts_bonus_a' : ['main', 'bonus_a'],
+        'judgehosts_bonus_b' : ['main', 'bonus_b'],
+        'judgehosts_main' : ['main'],
         
         # run_time_error
         
         # time_limit_exceeded
+        'judgehosts_main_tle' : ['bonus_a'],
+        'judgehosts_bonus_b_tle' : ['bonus_a'],
+
         
         # wrong_answer
-        'judgehosts_bfs':   ['bonus_b'],
+        'judgehosts_bfs_wa':   ['bonus_b'],
+        'judgehosts_main_wa' : ['bonus_b'],
+        'judgehosts_bonus_a_wa' : ['bonus_b'],
     }
     
     # we only care about actual code files

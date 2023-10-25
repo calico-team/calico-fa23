@@ -61,10 +61,10 @@ def compare(test_in, test_out):
     for case in range(1, T + 1):
 
         # READ INPUT FROM INPUT FILE
-        N, M, S = tuple([int(x) for x in read_file(test_in).split(' ')])
+        N, M, S = tuple([int(x) for x in read_file(test_in).split()])
         U, V = [], []
         for i in range(M) :
-            ui, vi = tuple([int(x) for x in read_file(test_in).split(' ')])
+            ui, vi = tuple([int(x) for x in read_file(test_in).split()])
             U.append(ui)
             V.append(vi)
 
@@ -73,7 +73,7 @@ def compare(test_in, test_out):
         
         # READ REFERENCE SOLUTION
 
-        ref_str = read_file(test_out).split(' ')
+        ref_str = read_file(test_out).split()
 
         # Check that the first line does not have more than 1 element
         if len(ref_str) > 1 :
@@ -102,13 +102,14 @@ def compare(test_in, test_out):
                         f'Item: {computers_eaten_ref}')
                 exit(1)
 
-            ref_computers_str = ''.join(read_file(test_out).split(' '))
+            ref_computers_str = read_file(test_out).split()
 
             # Check that the length of the computer list given is the same as the computers given before
             if len(ref_computers_str) != computers_eaten_ref :
                 print(f'Test #{case}: [Reference] The length of the list of computers eaten does not match the number given.'
                     'The reference output is wrong.',
-                    f'Item: {ref_computers_str}')
+                    f'Item: {ref_computers_str}',
+                    f' Expected number of elements: {ref_str[0]}')
                 exit(1)
 
             # Check that they are numbers lol
@@ -150,7 +151,7 @@ def compare(test_in, test_out):
             
         # Read submitted solution
 
-        sub_str = read().split(' ')
+        sub_str = read().split()
         # Check that the first line does not have more than 1 element
         if len(sub_str) > 1 :
             print(f'Test #{case}: [Submission] The first line of output contains the wrong number of elements (more than one).')
@@ -172,10 +173,10 @@ def compare(test_in, test_out):
                 print(f'Test #{case}: [Submission] Bessie eats more than S computers.')
                 continue
 
-            sub_computers_str = ''.join(read().split(' '))
+            sub_computers_str = read().split()
 
             # Check that the length of the computer list given is the same as the computers given before
-            if len(sub_computers_str) != S :
+            if len(sub_computers_str) != computers_eaten_sub:
                 print(f'Test #{case}: [Submission] The length of the list of computers eaten does not match the number given.')
                 continue
 

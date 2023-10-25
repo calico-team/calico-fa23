@@ -28,13 +28,14 @@ void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
     vector<bool> visited(N);
     for (int i = 0; i < N; ++i) if (!inDeg[i]) bfs_queue.push(i);
     while (!bfs_queue.empty()) {
-        if (bfs_queue.size() <= S && visited[bfs_queue.front()] && !outDeg[bfs_queue.front()]) {
+        if (bfs_queue.size() <= S && visited[bfs_queue.front()] && outDeg[bfs_queue.front()]) {
             int K = (int)(bfs_queue.size());
+            cout << K << '\n';
             for (int i = 0; i < K - 1; ++i) {
-                cout << bfs_queue.front() << ' ';
+                cout << bfs_queue.front() + 1 << ' ';
                 bfs_queue.pop();
             }
-            cout << bfs_queue.front() << '\n';
+            cout << bfs_queue.front() + 1 << '\n';
             return;
         }
         int u = bfs_queue.front(); bfs_queue.pop();

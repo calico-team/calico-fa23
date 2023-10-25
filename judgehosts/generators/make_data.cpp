@@ -15,14 +15,14 @@ const string SENTINEL = "";
 long long SEED = 33;
 mt19937_64 rng;
 
+const int A_MAXN = 5e5;
+
 struct TestCase {
 
     int N, M, S;
     vector<int> U, V;
 
-    TestCase() {
-
-    }
+    TestCase() {}
 
     TestCase(int N, int M, int S, vector<int> U, vector<int> V) : N(N), M(M), S(S), U(U), V(V) {}
 
@@ -106,9 +106,9 @@ bool is_correct_bonus_a_case(vector<TestCase> const& v) {
         total_N += tc.N;
         total_M += tc.M;
     }
-    if (total_N > 1e6) dbg("Too many nodes for A");
-    if (total_M > 1e6) dbg("Too many edges for A");
-    return total_N <= 1e6 && total_M <= 1e6;
+    if (total_N > A_MAXN) dbg("Too many nodes for A");
+    if (total_M > A_MAXN) dbg("Too many edges for A");
+    return total_N <= A_MAXN && total_M <= A_MAXN;
 }
 
 bool is_correct_bonus_b_case(vector<TestCase> const& v) {
@@ -196,7 +196,7 @@ void make_secret_tests() {
         // Small multiple cases
         vector<TestCase> bonus_a_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
-            Graph G = (rng() % 2) ? build_random_graph(200000, 200000, rng) : build_random_graph_one_articulation(200000, 200000, rng);
+            Graph G = (rng() % 2) ? build_random_graph(A_MAXN / 5, A_MAXN / 5, rng) : build_random_graph_one_articulation(A_MAXN / 5, A_MAXN / 5, rng);
             TestCase tc;
             tc.importGraph(G);
             tc.S = 1;
@@ -206,7 +206,7 @@ void make_secret_tests() {
         make_secret_test(bonus_a_secret_multiple_random, "bonus_a_multiple");
         // One big case
         vector<TestCase> bonus_a_secret_one_random;
-        Graph G = (rng() % 2) ? build_random_graph(1000000, 1000000, rng) : build_random_graph_one_articulation(1000000, 1000000, rng);
+        Graph G = (rng() % 2) ? build_random_graph(A_MAXN, A_MAXN, rng) : build_random_graph_one_articulation(A_MAXN, A_MAXN, rng);
         TestCase tc;
         tc.importGraph(G);
         tc.S = 1;

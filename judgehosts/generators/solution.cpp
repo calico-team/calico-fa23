@@ -187,7 +187,7 @@ void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V) {
     if (S_ > S) {
         cout << "IMPOSSIBLE\n";
     } else {
-        cout << S << '\n';
+        cout << S_ << '\n';
         // For each node, check if the input and the output are in different parts of the mincut
         for (int i = 1; i <= N; ++i) {
             if (flow.leftOfMinCut(in(i)) ^ flow.leftOfMinCut(out(i))) {
