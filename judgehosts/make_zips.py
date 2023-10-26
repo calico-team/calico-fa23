@@ -35,7 +35,7 @@ Typically this is 1 but feel free to adjust as necessary for your problem.
 
 TODO Change for your problem if desired.
 """
-TIME_LIMIT = 1
+TIME_LIMIT = 2
 
 """
 A list with strings containing the names of every test set.
@@ -72,23 +72,21 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'judgehosts':       ['main', 'bonus_a', 'bonus_b'],
-        'judgehosts_bfs':   ['main', 'bonus_a'],
-        'judgehosts_bonus_a' : ['main', 'bonus_a'],
-        'judgehosts_bonus_b' : ['main', 'bonus_b'],
-        'judgehosts_main' : ['main'],
+        'judgehosts_simulation':        ['main'],
+        'judgehosts_bfs_naive':         ['main', 'bonus_a'],
+        'judgehosts_bfs' :              ['main', 'bonus_a'],
+        'judgehosts_dinic' :            ['main', 'bonus_b'],
+        'judgehosts_combined' :         ['main', 'bonus_a', 'bonus_b'],
         
         # run_time_error
         
         # time_limit_exceeded
-        'judgehosts_main_tle' : ['bonus_a'],
-        'judgehosts_bonus_b_tle' : ['bonus_a'],
-
-        
+        'judgehosts_simulation_tle' :   ['bonus_a'],
+        'judgehosts_dinic_tle' :        ['bonus_a'],
+    
         # wrong_answer
-        'judgehosts_bfs_wa':   ['bonus_b'],
-        'judgehosts_main_wa' : ['bonus_b'],
-        'judgehosts_bonus_a_wa' : ['bonus_b'],
+        'judgehosts_bfs_wa':            ['bonus_b'],
+        'judgehosts_bfs_naive_wa' :     ['bonus_b'],
     }
     
     # we only care about actual code files

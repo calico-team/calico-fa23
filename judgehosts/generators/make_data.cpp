@@ -15,7 +15,7 @@ const string SENTINEL = "";
 long long SEED = 33;
 mt19937_64 rng;
 
-const int A_MAXN = 5e5;
+const int A_MAXN = 1e6;
 
 struct TestCase {
 
@@ -192,7 +192,7 @@ void make_secret_tests() {
 
     dbg("Generating random A");
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 5; ++i) {
         // Small multiple cases
         vector<TestCase> bonus_a_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
