@@ -9,7 +9,7 @@ LYRICS = [
 ]
 
 
-def solve(N: int, X: list[str]):
+def solve(N: int, X: list[str]) -> str:
     # process the text to find a predicted minimal program and predicted quine
     predicted_program = []
     predicted_quine = None

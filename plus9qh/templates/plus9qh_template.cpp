@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 /**
@@ -10,7 +9,7 @@ using namespace std;
     N: the number of lines in the program
     X: the list of lines of the program
  */
-void solve(int N, vector<int> X) {
+void solve(int N, vector<string> X) {
     // YOUR CODE HERE
     return;
 }
@@ -20,10 +19,10 @@ int main() {
     cin >> T;
     for (int i = 0; i < T; i++) {
         int N;
-        cin >> N;
-        vector<int> X(N);
+        cin >> N; cin.get();
+        vector<string> X(N);
         for (int j = 0; j < N; j++) {
-            cin >> X[j];
+            getline(cin, X[j]);
         }
         solve(N, X);
     }
