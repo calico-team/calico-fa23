@@ -1,8 +1,8 @@
-def solve(A: int, B: int) -> int:
+def solve(N: int) -> int:
     '''
-    Implements addition with Python's arbitary precision arithmetic.
+    TODO: Change description
     '''
-    return A + B
+    return (pow(2, 1 + N // 3, 3359232) - 2) % 3359232
 
 
 def main():

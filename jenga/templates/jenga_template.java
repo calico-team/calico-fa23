@@ -2,12 +2,12 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the sum of A and B.
-     * 
-     * A: a non-negative integer
-     * B: another non-negative integer
-     */
-    static int solve(int A, int B) {
+    * Return the number of unique Jenga towers that can be built using N or
+    * fewer bricks. Give your answer modulo 3359232.
+    * 
+    * N: the maximum number of bricks to use
+    */
+    static int solve(long N) {
         // YOUR CODE HERE
         return -1;
     }
@@ -19,8 +19,8 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            int A = Integer.parseInt(temp[0]), B = Integer.parseInt(temp[1]);
-            out.println(solve(A, B));
+            long N = Long.parseLong(temp[0]);
+            out.println(solve(N));
         }
         out.flush();
     }

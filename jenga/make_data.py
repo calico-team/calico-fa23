@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'rohan i miss you so much please unblock me and let me see my children please please please pweeeaseee :3'
 
 
 class TestCase:
@@ -31,9 +31,8 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, N):
+        self.N = N
 
 
 def make_sample_tests():
