@@ -57,7 +57,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     added to the test set named test_set_name.
     """
     if test_set_name == 'main':
-        return 'main' in submission_file_name
+        return 'plus9qh' in submission_file_name
 
 
 def main():

@@ -41,7 +41,7 @@ string solve(int N, vector<string> &X) {
     }
     string clean_program = "";
     for (char c : quine) {
-        if ("HQ9+".find(c) == string::npos) {
+        if (!(c == 'H' || c == 'Q' || c == '9' || c == '+')) {
             okay = false;
         } else if (c != '+') {
             clean_program.push_back(c);

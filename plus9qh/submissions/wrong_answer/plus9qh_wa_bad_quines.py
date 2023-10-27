@@ -1,3 +1,7 @@
+"""
+The correct solution, except we ignore checking for quine consistency
+"""
+
 HELLO = "Hello, world!"
 LYRICS = [
     "99 bottles of beer on the wall, 99 bottles of beer.",
@@ -25,9 +29,10 @@ def solve(N: int, X: list[str]) -> str:
             predicted_program.append('Q')
             if predicted_quine == None: # if this is the first Q, record it
                 predicted_quine = X[i]
-            else: # otherwise, verify consistency with prior Qs
-                if X[i] != predicted_quine:
-                    return 'IMPOSSIBLE'
+            # ignore:
+            # else: # otherwise, verify consistency with prior Qs
+            #     if X[i] != predicted_quine:
+            #         return 'IMPOSSIBLE'
             i += 1
     predicted_program = ''.join(predicted_program)
     
