@@ -30,19 +30,26 @@ in_to_out = {
         "Take one down and pass it around, 97 bottles of beer on the wall.",
         "97 bottles of beer on the wall, 97 bottles of beer.",
         "Take one down and pass it around, 96 bottles of beer on the wall.",
-        ],
+    ],
 }
 
-garbage = ["Somebody once told me the world is gonna roll me.",
-"I ain't the sharpest tool in the shed.",
-"She was looking kinda dumb with her finger and her thumb,",
-"In the shape of an L on her forehead.",
-"99 bottles of wine on the wall, 99 bottles of wine.",
-"Take one down and pass it around, 98 bottles of wine on the wall.",
-"49 bottles of beer on the wall, 49 bottles of beer.",
-"Take one down and pass it around, 48 bottles of beer on the wall.",
-"Hello World",
+garbage = [
+    "Somebody once told me the world is gonna roll me.",
+    "I ain't the sharpest tool in the shed.",
+    "She was looking kinda dumb with her finger and her thumb,",
+    "In the shape of an L on her forehead.",
+    "99 bottles of wine on the wall, 99 bottles of wine.",
+    "Take one down and pass it around, 98 bottles of wine on the wall.",
+    "49 bottles of beer on the wall, 49 bottles of beer.",
+    "Take one down and pass it around, 48 bottles of beer on the wall.",
+    "Hello World", # note that the correct version should have , and !
+    "Rohan please unblock me I miss you so much. Please let me see our kids :(",
+    "No, please take out that line -Rohan",
+    "fish is not very efishent",
+    "i like quant because i get to take money away from poor people's mouths",
+    "when a mommy code and a daddy code love each other very much, they make a rank 1 problem",
 ]
+
 
 def different_quine(quine):
     new = ""
@@ -52,7 +59,6 @@ def different_quine(quine):
         else:
             new += char
     return new
-
 
 
 class TestCase:
@@ -65,8 +71,8 @@ class TestCase:
         self.length = length
         self.code = code
         if self.length != len(self.code):
-            print(self.length, self.code, len(self.code))
-            assert False, "Lengths do not match"
+            assert False, f"Lengths do not match: {self.length}, {self.code}, {len(self.code)}"
+
 
 def make_sample_tests():
     """
@@ -75,58 +81,62 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-    
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
-        TestCase(1, ["Hello, world!",]),
+        TestCase(1, ["Hello, world!"]),
 
-        TestCase(9, ["Hello, world!",
-"H++QH9",
-"Hello, world!",
-"99 bottles of beer on the wall, 99 bottles of beer.",
-"Take one down and pass it around, 98 bottles of beer on the wall.",
-"98 bottles of beer on the wall, 98 bottles of beer.",
-"Take one down and pass it around, 97 bottles of beer on the wall.",
-"97 bottles of beer on the wall, 97 bottles of beer.",
-"Take one down and pass it around, 96 bottles of beer on the wall.",]),
+        TestCase(9, [
+            "Hello, world!",
+            "H++QH9",
+            "Hello, world!",
+            "99 bottles of beer on the wall, 99 bottles of beer.",
+            "Take one down and pass it around, 98 bottles of beer on the wall.",
+            "98 bottles of beer on the wall, 98 bottles of beer.",
+            "Take one down and pass it around, 97 bottles of beer on the wall.",
+            "97 bottles of beer on the wall, 97 bottles of beer.",
+            "Take one down and pass it around, 96 bottles of beer on the wall.",
+        ]),
 
-        TestCase(7, ["69 bottles of beer on the wall, 69 bottles of beer.",
-"Take one down and pass it around, 68 bottles of beer on the wall.",
-"68 bottles of beer on the wall, 68 bottles of beer.",
-"Take one down and pass it around, 67 bottles of beer on the wall.",
-"67 bottles of beer on the wall, 67 bottles of beer.",
-"Take one down and pass it around, 66 bottles of beer on the wall.",
-"Hello, world!",]),
+        TestCase(7, [
+            "69 bottles of beer on the wall, 69 bottles of beer.",
+            "Take one down and pass it around, 68 bottles of beer on the wall.",
+            "68 bottles of beer on the wall, 68 bottles of beer.",
+            "Take one down and pass it around, 67 bottles of beer on the wall.",
+            "67 bottles of beer on the wall, 67 bottles of beer.",
+            "Take one down and pass it around, 66 bottles of beer on the wall.",
+            "Hello, world!",
+        ]),
 
-        TestCase(10, ["We're no strangers to love.",
-"You know the rules, and so do I.",
-"A full commitment's what I'm thinking of.",
-"You wouldn't get this from any other guy.",
-"I just wanna tell you how I'm feeling.",
-"Gotta make you understand.",
-"9Q++QHH",
-"9Q++QHH",
-"Never gonna give you up, never gonna let you down.",
-"Never gonna run around and desert you.",]),
+        TestCase(10, [
+            "We're no strangers to love.",
+            "You know the rules, and so do I.",
+            "A full commitment's what I'm thinking of.",
+            "You wouldn't get this from any other guy.",
+            "I just wanna tell you how I'm feeling.",
+            "Gotta make you understand.",
+            "9Q++QHH",
+            "9Q++QHH",
+            "Never gonna give you up, never gonna let you down.",
+            "Never gonna run around and desert you.",
+        ]),
 
-        TestCase(7, ["QQQQQQQ",
-"QQQQQQQ",
-"QQQQQQQ",
-"QQQQQQQ",
-"QQQQQQQ",
-"QQQQQQQ",
-"QQQQQQQ",]),
+        TestCase(7, [
+            "QQQQQQQ",
+            "QQQQQQQ",
+            "QQQQQQQ",
+            "QQQQQQQ",
+            "QQQQQQQ",
+            "QQQQQQQ",
+            "QQQQQQQ",
+        ]),
 
-        TestCase(3, ["Hello, world!",
-"HQ+Q",
-"H+QQ",]),
-
+        TestCase(3, [
+            "Hello, world!",
+            "HQ+Q",
+            "H+QQ",
+        ]),
     ]
     make_sample_test(main_sample_cases, 'main')
-    
 
 
 def make_secret_tests():
@@ -144,12 +154,9 @@ def make_secret_tests():
         # group 3 = add periodic garbage text
         # group 4 = everything, long
 
-        if group == 4:
-            maxlines = random.randint(3001, 5995)
-        else:
-            maxlines = random.randint(1, 2995)
-
-
+        maxlines = random.randint(1, 5995)
+        
+        
         chars = ["H", "+", "9"]
         if (group in [1, 2] and num % 2 == 0) or (group == 4 and random.randint(1, 2) == 1):
             chars.append("Q")
@@ -164,8 +171,10 @@ def make_secret_tests():
                 lines += 6
             source.append(char)
 
+        # just because it has no output doesnt mean it doesnt exist!
+        # this is an implementation faithful to the original design.
         useless_accumulator = 0
-
+        
         out = []
         idx = 0
         for char in source:
@@ -189,7 +198,9 @@ def make_secret_tests():
     for group in range(5):
         main_random_cases = [single_case(group, num) for num in range(10)]
         make_secret_test(main_random_cases, 'main_random')
-    
+
+
+PRINTABLE_ASCII = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ """
 
 def make_test_in(cases, file):
     """
@@ -197,9 +208,13 @@ def make_test_in(cases, file):
     the input format.
     """
     T = len(cases)
+    assert T <= 10
     print(T, file=file)
     for case in cases:
+        assert case.length <= 6000
         print(case.length, file=file)
+        assert all(len(line) <= 3000 for line in case.code)
+        assert all(all(c in PRINTABLE_ASCII for c in line) for line in case.code)
         print("\n".join(case.code), file=file)
 
 
@@ -210,12 +225,13 @@ def make_test_out(cases, file):
     
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-    
-    TODO Implement this for your problem by changing the import below.
     """
     from submissions.accepted.plus9qh import solve
     for case in cases:
-        print(solve(case.length, case.code), file=file)
+        ans = solve(case.length, case.code)
+        assert all(c in 'HQ9+' for c in ans) or ans == 'IMPOSSIBLE'
+        
+        print(ans, file=file)
 
 
 def main():
