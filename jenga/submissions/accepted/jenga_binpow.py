@@ -1,7 +1,5 @@
 def solve(N: int) -> int:
-    '''
-    TODO: Change description
-    '''
+    
     return (pow(2, 1 + N // 3, 3359232) - 2) % 3359232
 
 

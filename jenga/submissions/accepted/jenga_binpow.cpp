@@ -6,8 +6,11 @@ typedef long long ll;
 
 ll binpow(ll base, ll exponent, ll modulo) {
     ll ans = 1;
-    for(; exponent; exponent/=2, base*=base) {
-        if (exponent & 1) ans *= base;
+    while (exponent) {
+        if (exponent & 1)
+            ans = ans * base % modulo;
+        base = base * base % modulo;
+        exponent /= 2;
     }
     return ans;
 }
@@ -19,8 +22,8 @@ ll binpow(ll base, ll exponent, ll modulo) {
 * N: the maximum number of bricks to use
 */
 int solve(ll N) {
-    int mod = 3359232;
-    return (binpow(2, 1 + N / 3, mod) - 2) % mod;
+    ll mod = 3359232;
+    return int((binpow(2, 1 + N / 3, mod) + mod - 2) % mod);
 }
 
 int main() {
