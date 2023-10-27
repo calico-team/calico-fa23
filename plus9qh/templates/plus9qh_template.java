@@ -9,10 +9,6 @@ class Solution {
      * X: a list containing the lines of the text
      */
     static String solve(int N, String[] X) {
-        out.println(N);
-        for (String s : X) {
-            out.println(X);
-        }
         // YOUR CODE HERE
         return "";
     }
@@ -23,6 +19,7 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
+            int N = Integer.parseInt(in.readLine());
             String[] X = new String[N];
             for (int j = 0; j < N; j++) {
                 X[j] = in.readLine();
