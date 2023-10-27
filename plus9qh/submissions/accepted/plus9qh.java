@@ -1,6 +1,15 @@
 import java.io.*;
 
 class plus9qh {
+
+    static String[] beer = new String[] {"99 bottles of beer on the wall, 99 bottles of beer.",
+            "Take one down and pass it around, 98 bottles of beer on the wall.",
+            "98 bottles of beer on the wall, 98 bottles of beer.",
+            "Take one down and pass it around, 97 bottles of beer on the wall.",
+            "97 bottles of beer on the wall, 97 bottles of beer.",
+            "Take one down and pass it around, 96 bottles of beer on the wall."};
+    static String hello = "Hello, world!";
+
     /**
      * Find an HQ9+ program that outputs exactly the given text or return
      * IMPOSSIBLE if no solutions exist.
@@ -9,17 +18,10 @@ class plus9qh {
      * X: a list containing the lines of the text
      */
     static String solve(int N, String[] X) {
-        String[] beer = new String[] {"99 bottles of beer on the wall, 99 bottles of beer.",
-                "Take one down and pass it around, 98 bottles of beer on the wall.",
-                "98 bottles of beer on the wall, 98 bottles of beer.",
-                "Take one down and pass it around, 97 bottles of beer on the wall.",
-                "97 bottles of beer on the wall, 97 bottles of beer.",
-                "Take one down and pass it around, 96 bottles of beer on the wall."};
-
         String sourceCode = "", soFar = "";
 
         for (int i = 0; i < N; i++) {
-            if (X[i].equals("Hello, world!")) {
+            if (X[i].equals(hello)) {
                 soFar += "H";
             }
             else if (X[i].equals(beer[0])) {
