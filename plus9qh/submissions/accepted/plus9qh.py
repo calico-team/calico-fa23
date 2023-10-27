@@ -10,7 +10,7 @@ LYRICS = [
 
 
 def solve(N: int, X: list[str]) -> str:
-    # process the text to find a predicted minimal program and predicted quine
+    # process the text to predict a minimal program and quine
     predicted_program = []
     predicted_quine = None
     i = 0
@@ -21,7 +21,7 @@ def solve(N: int, X: list[str]) -> str:
         elif X[i:i + 6] == LYRICS: # is it the output of a 9?
             predicted_program.append('9')
             i += 6
-        elif all(c in 'HQ9+' for c in X[i]): # if not H or 9, must be a Q
+        else: # if not H or 9, must be a Q
             predicted_program.append('Q')
             if predicted_quine == None: # if this is the first Q, record it
                 predicted_quine = X[i]
@@ -29,15 +29,15 @@ def solve(N: int, X: list[str]) -> str:
                 if X[i] != predicted_quine:
                     return 'IMPOSSIBLE'
             i += 1
-        else:
-            return 'IMPOSSIBLE'
     predicted_program = ''.join(predicted_program)
     
     # if a quine was found, verify its correctness with the predicted program
     if predicted_quine != None:
-        if predicted_quine.replace('+', '') != predicted_program:
+        if not all(c in 'HQ9+' for c in predicted_quine): # invalid
             return 'IMPOSSIBLE'
-        predicted_program = predicted_quine
+        if predicted_quine.replace('+', '') != predicted_program: # inconsistent
+            return 'IMPOSSIBLE'
+        predicted_program = predicted_quine # prediction is correct
     
     return predicted_program
 

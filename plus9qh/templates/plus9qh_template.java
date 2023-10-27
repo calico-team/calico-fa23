@@ -2,15 +2,19 @@ import java.io.*;
 
 class Solution {
     /**
-    Output a program that outputs the given text.
-
-    T: the number of Test Cases
-    N: the number of lines in the program
-    X: the list of lines of the program
+     * Find an HQ9+ program that outputs exactly the given text or return
+     * IMPOSSIBLE if no solutions exist.
+     * 
+     * N: the number of lines of text
+     * X: a list containing the lines of the text
      */
-    static void solve(int N, int[] X) {
+    static String solve(int N, String[] X) {
+        out.println(N);
+        for (String s : X) {
+            out.println(X);
+        }
         // YOUR CODE HERE
-        return;
+        return "";
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -19,14 +23,11 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
-            String[] info = in.readLine().split(" ");
-            int N = Integer.parseInt(info[0]);
-            int[] X = new int[N];
+            String[] X = new String[N];
             for (int j = 0; j < N; j++) {
-                String[] trail = in.readLine().split(" ");
-                X[j] = Integer.parseInt(trail[0]);
+                X[j] = in.readLine();
             }
-            solve(N, X);
+            out.println(solve(N, X));
         }
         out.flush();
     }

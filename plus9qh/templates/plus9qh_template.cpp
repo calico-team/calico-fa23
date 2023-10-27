@@ -1,17 +1,18 @@
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 /**
-    Output a program that outputs the given text.
-
-    T: the number of Test Cases
-    N: the number of lines in the program
-    X: the list of lines of the program
+ * Find an HQ9+ program that outputs exactly the given text or return IMPOSSIBLE
+ * if no solutions exist.
+ * 
+ * N: the number of lines of text
+ * X: a list containing the lines of the text
  */
-void solve(int N, vector<string> X) {
+string solve(int N, vector<string> &X) {
     // YOUR CODE HERE
-    return;
+    return "";
 }
 
 int main() {
@@ -19,11 +20,12 @@ int main() {
     cin >> T;
     for (int i = 0; i < T; i++) {
         int N;
-        cin >> N; cin.get();
+        cin >> N;
+        cin.get();
         vector<string> X(N);
         for (int j = 0; j < N; j++) {
             getline(cin, X[j]);
         }
-        solve(N, X);
+        cout << solve(N, X) << '\n';
     }
 }

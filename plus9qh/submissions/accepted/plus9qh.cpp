@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const string HELLO_WORLD = "Hello, world!";
+const string HELLO = "Hello, world!";
 const string LYRICS[6] = {
     "99 bottles of beer on the wall, 99 bottles of beer.",
     "Take one down and pass it around, 98 bottles of beer on the wall.",
@@ -12,9 +12,8 @@ const string LYRICS[6] = {
     "97 bottles of beer on the wall, 97 bottles of beer.",
     "Take one down and pass it around, 96 bottles of beer on the wall."
 };
-string CORRECT = "+9QH";
 
-string solve(int N, vector<string> X) {
+string solve(int N, vector<string> &X) {
     bool okay = true;
     string quine = "";
     string ans = "";
@@ -31,7 +30,7 @@ string solve(int N, vector<string> X) {
         if (beer) {
             ans.push_back('9');
             i += 5;
-        } else if (X[i] == HELLO_WORLD) {
+        } else if (X[i] == HELLO) {
             ans.push_back('H');
         } else if (!quine.empty() && quine != X[i]) { 
             okay = false;
@@ -42,7 +41,7 @@ string solve(int N, vector<string> X) {
     }
     string clean_program = "";
     for (char c : quine) {
-        if (CORRECT.find(c) == string::npos) {
+        if ("HQ9+".find(c) == string::npos) {
             okay = false;
         } else if (c != '+') {
             clean_program.push_back(c);
@@ -62,7 +61,8 @@ int main() {
     cin >> T;
     for (int i = 0; i < T; i++) {
         int N;
-        cin >> N; cin.get();
+        cin >> N;
+        cin.get();
         vector<string> X(N);
         for (int j = 0; j < N; j++) {
             getline(cin, X[j]);

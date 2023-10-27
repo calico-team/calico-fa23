@@ -1,12 +1,13 @@
-def solve(N: int, X: list[str]):
+def solve(N: int, X: list[str]) -> str:
     """
-    Find an HQ9+ program that exactly outputs the given text.
+    Find an HQ9+ program that outputs exactly the given text or return
+    IMPOSSIBLE if no solutions exist.
 
-    N: the number of lines in the text
+    N: the number of lines of text
     X: a list containing the lines of the text
     """
     # YOUR CODE HERE
-    return
+    return ''
 
 
 def main():
