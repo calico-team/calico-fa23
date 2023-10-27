@@ -1,7 +1,6 @@
 import java.io.*;
 
 class plus9qh {
-
     static String[] beer = new String[] {"99 bottles of beer on the wall, 99 bottles of beer.",
             "Take one down and pass it around, 98 bottles of beer on the wall.",
             "98 bottles of beer on the wall, 98 bottles of beer.",
@@ -23,8 +22,7 @@ class plus9qh {
         for (int i = 0; i < N; i++) {
             if (X[i].equals(hello)) {
                 soFar += "H";
-            }
-            else if (X[i].equals(beer[0])) {
+            } else if (X[i].equals(beer[0])) {
                 for (int j = 1; j <= 5; j++) {
                     i++;
                     if (i >= N || !X[i].equals(beer[j])) {
@@ -32,8 +30,7 @@ class plus9qh {
                     }
                 }
                 soFar += "9";
-            }
-            else {
+            } else {
                 if (!sourceCode.equals("") && !sourceCode.equals(X[i])) {
                     return "IMPOSSIBLE";
                 }
