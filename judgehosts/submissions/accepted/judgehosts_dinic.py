@@ -25,13 +25,12 @@ class Dinic:
     def dfs(self, v, t, f):
         if v == t or f == 0:
             return f
-        for i in range(self.ptr[v], len(self.adj[v])):
-            e = self.adj[v][i]
-            if self.lvl[e.to] == self.lvl[v] + 1:
-                p = self.dfs(e.to, t, min(f, e.c))
-                if p:
-                    e.c -= p
-                    self.adj[e.to][e.rev].c += p
+        while self.ptr[v] < len(self.adj[v]):
+            if self.lvl[self.adj[v][self.ptr[v]].to] == self.lvl[v] + 1:
+                p = self.dfs(self.adj[v][self.ptr[v]].to, t, min(f, self.adj[v][self.ptr[v]].c))
+                if p != 0:
+                    self.adj[v][self.ptr[v]].c -= p
+                    self.adj[self.adj[v][self.ptr[v]].to][self.adj[v][self.ptr[v]].rev].c += p
                     return p
             self.ptr[v] += 1
         return 0
@@ -39,7 +38,7 @@ class Dinic:
     def calc(self, s, t):
         flow = 0
         self.q[0] = s
-        for L in range(31):
+        for L in range(0, 31):
             while True:
                 self.lvl = [0] * len(self.q)
                 self.ptr = [0] * len(self.q)
@@ -53,9 +52,12 @@ class Dinic:
                             qe += 1
                             self.lvl[e.to] = self.lvl[v] + 1
                     qi += 1
-                p = self.dfs(s, t, (1 << 63) - 1)
-                flow += p
-                if not p:
+                while True:
+                    p = self.dfs(s, t, (1 << 63) - 1)
+                    flow += p
+                    if p == 0:
+                        break
+                if self.lvl[t] == 0:
                     break
         return flow
 

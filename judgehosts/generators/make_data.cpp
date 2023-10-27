@@ -15,7 +15,7 @@ const string SENTINEL = "";
 long long SEED = 33;
 mt19937_64 rng;
 
-const int A_MAXN = 1e6;
+const int A_MAXN = 1E6;
 
 struct TestCase {
 
