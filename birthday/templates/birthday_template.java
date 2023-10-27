@@ -6,7 +6,7 @@ class Solution {
      *
      * N: The number of years before Big Ben's Birthday
      */
-    static long solve(long N) {
+    static int solve(int N) {
         // YOUR CODE HERE
         return -1;
     }
@@ -17,7 +17,7 @@ class Solution {
     public static void main(String[] args) throws IOException {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
-            long N = Long.parseLong(in.readLine());
+            int N = Integer.parseLong(in.readLine());
             out.println(solve(N));
         }
         out.flush();

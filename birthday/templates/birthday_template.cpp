@@ -1,5 +1,5 @@
 #include <iostream>
-typedef long long ll;
+
 using namespace std;
 
 /**
@@ -7,7 +7,7 @@ using namespace std;
  *
  * N: The number of years before Big Ben's Birthday
  */
-ll solve(ll N) {
+int solve(int N) {
     // YOUR CODE HERE
     return -1;
 }
@@ -16,7 +16,7 @@ int main() {
     int T;
     cin >> T;
     for (int i = 0; i < T; i++) {
-        ll N;
+        int N;
         cin >> N;
         cout << solve(N) << '\n';
     }
