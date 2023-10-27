@@ -3,13 +3,13 @@
 using namespace std;
 
 class LinkedListNode{
-    public:
-        int val;
-        LinkedListNode* next;
-        LinkedListNode(int val) {
-            this->val = val;
-            this->next = NULL;
-        }
+public:
+    int val;
+    LinkedListNode* next;
+    LinkedListNode(int val) {
+        this->val = val;
+        this->next = NULL;
+    }
 };
 
 int solve(int N, int K) {
