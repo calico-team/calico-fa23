@@ -227,8 +227,9 @@ def make_test_in(cases, file):
     for case in cases:
         assert case.length <= 1000
         print(case.length, file=file)
-        assert all(len(line) <= 1000 for line in case.code)
+        assert all(1 <= len(line) <= 1000 for line in case.code)
         assert all(all(c in PRINTABLE_ASCII for c in line) for line in case.code)
+        assert all(line[0] != ' ' and line[-1] != ' ' for line in case.code)
         print("\n".join(case.code), file=file)
 
 
@@ -243,6 +244,7 @@ def make_test_out(cases, file):
     from submissions.accepted.plus9qh import solve
     for case in cases:
         ans = solve(case.length, case.code)
+        assert len(ans) > 0
         assert all(c in 'HQ9+' for c in ans) or ans == 'IMPOSSIBLE'
         
         print(ans, file=file)
