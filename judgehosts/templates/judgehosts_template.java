@@ -1,4 +1,3 @@
-package templates;
 import java.io.*;
 
 class Solution {
@@ -15,9 +14,6 @@ class Solution {
     */
     static void solve(int N, int M, int S, int[] U, int[] V) {
         // YOUR CODE HERE
-        // Print in the first line the number of computers Bessie the Cow should eat
-        // Print in the next line each of the computers she should eat
-        // If it's impossible for Bessie the Cow to ruin the contest, print "IMPOSSIBLE"
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
