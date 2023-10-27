@@ -23,17 +23,13 @@ The short name of the problem.
 
 Names must only use lowercase letters and digits and should be contest-unique.
 Names should be short if possible.
-
-TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'plus9qh'
 
 """
 The time limit in seconds.
 
 Typically this is 1 but feel free to adjust as necessary for your problem.
-
-TODO Change for your problem if desired.
 """
 TIME_LIMIT = 1
 
@@ -42,18 +38,14 @@ A list with strings containing the names of every test set.
 
 The script will generate a zip for each test set. The filter functions below
 should only return names from this list.
-
-TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus']
+TEST_SET_NAMES = ['main']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
     """
     Return True if the data (test .in or .ans) file named data_file_name
     should be added to the test set named test_set_name.
-    
-    TODO Change this to reflect your tests and test sets.
     """
     if test_set_name == 'main':
         return 'main' in data_file_name
@@ -63,34 +55,9 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     Return True if the submission file named submission_file_name should be
     added to the test set named test_set_name.
-    
-    TODO Change this to reflect your submissions and test sets.
     """
-    file_to_sets = {
-        # accepted
-        'add_arbitrary':    ['main'],
-        'add_int':          ['main'],
-        
-        # run_time_error
-        'add_div_re':       ['main'],
-        'add_parse_int_re': ['main'],
-        
-        # time_limit_exceeded
-        'add_loop_tle':     ['main'],
-        
-        # wrong_answer
-        'add_parse_int_wa': ['main'],
-        'add_sub_wa':       ['main'],
-    }
-    
-    # we only care about actual code files
-    if submission_file_name.split('.')[-1] not in ['cpp', 'java', 'py']:
-        return False
-    
-    # trim file extensions
-    submission_file_name = submission_file_name.split('.')[0]
-    
-    return test_set_name in file_to_sets[submission_file_name]
+    if test_set_name == 'main':
+        return 'main' in submission_file_name
 
 
 def main():

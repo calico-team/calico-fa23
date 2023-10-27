@@ -36,8 +36,6 @@ in_to_out = {
 garbage = [
     "Somebody once told me the world is gonna roll me.",
     "I ain't the sharpest tool in the shed.",
-    "She was looking kinda dumb with her finger and her thumb,",
-    "In the shape of an L on her forehead.",
     "99 bottles of wine on the wall, 99 bottles of wine.",
     "Take one down and pass it around, 98 bottles of wine on the wall.",
     "49 bottles of beer on the wall, 49 bottles of beer.",
@@ -147,6 +145,18 @@ def make_secret_tests():
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
     """
+    Hs = ['Hello, world!'] * 1000
+    cases = [TestCase(len(Hs), Hs) for _ in range(10)]
+    make_secret_test(cases, f'main_Hs')
+    
+    Qs = ['Q' * 1000] * 1000
+    cases = [TestCase(len(Qs), Qs) for _ in range(10)]
+    make_secret_test(cases, f'main_Qs')
+    
+    Nines = in_to_out['9'] * (1000 // len(in_to_out['9']))
+    cases = [TestCase(len(Nines), Nines) for _ in range(10)]
+    make_secret_test(cases, f'main_Nines')
+    
     def single_case(group, num):
         # group 0 = no quines
         # group 1 = add quines
@@ -154,7 +164,7 @@ def make_secret_tests():
         # group 3 = add periodic garbage text
         # group 4 = everything, long
 
-        maxlines = random.randint(1, 5995)
+        maxlines = random.randint(900, 990)
         
         
         chars = ["H", "+", "9"]
@@ -172,22 +182,25 @@ def make_secret_tests():
             source.append(char)
 
         # just because it has no output doesnt mean it doesnt exist!
-        # this is an implementation faithful to the original design.
+        # this is an implementation faithful to the original design lol
         useless_accumulator = 0
         
         out = []
         idx = 0
         for char in source:
             if char == "Q":
-                if group in [2, 4] and idx % 200 == 0:
+                if group in [2, 4] and random.random() < 0.005:
+                    print('making bad quine')
                     out.append(different_quine("".join(source)))
                 else:
                     out.append("".join(source))
             elif char == "+":
                 useless_accumulator += 1
             else:
-                if group in [3, 4] and idx % 200 == 0 and char == "H":
-                    out.append(random.choice(garbage)) 
+                if group in [3, 4] and random.random() < 0.0025 and char == "H":
+                    garbo = random.choice(garbage)
+                    print('making garbage:', garbo)
+                    out.append(garbo)
                 else:
                     out.extend(in_to_out[char])
 
@@ -196,8 +209,9 @@ def make_secret_tests():
         return TestCase(len(out), out)
 
     for group in range(5):
-        main_random_cases = [single_case(group, num) for num in range(10)]
-        make_secret_test(main_random_cases, 'main_random')
+        for _ in range(2):
+            main_random_cases = [single_case(group, num) for num in range(10)]
+            make_secret_test(main_random_cases, f'main_random_group_{group}')
 
 
 PRINTABLE_ASCII = """!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ """
@@ -211,9 +225,9 @@ def make_test_in(cases, file):
     assert T <= 10
     print(T, file=file)
     for case in cases:
-        assert case.length <= 6000
+        assert case.length <= 1000
         print(case.length, file=file)
-        assert all(len(line) <= 3000 for line in case.code)
+        assert all(len(line) <= 1000 for line in case.code)
         assert all(all(c in PRINTABLE_ASCII for c in line) for line in case.code)
         print("\n".join(case.code), file=file)
 
