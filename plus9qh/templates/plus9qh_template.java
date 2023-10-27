@@ -9,10 +9,6 @@ class Solution {
      * X: a list containing the lines of the text
      */
     static String solve(int N, String[] X) {
-        out.println(N);
-        for (String s : X) {
-            out.println(X);
-        }
         // YOUR CODE HERE
         return "";
     }
