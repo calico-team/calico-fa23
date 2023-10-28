@@ -17,11 +17,11 @@ string solve(int N, vector<string> &X) {
     bool okay = true;
     string quine = "";
     string ans = "";
-    for (int i = 0; i < N; ++i) {
+    for (int i = 0; i < N; i++) {
         bool beer = false;
         if (i + 6 <= N) {
             beer = true;
-            for (int j = 0; j < 6; ++j) {
+            for (int j = 0; j < 6; j++) {
                 if (X[i + j] != LYRICS[j]) {
                     beer = false;
                 }

@@ -2,6 +2,7 @@
 The correct solution, except we ignore checking for quine consistency
 """
 
+
 HELLO = "Hello, world!"
 LYRICS = [
     "99 bottles of beer on the wall, 99 bottles of beer.",

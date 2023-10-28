@@ -1,31 +1,26 @@
 import java.io.*;
 
-class plus9qh {
-    static String[] beer = new String[] {"99 bottles of beer on the wall, 99 bottles of beer.",
-            "Take one down and pass it around, 98 bottles of beer on the wall.",
-            "98 bottles of beer on the wall, 98 bottles of beer.",
-            "Take one down and pass it around, 97 bottles of beer on the wall.",
-            "97 bottles of beer on the wall, 97 bottles of beer.",
-            "Take one down and pass it around, 96 bottles of beer on the wall."};
-    static String hello = "Hello, world!";
+class Solution {
+    static String[] LYRICS = new String[] {
+        "99 bottles of beer on the wall, 99 bottles of beer.",
+        "Take one down and pass it around, 98 bottles of beer on the wall.",
+        "98 bottles of beer on the wall, 98 bottles of beer.",
+        "Take one down and pass it around, 97 bottles of beer on the wall.",
+        "97 bottles of beer on the wall, 97 bottles of beer.",
+        "Take one down and pass it around, 96 bottles of beer on the wall."
+    };
+    static String HELLO = "Hello, world!";
 
-    /**
-     * Find an HQ9+ program that outputs exactly the given text or return
-     * IMPOSSIBLE if no solutions exist.
-     *
-     * N: the number of lines of text
-     * X: a list containing the lines of the text
-     */
     static String solve(int N, String[] X) {
         String sourceCode = "", soFar = "";
 
         for (int i = 0; i < N; i++) {
-            if (X[i].equals(hello)) {
+            if (X[i].equals(HELLO)) {
                 soFar += "H";
-            } else if (X[i].equals(beer[0])) {
+            } else if (X[i].equals(LYRICS[0])) {
                 for (int j = 1; j <= 5; j++) {
                     i++;
-                    if (i >= N || !X[i].equals(beer[j])) {
+                    if (i >= N || !X[i].equals(LYRICS[j])) {
                         return "IMPOSSIBLE";
                     }
                 }
@@ -42,7 +37,7 @@ class plus9qh {
         if (sourceCode.equals("")) {
             sourceCode = soFar;
         }
-        if (sourceCode.replaceAll("\\+","").equals(soFar)) {
+        if (sourceCode.replaceAll("\\+", "").equals(soFar)) {
             return sourceCode;
         }
         return "IMPOSSIBLE";
