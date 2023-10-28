@@ -3,5 +3,4 @@
 cd "$(dirname "$0")"
 
 cd executables/run
-zip ../../drawcheck_run.zip *
-
+zip ../../wtds_run.zip *
