@@ -2,14 +2,14 @@ import java.io.*;
 
 class Solution {
     /**
-     * Return the sum of A and B.
+     * Output two lines containing the sides of the dice separated by dashes -,
+     * such that the two dice yield the given sum distribution S.
      * 
-     * A: a non-negative integer
-     * B: another non-negative integer
+     * S: a list containing the possible 36 sums achieved rolling the two unknown die.
      */
-    static int solve(int A, int B) {
+    static void solve(int[] S) {
         // YOUR CODE HERE
-        return -1;
+        return;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -19,8 +19,11 @@ class Solution {
         int T = Integer.parseInt(in.readLine());
         for (int i = 0; i < T; i++) {
             String[] temp = in.readLine().split(" ");
-            int A = Integer.parseInt(temp[0]), B = Integer.parseInt(temp[1]);
-            out.println(solve(A, B));
+            int[] S = new int[36];
+            for (int j = 0; j < 36; ++j) {
+                S[j] = parseInt(temp[j]);
+            }
+            solve(S);
         }
         out.flush();
     }
