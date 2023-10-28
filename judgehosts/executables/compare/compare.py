@@ -1,12 +1,14 @@
 import sys
+from collections import deque
 from itertools import groupby
+
 
 def main():
     if len(sys.argv) != 3:
         print('Incorrect number of arguments')
         exit(1)
     _, test_in_path, test_out_path = sys.argv
-    
+
     try:
         with open(test_in_path, 'r') as test_in:
             with open(test_out_path, 'r') as test_out:
@@ -15,215 +17,154 @@ def main():
         print('Failed to open test input')
         exit(1)
 
-cnt_fixed = lambda perm: sum(j + 1 == p for j, p in enumerate(perm))
 
+def check_case(is_reference, is_contestant, is_judgehost, g, N, S, test_out, case):
 
-# CHECK THIS, IT WAS MADE WITH CHATGPT THANK YOU JAMES FOR THE IDEA <33333
+    # Read first line of input
+    first_line = read_file(test_out).split() if is_reference else read().split()
 
-def dfs(u, g, visited):
-    visited[u] = True
-    if not g[u]:
-        return True  # is a sink
-    for v in g[u]:
-        if not visited[v]:
-            dfs(v, g, visited)
+    # Check that it only has one element
+    if len(first_line) != 1:
+        print(f'Test #{case}: [Reference? {is_reference}] : The first line contains more than one element',
+              f'{first_line}',
+              f'{len(first_line)}')
+        if is_reference:
+            exit(1)
+        else:
+            return False
 
-def flow(N, M, S, U, V, eaten):
-    sources = [True] * (N + 1)
-    visited = [False] * (N + 1)
-    g = [[] for _ in range(N + 1)]
-    for i in range(M):
-        g[U[i]].append(V[i])
-        sources[V[i]] = False
-    for i in eaten:
-        visited[i] = True
+    # Check that the element is correct
+    if not (first_line[0].isdigit() or first_line[0] == 'IMPOSSIBLE'):
+        print(f'Test #{case}: [Reference? {is_reference}] : The first line contains a wrong element',
+              f'{first_line[0]}')
+        if is_reference:
+            exit(1)
+        else:
+            return False
+
+    possible = first_line[0].isdigit()
+
+    # Finish reading input
+    if not possible:
+        return False
+
+    # Read next line containing computers
+    eaten = read_file(test_out).split() if is_reference else read().split()
+
+    _S = int(first_line[0])
+
+    if _S > S:
+        print(f'Test #{case}: [Reference? {is_reference}] : Try to eat more than S computers',
+              f'{first_line}')
+        if is_reference:
+            exit(1)
+        else:
+            return False
+
+    if len(eaten) != _S:
+        print(f'Test #{case}: [Reference? {is_reference}] : More computers eaten than stated',
+              f'S = {_S}',
+              f'eaten = {eaten}')
+        if is_reference:
+            exit(1)
+        else:
+            return False
+
+    for u in eaten:
+        if not u.isdigit():
+            print(f'Test #{case}: [Reference? {is_reference}] : One of the computers eaten is not a positive integer',
+                  f'{u}')
+            if is_reference:
+                exit(1)
+            else:
+                return False
+
+    eaten = [int(u) for u in eaten]
+    is_eaten = [False] * (N + 1)
+
+    for u in eaten:
+        if u <= 0 or u > N:
+            print(f'Test #{case}: [Reference? {is_reference}] : Computer eaten out of bounds',
+                  f'N = {N}',
+                  f'u = {u}')
+            if is_reference:
+                exit(1)
+            else:
+                return False
+        elif is_contestant[u]:
+            print(f'Test #{case}: [Reference? {is_reference}] : Tried to eat a contestant',
+                  f'u = {u}',
+                  f'eaten = {eaten}')
+            if is_reference:
+                exit(1)
+            else:
+                return False
+        elif is_judgehost[u]:
+            print(f'Test #{case}: [Reference? {is_reference}] : Tried to eat a judgehost',
+                  f'u = {u}',
+                  f'eaten = {eaten}')
+            if is_reference:
+                exit(1)
+            else:
+                return False
+        else:
+            is_eaten[u] = True
+
+    q = deque()
     for i in range(1, N + 1):
-        if sources[i] and not visited[i]:
-            if dfs(i, g, visited):
-                return True
-    return False
+        if is_contestant[i]:
+            q.append(i)
 
-def calc_sources(U, V, N):
-    sources = set([i for i in range(1, N + 1)])
-    for i in V :
-        sources.discard(i)
-    return sources
+    while q:
+        u = q.popleft()
+        for v in g[u]:
+            if not is_contestant[v] and not is_eaten[u]:
+                q.append(v)
+                is_contestant[v] = True
 
+    for i in range(1, N + 1):
+        if is_contestant[i] and is_judgehost[i]:
+            print(f'Test #{case}: [Reference? {is_reference}] : A submission reaches a judgehost',
+                  f'u = {i}')
+            if is_reference:
+                exit(1)
+            else:
+                return False
 
-def calc_sinks(U, V, N):
-    sinks = set([i for i in range(1, N + 1)])
-    for i in U :
-        sinks.discard(i)
-    return sinks
+    return True
+
 
 def compare(test_in, test_out):
     T = int(read_file(test_in))
     for case in range(1, T + 1):
 
-        # READ INPUT FROM INPUT FILE
+        # Read input from input file
         N, M, S = tuple([int(x) for x in read_file(test_in).split()])
         U, V = [], []
-        for i in range(M) :
+        for i in range(M):
             ui, vi = tuple([int(x) for x in read_file(test_in).split()])
             U.append(ui)
             V.append(vi)
 
-        contestants = calc_sources(U, V,N)
-        judgehosts = calc_sinks(U, V, N)
-        
-        # READ REFERENCE SOLUTION
+        # Test case logic (build the graph)
+        is_contestant = [True] * (N + 1)
+        is_judgehost = [True] * (N + 1)
+        g = [[] for _ in range(N + 1)]
+        for u, v in zip(U, V):
+            g[u].append(v)
+            is_judgehost[u] = False
+            is_contestant[v] = False
 
-        ref_str = read_file(test_out).split()
+        reference_possible = check_case(True, is_contestant[:], is_judgehost[:], g, N, S, test_out, case)
+        contestant_possible = check_case(False, is_contestant[:], is_judgehost[:], g, N, S, test_out, case)
 
-        # Check that the first line does not have more than 1 element
-        if len(ref_str) > 1 :
-            print(f'Test #{case}: [Reference] The first line of output contains the wrong number of elements (more than one).'
-                    'The reference output is wrong.',
-                    f'Item: {ref_str}')
-            exit(1)
-        
-        # Check that the element makes sense
-        if not (ref_str[0].isdigit() or ref_str[0] == "IMPOSSIBLE") :
-            print(f'Test #{case}: [Reference] The first line of output contains a wrong element (NaN nor IMPOSSIBLE).'
-                    'The reference output is wrong.',
-                    f'Item: {ref_str}')
+        if reference_possible and not contestant_possible:
+            print(f'Test #{case}: [Reference? False] : Contestant says its impossible but its possible')
+        elif not reference_possible and contestant_possible:
+            print(f'Test #{case}: [Reference? True] : Reference says its impossible but its possible',
+                  'If this happens do not call Nacho he wont write a single python line anymore')
             exit(1)
 
-        ref_impossible = not ref_str[0].isdigit()
-
-        if not ref_impossible :
-            # Read computers eaten by Bessie
-            computers_eaten_ref = int(ref_str[0])
-
-            # Check if Bessie ate more computers than stomachs
-            if computers_eaten_ref > S :
-                print(f'Test #{case}: [Reference] Bessie eats more than S computers.'
-                        'The reference output is wrong.',
-                        f'Item: {computers_eaten_ref}')
-                exit(1)
-
-            ref_computers_str = read_file(test_out).split()
-
-            # Check that the length of the computer list given is the same as the computers given before
-            if len(ref_computers_str) != computers_eaten_ref :
-                print(f'Test #{case}: [Reference] The length of the list of computers eaten does not match the number given.'
-                    'The reference output is wrong.',
-                    f'Item: {ref_computers_str}',
-                    f' Expected number of elements: {ref_str[0]}')
-                exit(1)
-
-            # Check that they are numbers lol
-            for x in ref_computers_str :
-                if not x.isdigit() :
-                    print(f'Test #{case}: [Reference] One of the elements of the computers list is not valid (NaN).'
-                        'The reference output is wrong.',
-                        f'Item: {x}')
-                    exit(1)
-            
-            ref_computers = [int(x) for x in ref_computers_str]
-
-            # Check that the numbers given are in range
-            for x in ref_computers :
-                if x <= 0 or x > N :
-                    print(f'Test #{case}: [Reference] One of the elements of the computers list is not valid (The index is out of bounds).'
-                        'The reference output is wrong.',
-                        f'Item: {x}')
-                    exit(1)
-                elif x in contestants:
-                    print(f'Test #{case}: [Reference] One of the elements of the computers list is not valid (It is a contestant).'
-                        'The reference output is wrong.',
-                        f'Item: {x}')
-                    exit(1)
-                elif x in judgehosts:
-                    print(f'Test #{case}: [Reference] One of the elements of the computers list is not valid (It is a judgehost).'
-                        'The reference output is wrong.',
-                        f'Item: {x}')
-                    exit(1)
-
-            
-            # Check that the solution given is correct
-            if flow(N, M, S, U, V, ref_computers) :
-                print(f'Test #{case}: [Reference] One of the submissions still gets judged by one of the judgehosts.'
-                    'The reference output is wrong.',
-                    f'Item: {flow(N, M, S, U, V, ref_computers)}')
-                exit(1)
-
-            
-        # Read submitted solution
-
-        sub_str = read().split()
-        # Check that the first line does not have more than 1 element
-        if len(sub_str) > 1 :
-            print(f'Test #{case}: [Submission] The first line of output contains the wrong number of elements (more than one).')
-            continue
-        
-        # Check that the element makes sense
-        if not (sub_str[0].isdigit() or sub_str[0] == "IMPOSSIBLE") :
-            print(f'Test #{case}: [Submission] The first line of output contains a wrong element (NaN nor IMPOSSIBLE).')
-            continue
-
-        sub_impossible = not sub_str[0].isdigit()
-
-        if not sub_impossible :
-            # Read computers eaten by Bessie
-            computers_eaten_sub = int(sub_str[0])
-
-            # Check if Bessie ate more computers than stomachs
-            if computers_eaten_sub > S :
-                print(f'Test #{case}: [Submission] Bessie eats more than S computers.')
-                continue
-
-            sub_computers_str = read().split()
-
-            # Check that the length of the computer list given is the same as the computers given before
-            if len(sub_computers_str) != computers_eaten_sub:
-                print(f'Test #{case}: [Submission] The length of the list of computers eaten does not match the number given.')
-                continue
-
-            # Check that they are numbers lol
-            okay = True
-            for x in sub_computers_str :
-                if not x.isdigit() :
-                    print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (NaN).')
-                    okay = False
-
-            if not okay :
-                continue
-            
-            sub_computers = [int(x) for x in sub_computers_str]
-
-            # Check that the numbers given are in range
-            for x in sub_computers :
-                if x <= 0 or x > N :
-                    print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (The index is out of bounds).')
-                    okay = False
-                elif x in contestants:
-                    print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (It is a contestant).')
-                    okay = False
-                elif x in judgehosts:
-                    print(f'Test #{case}: [Submission] One of the elements of the computers list is not valid (It is a judgehost).')
-                    okay = False
-
-
-            if not okay :
-                continue
-            
-            # Check that the solution given is correct
-            if flow(N, M, S, U, V, sub_computers) :
-                print(f'Test #{case}: [Submission] One of the submissions still gets judged by one of the judgehosts.')
-                continue
-
-
-        if sub_impossible and not ref_impossible :
-            print(f'Test #{case}: [Submission] The solution given states that it is IMPOSSIBLE, but it is actually possible.')
-            continue
-
-        if ref_impossible and not sub_impossible :
-            print(f'Test #{case}: [Reference] The solution given states that it is IMPOSSIBLE, but it is actually possible.'
-                'The reference output is wrong. THIS IS A MAJOR ERROR. CANCEL CALICO AFTER THIS.',
-                f'Item: {x}')
-            exit(1)
-    
     try:
         temp = ''
         while not temp:
@@ -232,6 +173,7 @@ def compare(test_in, test_out):
     except:
         pass
 
+
 def read_file(file):
     try:
         return file.readline().strip()
@@ -239,12 +181,14 @@ def read_file(file):
         print('End of test input while judge expected more input')
         exit(1)
 
+
 def read():
     try:
         return input().strip()
     except EOFError:
         print('End of output while judge expected more output')
         exit()
+
 
 if __name__ == '__main__':
     main()
