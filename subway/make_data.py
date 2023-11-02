@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'yamanote line'
+SEED = 'fund bay area transit'
 
 
 class TestCase:
@@ -31,9 +31,9 @@ class TestCase:
     """
 
 
-    def __init__(self, L, N, K, starts, ends, pos):
-        self.L = L
+    def __init__(self, N, M, K, starts, ends, pos):
         self.N = N
+        self.M = M
         self.K = K
         self.starts = starts
         self.ends = ends
@@ -53,19 +53,10 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase(5, 5, 1, [3, 3, 3, 3, 3], [2, 2, 2, 2, 2], [4, 3, 1, 5, 2]),
     ]
     make_sample_test(main_sample_cases, 'main')
     
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
-
-
 def make_secret_tests():
     """
     Make all secret test files.
@@ -77,38 +68,58 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
-    
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
-    
+
+    def get_possible_trip(m):
+        possible = list(range(1, m + 1))
+        random.shuffle(possible)
+        start = possible.pop(0)
+        end = random.choice(possible)
+        return start, end
+
+
+
+
+
+
+
+
+
     for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
+        main_random_cases = []
+        for j in range(100):
+            starts = []
+            ends = []
+            passengers = random.randint(1, 10) # N
+            stations = random.randint(2, 10) # M
+            capacity = random.randint(1, 10) # K
+            starts_by_station = {m: [] for m in range(1, stations + 1)}
+
+            pos = [0] * passengers
+            station_counts = [0] * stations
+
+            for p in range(passengers):
+                start, end = get_possible_trip(stations)
+                starts.append(start)
+                ends.append(end)
+                station_counts[start - 1] += 1
+                starts_by_station[start].append(p)
+
+            for m in range(stations):
+                if station_counts[m] > 0:
+                    positions = list(range(1, station_counts[m] + 1))
+                    random.shuffle(positions)
+
+                    for n in starts_by_station[m + 1]:
+                        pos[n] = positions.pop(0)
+
+
         make_secret_test(main_random_cases, 'main_random')
     
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
     
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+    
+    
+    
+    
 
 
 def make_test_in(cases, file):
@@ -121,7 +132,10 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f'{case.N} {case.M} {case.K}', file=file)
+        print(f'{case.starts}', file=file)
+        print(f'{case.ends}', file=file)
+        print(f'{case.pos}', file=file)
 
 
 def make_test_out(cases, file):
@@ -136,7 +150,7 @@ def make_test_out(cases, file):
     """
     from submissions.accepted.add_arbitrary import solve
     for case in cases:
-        print(solve(case.A, case.B), file=file)
+        print(solve(case.N, case.M), file=file)
 
 
 def main():
