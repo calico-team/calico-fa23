@@ -160,7 +160,7 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.subway_naive import solve
+    from submissions.accepted.subway_dictionary import solve
     for case in cases:
         print(solve(case.N, case.M, case.K, case.starts, case.ends, case.pos), file=file)
 
