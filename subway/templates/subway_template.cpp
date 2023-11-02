@@ -4,17 +4,17 @@
 using namespace std;
 
 /**
- * Find the distance the subway must travel before all passengers
- * arrive at their ending station
+ * Find the total distance the subway must travel until all passengers have
+ * arrived at their ending station.
  * 
  * N: the number of passengers
  * M: the number of stations
- * K: the capacity of the train
- * S: the list of starting stations for each passenger
- * E: the list of ending stations for each passenger
- * P: the list of line positions for each passenger at their station
+ * K: the maximum number of passengers the subway can carry
+ * S: list of starting stations for each passenger
+ * E: list of ending stations for each passenger
+ * P: list of positions in line at their starting station for each passenger
  */
-int solve(int N, int M, int K, vector<int> S, vector<int> E, vector<int> P) {
+int solve(int N, int M, int K, vector<int> &S, vector<int> &E, vector<int> &P) {
     // YOUR CODE HERE
     return -1;
 }
@@ -37,6 +37,6 @@ int main() {
         for (int &item : P) {
             cin >> item;
         }
-        solve(N, M, K, S, E, P);
+        cout << solve(N, M, K, S, E, P) << '\n';
     }
 }

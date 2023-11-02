@@ -2,15 +2,15 @@ import java.io.*;
 
 class Solution {
     /**
-     * Find the distance the subway must travel before all passengers
-     * arrive at their ending station
+     * Find the total distance the subway must travel until all passengers have
+     * arrived at their ending station.
      * 
      * N: the number of passengers
      * M: the number of stations
-     * K: the capacity of the train
-     * S: the list of starting stations for each passenger
-     * E: the list of ending stations for each passenger
-     * P: the list of line positions for each passenger at their station
+     * K: the maximum number of passengers the subway can carry
+     * S: list of starting stations for each passenger
+     * E: list of ending stations for each passenger
+     * P: list of positions in line at their starting station for each passenger
      */
     static int solve(int N, int M, int K, int[] S, int[] E, int[] P) {
         // YOUR CODE HERE
@@ -27,21 +27,22 @@ class Solution {
             int N = Integer.parseInt(temp[0]);
             int M = Integer.parseInt(temp[1]);
             int K = Integer.parseInt(temp[2]);
-            int[] S = new int[N];
             temp = in.readLine().split(" ");
+            int[] S = new int[N];
             for (int j = 0; j < N; j++) {
                 S[j] = Integer.parseInt(temp[j]);
             }
-            int[] E = new int[N];
             temp = in.readLine().split(" ");
+            int[] E = new int[N];
             for (int j = 0; j < N; j++) {
                 E[j] = Integer.parseInt(temp[j]);
             }
+            temp = in.readLine().split(" ");
             int[] P = new int[N];
             for (int j = 0; j < N; j++) {
                 P[j] = Integer.parseInt(temp[j]);
             }
-            solve(N, M, K, S, E, P);
+            out.println(solve(N, M, K, S, E, P));
         }
         out.flush();
     }
