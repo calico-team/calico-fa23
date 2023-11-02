@@ -25,8 +25,6 @@ def solve(N: int, M: int, K: int, S: list[int], E: list[int], P: list[int]) -> i
     train_occupancy = 0
     passengers_delivered, total_dist, cur_station = 0, 0, 0
     while passengers_delivered < N:
-        total_dist += 1
-        
         train_occupancy -= train[cur_station]
         passengers_delivered += train[cur_station]
         train[cur_station] = 0
@@ -36,6 +34,7 @@ def solve(N: int, M: int, K: int, S: list[int], E: list[int], P: list[int]) -> i
             train_occupancy += 1
         
         cur_station = (cur_station + 1) % M
+        total_dist += 1
     
     return total_dist
 
