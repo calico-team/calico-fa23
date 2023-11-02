@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd "$(dirname "$0")"
+
+cd executables/run
+zip ../../wtds_run.zip *

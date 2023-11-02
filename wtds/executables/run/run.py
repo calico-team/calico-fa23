@@ -1,70 +1,110 @@
-# yes, i'm aware this doesn't accurately simulate the 50/50 and 4* pity systems
-# faithfully to the actual mechanics. i'm too lazy to implement it all and it's
-# not gonna affect the problem anyway.
-
 import random
+from collections import deque
+import heapq
 
 def run():
+    class Datamon:
+        types = ['queueon', 'stackeon', 'heapeon']
+        
+        def __init__(self, type):
+            if type == 'queueon':
+                self.data_struct = deque([])
+                self.add = lambda x : self.data_struct.append(x)
+                self.remove = lambda : self.data_struct.popleft()
+            elif type == 'stackeon':
+                self.data_struct = []
+                self.add = lambda x : self.data_struct.append(x)
+                self.remove = lambda : self.data_struct.pop()
+            elif type == 'heapeon':
+                self.data_struct = heapq.heapify([])
+                self.add = lambda x : heapq.heappush(self.data_struct, x)
+                self.remove = lambda : heapq.heappop(self.data_struct)
+            else:
+                give_IE(f'Initializing invalid Datamon type: f"{type}"')
+            
+            self.type = type
+        
+        def feed(self, num):
+            self.add(num)
+
+        def poop(self):
+            if len(self.data_struct) == 0:
+                return None
+            return self.remove()
+
+        def guess_correct(self, guess):
+            return guess == self.type
+    
+    def dumpy():
+        assert len(query_log) - len(response_log) in [0, 1]
+
+        log('Interaction log for the last test case:')
+
+        for i in range(len(query_log)):
+            log(f'{query_log[i]}')
+            if i < len(response_log):
+                log(f'>>{response_log[i]}')
+
     log(f'Begin interaction')
     
     T = int(input_test_in())
     print_prog(T)
     
-    N, K, X = map(int, input_test_in().split())
-    
-    total_queries = 0
-    
     for case in range(1, T + 1):
         log(f'Begin test case #{case} of {T}')
         
-        P, seed = map(int, input_test_in().split())
-        random.seed(seed)
-        
-        deck = [i for i in range(1, N + 1) if i != P]
+        datamon = Datamon(input_test_in().strip())
+
+        query_log = []
+        response_log = []
         
         while True:
-            type, arg = parse_query(input_prog())
-            if type == 'draw':
-                draw(deck, K)
-            elif type == 'check':
+            raw_input = input_prog()
+            type, arg = parse_query(raw_input)
+            query_log.append(raw_input)
+
+            if type == 'feed':
                 if not arg.isdigit():
-                    give_WA(f'Invalid argument for check: "{arg}"')
+                    give_WA(f'Invalid argument for feed: "{arg}"')
                 arg = int(arg)
-                if not (1 <= arg <= N):
-                    give_WA(f'Check argument out of range: "{arg}"')
-                check(arg, P)
+                if not (0 <= arg <= 100):
+                    give_WA(f'Feed argument out of range: "{arg}" is not between 0 and 100')
+                datamon.feed(arg)
+                
+                response_log.append('OK')
+                print_prog('OK')
+            elif type == 'poop':
+                datamon_poop = datamon.poop()
+                if datamon_poop is None:
+                    give_WA('The Datamon has no numbers inside its stomach to poop out')
+                
+                response_log.append(datamon_poop)
+                print_prog(datamon_poop)
+            elif type == 'guess':
+                if datamon.guess_correct(arg):
+                    print_prog('CORRECT')
+                    break
+                else:
+                    if arg in Datamon.types:
+                        dumpy()
+                        give_WA(f'Your program guessed {arg}, but the Datamon was actually {datamon}')
+                    else:
+                        dumpy()
+                        give_WA(f'Your program guessed {arg}, which is not a valid Datamon')
             else:
+                dumpy()
                 give_WA(f'Invalid query format: "{type}"')
-            
-            total_queries += 1
-            
-            if arg == P:
-                break
-    
-    if total_queries > X * 500:
-        give_WA(f'Too many queries. Average should be below {X} but was {total_queries / 500}.')
-    else:
-        print_prog('CORRECT')
     
     log('End interaction')
     give_AC()
 
 def parse_query(query_str):
     query_str = query_str.strip()
-    if query_str.startswith('check'):
+    if query_str.startswith('feed') or query_str.startswith('guess'):
         s = query_str.split()
-        if s[0] == 'check' and len(s) == 2:
-            return 'check', s[1]
+        if s[0] in ['feed', 'guess'] and len(s) == 2:
+            return s[0], s[1]
     return query_str, None
-
-def draw(deck, K):
-    print_prog(*map(str, random.sample(deck, k=K)))
-
-def check(arg, P):
-    if arg == P:
-        print_prog('ABSENT')
-    else:
-        print_prog('PRESENT')
 
 ################################################################################
 
