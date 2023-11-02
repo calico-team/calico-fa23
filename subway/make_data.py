@@ -77,21 +77,14 @@ def make_secret_tests():
         return start, end
 
 
-
-
-
-
-
-
-
-    for i in range(5):
-        main_random_cases = []
-        for j in range(100):
+    def case_generator(max_n, max_m, max_k, T, file_num):
+        cases = []
+        for j in range(T):
             starts = []
             ends = []
-            passengers = random.randint(1, 10) # N
-            stations = random.randint(2, 10) # M
-            capacity = random.randint(1, 10) # K
+            passengers = random.randint(1, max_n) # N
+            stations = random.randint(2, max_m) # M
+            capacity = random.randint(1, max_k) # K
             starts_by_station = {m: [] for m in range(1, stations + 1)}
 
             pos = [0] * passengers
@@ -112,8 +105,27 @@ def make_secret_tests():
                     for n in starts_by_station[m + 1]:
                         pos[n] = positions.pop(0)
 
+            
+            cases.append(TestCase(passengers, stations, capacity, starts, ends, pos))
+            return cases
 
+
+
+
+
+    for i in range(10):
+        main_random_cases = case_generator(10, 10, 10, 100, i)
         make_secret_test(main_random_cases, 'main_random')
+    
+
+    for i in range(10):
+        bonus1_random_cases = case_generator(100, 100, 100, 100, i)
+        make_secret_test(bonus1_random_cases, 'bonus1_random')
+    
+
+    for i in range(20):
+        bonus2_random_cases = case_generator(100000, 100000, 100000, 1, i)
+        make_secret_test(bonus2_random_cases, 'bonus2_random')
     
     
     
@@ -133,9 +145,9 @@ def make_test_in(cases, file):
     print(T, file=file)
     for case in cases:
         print(f'{case.N} {case.M} {case.K}', file=file)
-        print(f'{case.starts}', file=file)
-        print(f'{case.ends}', file=file)
-        print(f'{case.pos}', file=file)
+        print(*case.starts, file=file)
+        print(*case.ends, file=file)
+        print(*case.pos, file=file)
 
 
 def make_test_out(cases, file):
@@ -148,9 +160,9 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
+    from submissions.accepted.subway_naive import solve
     for case in cases:
-        print(solve(case.N, case.M), file=file)
+        print(solve(case.N, case.M, case.K, case.starts, case.ends, case.pos), file=file)
 
 
 def main():
