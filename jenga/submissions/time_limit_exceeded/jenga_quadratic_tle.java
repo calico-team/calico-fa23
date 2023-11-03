@@ -10,7 +10,7 @@ class Solution {
         return ans;
     }
 
-    static int solve(long N) {
+    static long solve(long N) {
         long ans = 0;
         for (long i = 1; i <= N / 3; ++i) {
             ans += powmod(2, i, 3359232);

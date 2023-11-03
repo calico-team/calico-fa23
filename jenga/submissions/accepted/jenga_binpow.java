@@ -16,8 +16,8 @@ class Solution {
 
     }
 
-    static int solve(long N) {
-        return int((binpowmod(2, 1 + N / 3, 3359232) + 3359232 - 2) % 3359232);
+    static long solve(long N) {
+        return (binpowmod(2, 1 + N / 3, 3359232) + 3359232 - 2) % 3359232;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
