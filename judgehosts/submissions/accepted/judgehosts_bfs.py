@@ -20,7 +20,6 @@ def solve(N, M, S, U, V):
     while q:
         u = q.popleft()
         if not q and not contestants[u] and not judgehosts[u]:
-            print("1")
             print(u)
             return
         for v in adj[u]:

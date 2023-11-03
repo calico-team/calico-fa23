@@ -97,7 +97,6 @@ void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
         for (int i = 1; i <= N; ++i)
             if (flow.leftOfMinCut(in(i)) ^ flow.leftOfMinCut(out(i))) // One is on the left and the other is on the right
                 computers_eaten.push_back(i);
-        cout << int(computers_eaten.size()) << '\n';
         for (int i = 0; i < int(computers_eaten.size()) - 1; ++i)
             cout << computers_eaten[i] << ' ';
         if (!computers_eaten.empty())

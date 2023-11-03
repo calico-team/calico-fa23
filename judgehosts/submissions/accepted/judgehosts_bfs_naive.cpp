@@ -30,7 +30,6 @@ void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
     while (!bfs_queue.empty()) {
         if (bfs_queue.size() <= S && visited[bfs_queue.front()] && outDeg[bfs_queue.front()]) {
             int K = (int)(bfs_queue.size());
-            cout << K << '\n';
             for (int i = 0; i < K - 1; ++i) {
                 cout << bfs_queue.front() + 1 << ' ';
                 bfs_queue.pop();

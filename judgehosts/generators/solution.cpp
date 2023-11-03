@@ -53,7 +53,6 @@ void bfs_solution(int N, int M, int S, vector<int>& U, vector<int>& V) {
             // Bessie can't eat imaginary computers (yet), judgehosts or contestant computers.
             if (contestant != 0 && !is_judge[contestant] && !is_initial_contestant[contestant]) {
                 // It's a solution
-                cout << "1\n";
                 cout << contestant << '\n';
                 return;
             }
@@ -187,7 +186,6 @@ void mincut_solution(int N, int M, int S, vector<int>& U, vector<int>& V) {
     if (S_ > S) {
         cout << "IMPOSSIBLE\n";
     } else {
-        cout << S_ << '\n';
         // For each node, check if the input and the output are in different parts of the mincut
         for (int i = 1; i <= N; ++i) {
             if (flow.leftOfMinCut(in(i)) ^ flow.leftOfMinCut(out(i))) {

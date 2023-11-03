@@ -42,7 +42,7 @@ class judgehosts_bfs {
         while (!q.isEmpty()) {
             int cur = q.pop();
             if (q.isEmpty() && !isContestant[cur] && !isJudgehost[cur]) {
-                out.println("1\n" + cur);
+                out.println(cur);
                 return;
             }
             for (int to : adj[cur]) {

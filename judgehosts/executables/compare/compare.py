@@ -21,50 +21,27 @@ def main():
 def check_case(is_reference, is_contestant, is_judgehost, g, N, S, test_out, case):
 
     # Read first line of input
-    first_line = read_file(test_out).split() if is_reference else read().split()
-
-    # Check that it only has one element
-    if len(first_line) != 1:
-        print(f'Test #{case}: [Reference? {is_reference}] : The first line contains more than one element',
-              f'{first_line}',
-              f'{len(first_line)}')
-        if is_reference:
-            exit(1)
-        else:
-            return False
-
-    # Check that the element is correct
-    if not (first_line[0].isdigit() or first_line[0] == 'IMPOSSIBLE'):
-        print(f'Test #{case}: [Reference? {is_reference}] : The first line contains a wrong element',
-              f'{first_line[0]}')
-        if is_reference:
-            exit(1)
-        else:
-            return False
-
-    possible = first_line[0].isdigit()
-
-    # Finish reading input
-    if not possible:
-        return False
-
-    # Read next line containing computers
     eaten = read_file(test_out).split() if is_reference else read().split()
 
-    _S = int(first_line[0])
+    # Check that it only has one element
+    if len(eaten) < 1:
+        print(f'Test #{case}: [Reference? {is_reference}] : The first line contains less than one element',
+              f'{eaten}',
+              f'{len(eaten)}')
+        if is_reference:
+            exit(1)
+        else:
+            return False
+
+    # If its impossible then just return false
+    if len(eaten) == 1 and eaten[0] == 'IMPOSSIBLE':
+        return False
+    
+    _S = len(eaten)
 
     if _S > S:
         print(f'Test #{case}: [Reference? {is_reference}] : Try to eat more than S computers',
-              f'{first_line}')
-        if is_reference:
-            exit(1)
-        else:
-            return False
-
-    if len(eaten) != _S:
-        print(f'Test #{case}: [Reference? {is_reference}] : More computers eaten than stated',
-              f'S = {_S}',
-              f'eaten = {eaten}')
+              f'{eaten}')
         if is_reference:
             exit(1)
         else:

@@ -40,7 +40,6 @@ void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
                     visited[v] = true, q.push(v);
         }
         if (okay) {
-            cout << "1\n";
             cout << eaten << '\n';
             return;
         }

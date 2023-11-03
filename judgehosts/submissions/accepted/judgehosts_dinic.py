@@ -101,7 +101,6 @@ def solve(N, M, S, U, V):
         print("IMPOSSIBLE")
     else:
         computers_eaten = [i for i in range(1, N + 1) if flow.left_of_min_cut(in_vertex(i)) ^ flow.left_of_min_cut(out_vertex(i))]
-        print(len(computers_eaten))
         print(*computers_eaten)
 
 def main():

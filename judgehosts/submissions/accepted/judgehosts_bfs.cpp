@@ -32,7 +32,6 @@ void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
     while (!q.empty()) {
         int u = q.front(); q.pop();
         if (q.empty() && !contestants[u] && !judgehosts[u]) {
-            cout << "1\n";
             cout << u << '\n';
             return;
         }
