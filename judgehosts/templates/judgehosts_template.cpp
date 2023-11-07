@@ -4,19 +4,19 @@
 using namespace std;
 
 /**
- * Print in the first line the number K of computers Bessie the Cow should eat.
- * Print in the next line K numbers, one for each different computer she should eat.
- * If her task is not possible, print "IMPOSSIBLE"
+ * Output any list of x <= S computers Bessie can eat such that the network is not bridged afterwards.
+ * If it's impossible, output IMPOSSIBLE
  * 
  * N: Number of computers.
  * M: Number of connections between computers.
- * S: Number of stomachs.
+ * S: Number of computers Bessie can eat.
  * U: Initial computer for each of the M connections.
  * V: Final computer for each of the M connections.
  * 
 */
 void solve(int N, int M, int S, vector<int>& U, vector<int>& V) {
     // YOUR CODE HERE
+    return;
 }
 
 int main() {

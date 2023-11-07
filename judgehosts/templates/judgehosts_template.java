@@ -2,18 +2,19 @@ import java.io.*;
 
 class Solution {
     /**
-     * Print in the first line the number K of commputers Bessie the Cow should eat.
-     * Print in the next line K numbers, one for each different computer she should eat.
-     * If her task is not possible, print "IMPOSSIBLE"
+     * Output any list of x <= S computers Bessie can eat such that the network is not bridged afterwards.
+     * If it's impossible, output IMPOSSIBLE
      * 
-     * @param N Number of computers.
-     * @param M Number of connections between computers.
-     * @param S Number of stomachs.
-     * @param U Initial computer for each of the M connections.
-     * @param V Final computer for each of the M connections.
+     * N: Number of computers.
+     * M: Number of connections between computers.
+     * S: Number of computers Bessie can eat.
+     * U: Initial computer for each of the M connections.
+     * V: Final computer for each of the M connections.
+     * 
     */
     static void solve(int N, int M, int S, int[] U, int[] V) {
         // YOUR CODE HERE
+        return;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
