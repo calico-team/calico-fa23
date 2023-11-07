@@ -71,7 +71,9 @@ def make_secret_tests():
     """
     def make_random_case(max_digits):
         def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
+            f = random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 1
+            f = f % (3 * (10 ** 6))
+            return f
         A_digits = random.randint(0, max_digits)
         A = random_n_digit_number(A_digits)
         return TestCase(A)
@@ -83,7 +85,7 @@ def make_secret_tests():
     make_secret_test(main_edge_cases, 'main_edge')
     
     for i in range(5):
-        main_random_cases = [make_random_case(8) for _ in range(100)]
+        main_random_cases = [make_random_case(7) for _ in range(100)]
         make_secret_test(main_random_cases, 'main_random')
     
     bonus_edge_cases = [
@@ -92,7 +94,7 @@ def make_secret_tests():
     make_secret_test(bonus_edge_cases, 'bonus_edge')
     
     for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
+        bonus_random_cases = [make_random_case(7) for _ in range(100)]
         make_secret_test(bonus_random_cases, 'bonus_random')
 
 
@@ -107,6 +109,7 @@ def make_test_in(cases, file):
     print(T, file=file)
     for case in cases:
         print(f'{case.A}', file=file)
+    assert 0 < case.A <= 3 * 10 ** 6
 
 
 def make_test_out(cases, file):
