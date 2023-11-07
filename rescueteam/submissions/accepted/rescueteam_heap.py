@@ -2,8 +2,7 @@ import collections
 import heapq
 
 
-def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[int], U: list[int], V: list[int]):
-    assert all(v == 1 for v in V), "This algorithm only works if all V[i] == 1"
+def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[int], K: list[int]):
     
     dungeon = [[] for _ in range(N + 1)]
     for x, y in zip(X, Y):
@@ -36,7 +35,7 @@ def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[
     selected_treasure_deltas = []
     best_treasures = 0
     # invariant: iteration i gives the best treasures if we exit floor i
-    for u in U:
+    for k in K:
         # we always need to include skip_dist, so remove prior treasures if
         # necessary to allow us to get here in the first place
         while selected_treasure_deltas and curr_belly + skip_dist > B:
@@ -47,7 +46,7 @@ def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[
         curr_belly += skip_dist
         
         # consider picking up the treasure on this floor
-        curr_treasure_delta = treasure_deltas[u]
+        curr_treasure_delta = treasure_deltas[k]
         if curr_belly + curr_treasure_delta <= B:
             # if we can pick it up at no cost, its always optimal to pick it up
             heapq.heappush(selected_treasure_deltas, -curr_treasure_delta)
