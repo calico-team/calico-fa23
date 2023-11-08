@@ -136,7 +136,7 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
+    from submissions.accepted.boxcars_partition import solve
     for case in cases:
         print(solve(case.A, case.B), file=file)
 
