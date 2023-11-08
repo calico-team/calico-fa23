@@ -20,8 +20,8 @@ def main():
         U, V = [], [], []
         for i in range(M):
             info = input().strip().split(' ')
-            X.append(int(info[0]))
-            Y.append(int(info[1]))
+            U.append(int(info[0]))
+            V.append(int(info[1]))
         solve(N, M, S, U, V)
 
 if __name__ == '__main__':
