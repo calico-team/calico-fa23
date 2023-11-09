@@ -119,17 +119,17 @@ def make_secret_tests():
 
 
 
-    for i in range(9):
+    for i in range(10):
         main_random_cases = case_generator(10, 10, 100, i)
         make_secret_test(main_random_cases, 'main_random')
     
 
-    for i in range(9):
+    for i in range(10):
         bonus1_random_cases = case_generator(100, 1000, 100, i)
         make_secret_test(bonus1_random_cases, 'bonus1_random')
     
 
-    for i in range(18):
+    for i in range(20):
         print(i)
         bonus2_random_cases = case_generator(100000, 100000, 1, i)
         make_secret_test(bonus2_random_cases, 'bonus2_random')
