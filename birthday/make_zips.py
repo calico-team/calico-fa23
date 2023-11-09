@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'birthday'
 
 """
 The time limit in seconds.
@@ -70,19 +70,17 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
+        'birthday_math':                ['main', 'bonus'],
+        'birthday_prefix_sum':          ['main', 'bonus'],
+        'birthday_loop':                ['main'],
         
         # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
         
         # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
+        'birthday_loop_tle':            ['bonus']
         
         # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
+
     }
     
     # we only care about actual code files

@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbndfjkasnfadnfoandfaifnbaewjhfbakejfbawfbeibafitrary.'
+SEED = 'big ben nuestro que estas en cielo, santificado sea tu nombre; venga a nosotros tu reino; hagase tu voluntad en la tierra como en el cielo, danos hoy nuestro pan de cada dia; perdona nuestras ofensas, como tambien nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentacion y libranos del mal, amen'
 
 
 class TestCase:
@@ -72,7 +72,7 @@ def make_secret_tests():
     def make_random_case(max_digits):
         def random_n_digit_number(n):
             f = random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 1
-            f = f % (3 * (10 ** 6))
+            f = f % (10 ** 6)
             return f
         A_digits = random.randint(0, max_digits)
         A = random_n_digit_number(A_digits)
@@ -85,16 +85,14 @@ def make_secret_tests():
     make_secret_test(main_edge_cases, 'main_edge')
     
     for i in range(5):
-        main_random_cases = [make_random_case(7) for _ in range(100)]
+        main_random_cases = [make_random_case(4) for _ in range(10)]
         make_secret_test(main_random_cases, 'main_random')
     
-    bonus_edge_cases = [
-        TestCase(3 * 10 ** 6),
-    ]
+    bonus_edge_cases = [TestCase(random.randint(10 ** 5, 10 ** 6 - 1)) for _ in range(10 ** 5)]
     make_secret_test(bonus_edge_cases, 'bonus_edge')
     
     for i in range(5):
-        bonus_random_cases = [make_random_case(7) for _ in range(100)]
+        bonus_random_cases = [make_random_case(6) for _ in range(10 ** 5)]
         make_secret_test(bonus_random_cases, 'bonus_random')
 
 
@@ -109,7 +107,7 @@ def make_test_in(cases, file):
     print(T, file=file)
     for case in cases:
         print(f'{case.A}', file=file)
-    assert 0 < case.A <= 3 * 10 ** 6
+    assert 0 < case.A <= 10 ** 6
 
 
 def make_test_out(cases, file):
