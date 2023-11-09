@@ -1,4 +1,4 @@
-    #!/usr/bin/env python
+# !/usr/bin/env python
 """
 Make test data for the problem.
 
@@ -30,7 +30,6 @@ class TestCase:
     TODO Change this to store the relevant information for your problem.
     """
 
-
     def __init__(self, A):
         self.A = A
 
@@ -58,7 +57,6 @@ def make_sample_tests():
     make_sample_test(main_sample_cases, 'main')
 
 
-
 def make_secret_tests():
     """
     Make all secret test files.
@@ -70,25 +68,27 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
+
     def make_random_case(max_digits):
         def random_n_digit_number(n):
             f = random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 1
             f = f % (10 ** 6)
             return f
+
         A_digits = random.randint(0, max_digits)
         A = random_n_digit_number(A_digits)
         return TestCase(A)
-    
+
     main_edge_cases = [TestCase(i) for i in range(1, 101)]
     make_secret_test(main_edge_cases, 'main_edge')
-    
+
     for i in range(5):
         main_random_cases = [make_random_case(2) for _ in range(100)]
         make_secret_test(main_random_cases, 'main_random')
-    
+
     bonus_edge_cases = [TestCase(random.randint(10 ** 4, 10 ** 5)) for _ in range(10 ** 5)]
     make_secret_test(bonus_edge_cases, 'bonus_edge')
-    
+
     for i in range(5):
         bonus_random_cases = [make_random_case(5) for _ in range(10 ** 5)]
         make_secret_test(bonus_random_cases, 'bonus_random')
