@@ -3,4 +3,5 @@
 cd "$(dirname "$0")"
 
 cd executables/run
+chmod +x build
 zip ../../wtds_run.zip *
