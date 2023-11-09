@@ -58,15 +58,20 @@ def solve(S: list[int]):
     # suppose we assign S[1] to s12
     a, b = [1, S[1] - S[0] + 1, 0, 0, 0, 0], [S[0] - 1, 0, 0, 0, 0, 0]
     if check(S, a, b):
-        return a, b
+        print(*a)
+        print(*b)
+        return
     
     # suppose we assign S[1] to s21
     a, b = [1, 0, 0, 0, 0, 0], [S[0] - 1, S[1] - 1, 0, 0, 0, 0]
     a, b = b, a # transpose so that s12 is assigned
     if check(S, a, b):
-        return a, b
+        print(*a)
+        print(*b)
+        return
     
-    return 'IMPOSSIBLE'
+    print('IMPOSSIBLE')
+    return
 
 
 def check(S, a, b):

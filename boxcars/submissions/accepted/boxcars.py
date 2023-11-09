@@ -12,11 +12,14 @@ def solve(S: list[int]):
                 b[i] = remaining.pop(0) - a[0]
                 for j in range(1, 6):
                     remaining.remove(b[i] + a[j])
-            return a, b
+            print(*a)
+            print(*b)
+            return
         except ValueError:
             pass
     
-    return 'IMPOSSIBLE'
+    print('IMPOSSIBLE')
+    return
 
 
 def pair_sums(d1, d2):
@@ -51,7 +54,7 @@ def main():
     T = int(input())
     for _ in range(T):
         S = [int(x) for x in input().split()]
-        print(solve(S))
+        solve(S)
 
 
 if __name__ == '__main__':
