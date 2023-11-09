@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'fund bay area transit'
 
 """
 The time limit in seconds.
@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus']
+TEST_SET_NAMES = ['main', 'bonus1', 'bonus2']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -57,9 +57,10 @@ def is_data_in_test_set(data_file_name, test_set_name):
     """
     if test_set_name == 'main':
         return 'main' in data_file_name
-    elif test_set_name == 'bonus':
+    elif test_set_name == 'bonus1':
+        return 'main' in data_file_name or 'bonus1' in data_file_name
+    elif test_set_name == 'bonus2':
         return 'main' in data_file_name or 'bonus' in data_file_name
-
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
     """

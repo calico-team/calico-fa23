@@ -70,21 +70,24 @@ def make_secret_tests():
     """
 
     def get_possible_trip(m):
-        possible = list(range(1, m + 1))
-        random.shuffle(possible)
-        start = possible.pop(0)
-        end = random.choice(possible)
-        return start, end
+        return random.randint(1, m), random.randint(1, m)
+    
+    def choose_k(i, n):
+        if i % 3 == 0:
+            return 1
+        elif i % 3 == 1:
+            return int(pow(n, 0.5))
+        return n
 
+    def case_generator(max_n, max_m, T, file_num):
 
-    def case_generator(max_n, max_m, max_k, T, file_num):
         cases = []
         for j in range(T):
             starts = []
             ends = []
             passengers = random.randint(1, max_n) # N
             stations = random.randint(2, max_m) # M
-            capacity = random.randint(1, max_k) # K
+            capacity = choose_k(file_num, passengers)
             starts_by_station = {m: [] for m in range(1, stations + 1)}
 
             pos = [0] * passengers
@@ -98,14 +101,17 @@ def make_secret_tests():
                 starts_by_station[start].append(p)
 
             for m in range(stations):
-                if station_counts[m] > 0:
+                if station_counts[m] > 1:
                     positions = list(range(1, station_counts[m] + 1))
                     random.shuffle(positions)
 
                     for n in starts_by_station[m + 1]:
                         pos[n] = positions.pop(0)
 
-            
+                elif station_counts[m] == 1:
+                    for n in starts_by_station[m + 1]:
+                        pos[n] = 1
+
             cases.append(TestCase(passengers, stations, capacity, starts, ends, pos))
             return cases
 
@@ -113,18 +119,19 @@ def make_secret_tests():
 
 
 
-    for i in range(10):
-        main_random_cases = case_generator(10, 10, 10, 100, i)
+    for i in range(9):
+        main_random_cases = case_generator(10, 10, 100, i)
         make_secret_test(main_random_cases, 'main_random')
     
 
-    for i in range(10):
-        bonus1_random_cases = case_generator(100, 1000, 100, 100, i)
+    for i in range(9):
+        bonus1_random_cases = case_generator(100, 1000, 100, i)
         make_secret_test(bonus1_random_cases, 'bonus1_random')
     
 
-    for i in range(20):
-        bonus2_random_cases = case_generator(100000, 100000, 100000, 1, i)
+    for i in range(18):
+        print(i)
+        bonus2_random_cases = case_generator(100000, 100000, 1, i)
         make_secret_test(bonus2_random_cases, 'bonus2_random')
     
     
