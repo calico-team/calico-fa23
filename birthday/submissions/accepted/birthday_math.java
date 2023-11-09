@@ -2,7 +2,7 @@ import java.io.*;
 
 class Solution {
     static long solve(long N) {
-        return (N * (N - 1) * (2 * N - 1) / 6) + 3;
+        return (N * (N + 1) * (2 * N + 1) / 6) - N;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

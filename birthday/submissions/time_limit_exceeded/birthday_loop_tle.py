@@ -1,8 +1,8 @@
 def solve(N: int) -> int:
     numDays = 0
-    for i in range(1, N):
+    for i in range(1, N + 1):
         numDays += i * i
-    return numDays + 3
+    return numDays - N
 
 def main():
     T = int(input())

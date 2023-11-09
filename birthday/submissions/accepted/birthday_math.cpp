@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 
 ll solve(ll N) {
-    return (N * (N - 1) * (2 * N - 1) / 6) + 3;
+    return (N * (N + 1) * (2 * N + 1) / 6) - N;
 }
 
 int main() {
@@ -14,4 +14,5 @@ int main() {
         cin >> N;
         cout << solve(N) << '\n';
     }
+    return 0;
 }

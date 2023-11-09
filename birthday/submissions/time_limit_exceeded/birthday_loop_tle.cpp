@@ -4,10 +4,10 @@ typedef long long ll;
 
 ll solve(ll N) {
     ll numDays = 0;
-    for (int i = 1; i < N; i++){
+    for (int i = 1; i <= N; i++){
         numDays += ll(i) * ll(i);
     }
-    return numDays + 3;
+    return numDays - N;
 }
 
 int main() {
@@ -18,4 +18,5 @@ int main() {
         cin >> N;
         cout << solve(N) << '\n';
     }
+    return 0;
 }

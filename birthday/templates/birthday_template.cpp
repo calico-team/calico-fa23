@@ -20,4 +20,5 @@ int main() {
         cin >> N;
         cout << solve(N) << '\n';
     }
+    return 0;
 }

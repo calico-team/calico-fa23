@@ -1,5 +1,5 @@
 def solve(N: int) -> int:
-    return N * (N - 1) * (2 * N - 1) // 6 + 3
+    return N * (N + 1) * (2 * N + 1) // 6 - N
 
 def main():
     T = int(input())

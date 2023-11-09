@@ -3,10 +3,10 @@ import java.io.*;
 class Solution {
     static long solve(long N) {
         long numDays = 0;
-        for (int i = 1; i < N; i++){
+        for (int i = 1; i <= N; i++){
             numDays += (long)i * (long)i;
         }
-        return numDays + 3;
+        return numDays - N;
     }
     
     static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
