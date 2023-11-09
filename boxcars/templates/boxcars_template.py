@@ -1,9 +1,9 @@
 def solve(S: list[int]):
     """
-    Output two lines containing the sides of the dice separated by dashes -,\
-    such that the two dice yield the given sum distribution S.
+    Output two lines containing the faces of the dice separated by spaces,
+    such that the sorted list of their pairwise sums is equal to S.
     
-    S: a list containing the possible 36 sums achieved rolling the two unknown die.
+    S: the list containing the desired nondecreasing list of 36 pairwise sums
     """
     # YOUR CODE HERE
     return

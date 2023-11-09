@@ -2,10 +2,10 @@ import java.io.*;
 
 class Solution {
     /**
-     * Output two lines containing the sides of the dice separated by dashes -,
-     * such that the two dice yield the given sum distribution S.
+     * Output two lines containing the faces of the dice separated by spaces,
+     * such that the sorted list of their pairwise sums is equal to S.
      * 
-     * S: a list containing the possible 36 sums achieved rolling the two unknown die.
+     * S: the list containing the desired nondecreasing list of 36 pairwise sums
      */
     static void solve(int[] S) {
         // YOUR CODE HERE
@@ -21,7 +21,7 @@ class Solution {
             String[] temp = in.readLine().split(" ");
             int[] S = new int[36];
             for (int j = 0; j < 36; ++j) {
-                S[j] = parseInt(temp[j]);
+                S[j] = Integer.parseInt(temp[j]);
             }
             solve(S);
         }
