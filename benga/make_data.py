@@ -1,4 +1,3 @@
-
 """
 Make test data for the problem.
 
@@ -12,6 +11,7 @@ Everything else will be handled by the make_data function in calico_lib.py.
 You can also run this file with the -v argument to see debug prints.
 """
 
+
 import math
 import random
 import sys
@@ -19,7 +19,8 @@ import sys
 import numpy as np
 
 from calico_lib import make_sample_test, make_secret_test, make_data
-from submissions.accepted.benga_cycles_numpy import solve
+from submissions.run_time_error.benga_cycles_numpy import solve
+
 
 """
 Seed for the random number generator. We need this so randomized tests will
@@ -33,6 +34,7 @@ MAX_N_BONUS = 10 ** (10 ** 5)
 MOD = 2 ** (3 ** 2) * 3 ** (2 ** 3)
 
 sys.set_int_max_str_digits(10 ** 6)
+
 
 class TestCase:
     """
