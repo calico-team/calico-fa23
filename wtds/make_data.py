@@ -57,7 +57,7 @@ def make_secret_tests():
     See calico_lib.make_secret_test for more info.
     """
     main_secret_cases = random.choices([TestCase('queueon'), TestCase('heapeon'), TestCase('stackeon')], k=100)
-    make_sample_test(main_secret_cases, 'main')
+    make_secret_test(main_secret_cases, 'main')
 
 
 def make_test_in(cases, file):
