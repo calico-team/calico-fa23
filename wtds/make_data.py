@@ -19,7 +19,7 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = 'TODO Change this to something different, long, and arbitrary. okay'
 
 
 class TestCase:
@@ -31,9 +31,8 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, type):
+        self.type = type
 
 
 def make_sample_tests():
@@ -49,17 +48,11 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
+        TestCase('queueon'),
+        TestCase('heapeon'),
+        TestCase('heapeon'),
     ]
     make_sample_test(main_sample_cases, 'main')
-    
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
 
 
 def make_secret_tests():
@@ -73,38 +66,39 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    # def make_random_case(max_digits):
+    #     def random_n_digit_number(n):
+    #         return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
+    #     A_digits = random.randint(0, max_digits)
+    #     B_digits = random.randint(0, max_digits)
+    #     A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
+    #     return TestCase(A, B)
     
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
-    ]
-    make_secret_test(main_edge_cases, 'main_edge')
+    # main_edge_cases = [
+    #     TestCase(0, 0),
+    #     TestCase(1, 0),
+    #     TestCase(0, 1),
+    #     TestCase(10 ** 9, 0),
+    #     TestCase(0, 10 ** 9),
+    #     TestCase(10 ** 9, 10 ** 9),
+    # ]
+    # make_secret_test(main_edge_cases, 'main_edge')
     
-    for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
-        make_secret_test(main_random_cases, 'main_random')
+    # for i in range(5):
+    #     main_random_cases = [make_random_case(9) for _ in range(100)]
+    #     make_secret_test(main_random_cases, 'main_random')
     
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
+    # bonus_edge_cases = [
+    #     TestCase(10 ** 100, 0),
+    #     TestCase(0, 10 ** 100),
+    #     TestCase(10 ** 100, 10 ** 100),
+    # ]
+    # make_secret_test(bonus_edge_cases, 'bonus_edge')
     
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+    # for i in range(5):
+    #     bonus_random_cases = [make_random_case(100) for _ in range(100)]
+    #     make_secret_test(bonus_random_cases, 'bonus_random')
+    pass
 
 
 def make_test_in(cases, file):
@@ -117,7 +111,7 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
-        print(f'{case.A} {case.B}', file=file)
+        print(f'{case.type}', file=file)
 
 
 def make_test_out(cases, file):
@@ -130,9 +124,7 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.add_arbitrary import solve
-    for case in cases:
-        print(solve(case.A, case.B), file=file)
+    print('AC', file=file)
 
 
 def main():

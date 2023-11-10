@@ -26,7 +26,7 @@ Names should be short if possible.
 
 TODO Change this for your problem.
 """
-PROBLEM_NAME = 'add'
+PROBLEM_NAME = 'wtds'
 
 """
 The time limit in seconds.
@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus']
+TEST_SET_NAMES = ['main']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -55,10 +55,7 @@ def is_data_in_test_set(data_file_name, test_set_name):
     
     TODO Change this to reflect your tests and test sets.
     """
-    if test_set_name == 'main':
-        return 'main' in data_file_name
-    elif test_set_name == 'bonus':
-        return 'main' in data_file_name or 'bonus' in data_file_name
+    return 'main' in data_file_name
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -68,31 +65,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     
     TODO Change this to reflect your submissions and test sets.
     """
-    file_to_sets = {
-        # accepted
-        'add_arbitrary':    ['main', 'bonus'],
-        'add_int':          ['main'],
-        
-        # run_time_error
-        'add_div_re':       ['main', 'bonus'],
-        'add_parse_int_re': ['bonus'],
-        
-        # time_limit_exceeded
-        'add_loop_tle':     ['main', 'bonus'],
-        
-        # wrong_answer
-        'add_parse_int_wa': ['bonus'],
-        'add_sub_wa':       ['main', 'bonus'],
-    }
-    
-    # we only care about actual code files
-    if submission_file_name.split('.')[-1] not in ['cpp', 'java', 'py']:
-        return False
-    
-    # trim file extensions
-    submission_file_name = submission_file_name.split('.')[0]
-    
-    return test_set_name in file_to_sets[submission_file_name]
+    return 'wtds' in submission_file_name
 
 
 def main():
