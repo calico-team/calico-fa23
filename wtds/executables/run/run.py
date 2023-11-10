@@ -2,49 +2,41 @@ import random
 from collections import deque
 import heapq
 
-def run():
-    class Datamon:
-        types = ['queueon', 'stackeon', 'heapeon']
-        
-        def __init__(self, type):
-            if type == 'queueon':
-                self.data_struct = deque([])
-                self.add = lambda x : self.data_struct.append(x)
-                self.remove = lambda : self.data_struct.popleft()
-            elif type == 'stackeon':
-                self.data_struct = []
-                self.add = lambda x : self.data_struct.append(x)
-                self.remove = lambda : self.data_struct.pop()
-            elif type == 'heapeon':
-                self.data_struct = heapq.heapify([])
-                self.add = lambda x : heapq.heappush(self.data_struct, x)
-                self.remove = lambda : heapq.heappop(self.data_struct)
-            else:
-                give_IE(f'Initializing invalid Datamon type: f"{type}"')
-            
-            self.type = type
-        
-        def feed(self, num):
-            self.add(num)
 
-        def poop(self):
-            if len(self.data_struct) == 0:
-                return None
-            return self.remove()
-
-        def guess_correct(self, guess):
-            return guess == self.type
+class Datamon:
+    types = ['queueon', 'stackeon', 'heapeon']
     
-    def dumpy():
-        assert len(query_log) - len(response_log) in [0, 1]
+    def __init__(self, type):
+        if type == 'queueon':
+            self.data_struct = deque([])
+            self.add = lambda x: self.data_struct.append(x)
+            self.remove = lambda: self.data_struct.popleft()
+        elif type == 'stackeon':
+            self.data_struct = []
+            self.add = lambda x: self.data_struct.append(x)
+            self.remove = lambda: self.data_struct.pop()
+        elif type == 'heapeon':
+            self.data_struct = []
+            self.add = lambda x: heapq.heappush(self.data_struct, x)
+            self.remove = lambda: heapq.heappop(self.data_struct)
+        else:
+            give_IE(f'Initializing invalid Datamon type: f"{type}"')
+        
+        self.type = type
+    
+    def feed(self, num):
+        self.add(num)
 
-        log('Interaction log for the last test case:')
+    def poop(self):
+        if len(self.data_struct) == 0:
+            return None
+        return self.remove()
 
-        for i in range(len(query_log)):
-            log(f'{query_log[i]}')
-            if i < len(response_log):
-                log(f'>>{response_log[i]}')
+    def guess_correct(self, guess):
+        return guess == self.type
 
+
+def run():    
     log(f'Begin interaction')
     
     T = int(input_test_in())
@@ -53,15 +45,11 @@ def run():
     for case in range(1, T + 1):
         log(f'Begin test case #{case} of {T}')
         
-        datamon = Datamon(input_test_in().strip())
+        datamon = Datamon(input_test_in())
 
-        query_log = []
-        response_log = []
-        
         while True:
             raw_input = input_prog()
             type, arg = parse_query(raw_input)
-            query_log.append(raw_input)
 
             if type == 'feed':
                 if not arg.isdigit():
@@ -71,14 +59,12 @@ def run():
                     give_WA(f'Feed argument out of range: "{arg}" is not between 0 and 100')
                 datamon.feed(arg)
                 
-                response_log.append('OK')
                 print_prog('OK')
             elif type == 'poop':
                 datamon_poop = datamon.poop()
                 if datamon_poop is None:
                     give_WA('The Datamon has no numbers inside its stomach to poop out')
                 
-                response_log.append(datamon_poop)
                 print_prog(datamon_poop)
             elif type == 'guess':
                 if datamon.guess_correct(arg):
@@ -86,17 +72,15 @@ def run():
                     break
                 else:
                     if arg in Datamon.types:
-                        dumpy()
                         give_WA(f'Your program guessed {arg}, but the Datamon was actually {datamon}')
                     else:
-                        dumpy()
                         give_WA(f'Your program guessed {arg}, which is not a valid Datamon')
             else:
-                dumpy()
                 give_WA(f'Invalid query format: "{type}"')
     
     log('End interaction')
     give_AC()
+
 
 def parse_query(query_str):
     query_str = query_str.strip()
@@ -106,7 +90,9 @@ def parse_query(query_str):
             return s[0], s[1]
     return query_str, None
 
+
 ################################################################################
+
 
 import io
 import sys
