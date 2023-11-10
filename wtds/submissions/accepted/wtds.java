@@ -54,6 +54,5 @@ class Solution {
         for (int i = 0; i < T; i++) {
             solve();
         }
-        out.flush();
     }
 }
