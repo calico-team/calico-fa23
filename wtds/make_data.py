@@ -19,17 +19,14 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary. okay'
+SEED = 'ksndkjsankjdbsakjbakjsabd243451dfd'
 
 
 class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-    
-    TODO Change this to store the relevant information for your problem.
     """
-
 
     def __init__(self, type):
         self.type = type
@@ -42,16 +39,12 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-    
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
         TestCase('queueon'),
         TestCase('heapeon'),
         TestCase('heapeon'),
-    ]
+    ] + random.choices([TestCase('queueon'), TestCase('heapeon'), TestCase('stackeon')], k=97)
     make_sample_test(main_sample_cases, 'main')
 
 
@@ -62,53 +55,18 @@ def make_secret_tests():
     To create a pair of sample test files, call make_secret_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
-    
-    TODO Write sample tests. Consider creating edge cases and large randomized
-    tests.
     """
-    # def make_random_case(max_digits):
-    #     def random_n_digit_number(n):
-    #         return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-    #     A_digits = random.randint(0, max_digits)
-    #     B_digits = random.randint(0, max_digits)
-    #     A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-    #     return TestCase(A, B)
-    
-    # main_edge_cases = [
-    #     TestCase(0, 0),
-    #     TestCase(1, 0),
-    #     TestCase(0, 1),
-    #     TestCase(10 ** 9, 0),
-    #     TestCase(0, 10 ** 9),
-    #     TestCase(10 ** 9, 10 ** 9),
-    # ]
-    # make_secret_test(main_edge_cases, 'main_edge')
-    
-    # for i in range(5):
-    #     main_random_cases = [make_random_case(9) for _ in range(100)]
-    #     make_secret_test(main_random_cases, 'main_random')
-    
-    # bonus_edge_cases = [
-    #     TestCase(10 ** 100, 0),
-    #     TestCase(0, 10 ** 100),
-    #     TestCase(10 ** 100, 10 ** 100),
-    # ]
-    # make_secret_test(bonus_edge_cases, 'bonus_edge')
-    
-    # for i in range(5):
-    #     bonus_random_cases = [make_random_case(100) for _ in range(100)]
-    #     make_secret_test(bonus_random_cases, 'bonus_random')
-    pass
+    main_secret_cases = random.choices([TestCase('queueon'), TestCase('heapeon'), TestCase('stackeon')], k=100)
+    make_sample_test(main_secret_cases, 'main')
 
 
 def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-    
-    TODO Implement this for your problem.
     """
     T = len(cases)
+    assert T == 100
     print(T, file=file)
     for case in cases:
         print(f'{case.type}', file=file)
@@ -121,8 +79,6 @@ def make_test_out(cases, file):
     
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-    
-    TODO Implement this for your problem by changing the import below.
     """
     print('AC', file=file)
 
