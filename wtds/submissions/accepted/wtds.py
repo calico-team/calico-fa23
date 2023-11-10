@@ -11,6 +11,7 @@ def solve() -> None:
     else:
         guess("stackeon")
 
+
 def feed(i: int) -> str:
     print('feed', i, flush=True)
     response = input()
