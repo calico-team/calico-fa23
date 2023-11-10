@@ -1,20 +1,51 @@
-def solve(A: int, B: int) -> int:
+def solve() -> None:
     """
-    Return the sum of A and B.
+    Identify the unknown datamon through making feed and poop queries.
     
-    A: a non-negative integer
-    B: another non-negative integer
+    Call the feed and poop functions below to make feed and poop queries. Return
+    from this function after calling the guess function to make a guess query.
     """
     # YOUR CODE HERE
-    return 0
+
+
+def feed(i: int) -> str:
+    """
+    Feed a number to the Datamon.
+    """
+    print('feed', i, flush=True)
+    response = input()
+    if response == 'WRONG_ANSWER':
+        exit()
+    return response
+
+
+def poop() -> int:
+    """
+    Get the Datamon to poop out a number.
+    """
+    print('poop', flush=True)
+    response = input()
+    if response == 'WRONG_ANSWER':
+        exit()
+    return int(response)
+
+
+def guess(s: str) -> str:
+    """
+    Guess the species of the Datamon and end this test case.
+    """
+    print('guess', s, flush=True)
+    response = input()
+    if response == 'WRONG_ANSWER':
+        exit()
+    return response
 
 
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        A, B = int(temp[0]), int(temp[1])
-        print(solve(A, B))
+        solve()
+
 
 if __name__ == '__main__':
     main()
