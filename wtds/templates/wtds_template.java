@@ -1,18 +1,19 @@
 import java.io.*;
 
 class Solution {
-    /*
-    * Find the unknown datamon through feed, poop, and guess queries.
-    *
-    * Call the feed, poop, and guess functions below to make feed, poop, and guess queries.
-    */
+    /**
+     * Identify the unknown datamon through making feed and poop queries.
+     *  
+     * Call the feed and poop functions below to make feed and poop queries. Return
+     * from this function after calling the guess function to make a guess query.
+     */
      static void solve() throws IOException {
          // YOUR CODE HERE
      }
 
-     /**
-      * Feed the datamon an integer
-      */
+    /*
+     * Feed a number to the Datamon.
+     */
      static String feed(int i) throws IOException {
         out.println("feed " + i);
         out.flush();
@@ -24,8 +25,8 @@ class Solution {
      }
 
     /*
-    * Datamon poops out an integer depending on its species 
-    */
+     * Get the Datamon to poop out a number.
+     */
      static int poop() throws IOException {
         out.println("poop");
         out.flush();
@@ -37,10 +38,10 @@ class Solution {
      }
 
     /*
-    * Guess the datamon 
-    */
-     static String guess(String i) throws IOException {
-         out.println("guess " + i);
+     * Guess the species of the Datamon and end this test case.
+     */
+     static String guess(String s) throws IOException {
+         out.println("guess " + s);
          out.flush();
          String response = in.readLine();
          if (response.equals("WRONG_ANSWER")) {
@@ -57,7 +58,7 @@ class Solution {
          for (int i = 0; i < T; i++) {
              solve();
          }
-         String response = in.readLine();
+         out.flush();
      }
  }
  

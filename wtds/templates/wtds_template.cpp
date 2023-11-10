@@ -4,46 +4,48 @@
 
 using namespace std;
 
-vector<int> draw();
-string check(int);
+string feed(int);
+int poop();
+string guess(string);
 
-/*
- * Find the unknown datamon through feed, poop, and guess queries.
-    
- * Call the feed, poop, and guess functions below to make feed, poop, and guess queries.
-*/
+/**
+ * Identify the unknown datamon through making feed and poop queries.
+ *  
+ * Call the feed and poop functions below to make feed and poop queries. Return
+ * from this function after calling the guess function to make a guess query.
+ */
 void solve() {
     // YOUR CODE HERE
 }
 
 /*
- * Feed the datamon an integer
-*/
+ * Feed a number to the Datamon.
+ */
 string feed(int i){
     cout << "feed " << i << endl;
-    string result;
-    cin >> result;
-    return result;
+    string response;
+    cin >> response;
+    return response;
 }
 
 /*
- * Datamon poops out an integer depending on its species 
-*/
+ * Get the Datamon to poop out a number.
+ */
 int poop(){
     cout << "poop" << endl;
-    int result;
-    cin >> result;
-    return result;
+    int response;
+    cin >> response;
+    return response;
 }
 
 /*
- * Guess the datamon 
-*/
-string guess(string i){
-    cout << "guess " << i << endl;
-    string result;
-    cin >> result;
-    return result;
+ * Guess the species of the Datamon and end this test case.
+ */
+string guess(string s){
+    cout << "guess " << s << endl;
+    string response;
+    cin >> response;
+    return response;
 }
 
 int main() {
@@ -52,6 +54,5 @@ int main() {
     for (int i = 0; i < T; i++) {
         solve();
     }
-    string temp;
-    cin >> temp;
+    return 0;
 }
