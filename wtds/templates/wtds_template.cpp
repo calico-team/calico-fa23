@@ -1,6 +1,4 @@
-#include <cassert>
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -19,32 +17,42 @@ void solve() {
 }
 
 /*
- * Feed a number to the Datamon.
+ * Feed a number to the Datamon. Returns OK if successful.
  */
-string feed(int i){
+string feed(int i) {
     cout << "feed " << i << endl;
     string response;
     cin >> response;
+    if (response == "WRONG_ANSWER") {
+        exit(0);
+    }
     return response;
 }
 
 /*
- * Get the Datamon to poop out a number.
+ * Get the Datamon to poop out a number. Returns the number pooped out.
  */
-int poop(){
+int poop() {
     cout << "poop" << endl;
-    int response;
+    string response;
     cin >> response;
-    return response;
+    if (response == "WRONG_ANSWER") {
+        exit(0);
+    }
+    return stoi(response);
 }
 
 /*
- * Guess the species of the Datamon and end this test case.
+ * Guess the species of the Datamon and end this test case. Returns CORRECT if
+ * the guess is correct. Exits otherwise.
  */
-string guess(string s){
+string guess(string s) {
     cout << "guess " << s << endl;
     string response;
     cin >> response;
+    if (response == "WRONG_ANSWER") {
+        exit(0);
+    }
     return response;
 }
 

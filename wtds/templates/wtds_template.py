@@ -10,7 +10,7 @@ def solve() -> None:
 
 def feed(i: int) -> str:
     """
-    Feed a number to the Datamon.
+    Feed a number to the Datamon. Returns OK if successful.
     """
     print('feed', i, flush=True)
     response = input()
@@ -21,7 +21,7 @@ def feed(i: int) -> str:
 
 def poop() -> int:
     """
-    Get the Datamon to poop out a number.
+    Get the Datamon to poop out a number. Returns the number pooped out.
     """
     print('poop', flush=True)
     response = input()
@@ -32,7 +32,8 @@ def poop() -> int:
 
 def guess(s: str) -> str:
     """
-    Guess the species of the Datamon and end this test case.
+    Guess the species of the Datamon and end this test case. Returns CORRECT if
+    the guess is correct. Exits otherwise.
     """
     print('guess', s, flush=True)
     response = input()
