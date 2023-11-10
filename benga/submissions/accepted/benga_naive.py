@@ -1,3 +1,7 @@
+"""
+Same as benga_naive.py but with some constant factor optimizations.
+"""
+
 import sys
 
 

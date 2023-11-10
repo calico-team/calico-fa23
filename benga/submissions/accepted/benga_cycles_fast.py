@@ -1,3 +1,8 @@
+"""
+Same as benga_cycles.py but with some constant factor optimizations.
+"""
+
+
 import sys
 
 
