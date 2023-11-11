@@ -1,29 +1,22 @@
-def solve(N: int, M: int, K: int, S: list[int], E: list[int], P: list[int]) -> int:
-    stations = [[] for _ in range(M)]
-    for start, end, pos in zip(S, E, P):
-        station = stations[start - 1]
-        while len(station) < pos:
-            station.append(None)
-        station[pos - 1] = end - 1
+def solve(N: int, M: int, K: int, S: list[int], E: list[int]) -> int:
+    stations = [[] for _ in range(M + 1)]
+    for s, e in zip(S, E):
+        stations[s].append(e)
     
-    passengers_delivered, total_dist, cur_station = 0, 0, 1
+    passengers_done, total_dist, curr_station = 0, 0, 1
     train = []
-    while passengers_delivered < N:
-        new_train = []
-        for passenger_end in train:
-            if passenger_end == cur_station:
-                passengers_delivered += 1
-            else:
-                new_train.append(passenger_end)
-        train = new_train
-
-        while len(stations[cur_station]) > 0 and len(train) < K:
-            new_train.append(stations[cur_station].pop(0))
+    while passengers_done < N:
+        while curr_station in train:
+            train.remove(curr_station)
+            passengers_done += 1
         
-        cur_station = (cur_station + 1) % M
+        while len(stations[curr_station]) > 0 and len(train) < K:
+            train.append(stations[curr_station].pop(0))
+        
+        curr_station = curr_station % M + 1
         total_dist += 1
     
-    return total_dist
+    return total_dist - 1
 
 
 def main():
@@ -32,8 +25,7 @@ def main():
         N, M, K = [int(x) for x in input().split()]
         S = [int(x) for x in input().split()]
         E = [int(x) for x in input().split()]
-        P = [int(x) for x in input().split()]
-        print(solve(N, M, K, S, E, P))
+        print(solve(N, M, K, S, E))
 
 
 if __name__ == '__main__':
