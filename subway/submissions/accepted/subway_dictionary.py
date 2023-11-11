@@ -42,12 +42,11 @@ def solve(N: int, M: int, K: int, S: list[int], E: list[int], P: list[int]) -> i
 def main():
     T = int(input())
     for _ in range(T):
-        info = input().split(' ')
-        N, M, K = int(info[0]), int(info[1]), int(info[2])
-        S = [int(x) for x in input().split(' ')]
-        E = [int(x) for x in input().split(' ')]
-        P = [int(x) for x in input().split(' ')]
-        solve(N, M, K, S, E, P)
+        N, M, K = [int(x) for x in input().split()]
+        S = [int(x) for x in input().split()]
+        E = [int(x) for x in input().split()]
+        P = [int(x) for x in input().split()]
+        print(solve(N, M, K, S, E, P))
 
 
 if __name__ == '__main__':
