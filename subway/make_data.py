@@ -130,7 +130,6 @@ def make_secret_tests():
     
 
     for i in range(20):
-        print(i)
         bonus2_random_cases = case_generator(100000, 100000, 1, i)
         make_secret_test(bonus2_random_cases, 'bonus2_random')
     
@@ -167,7 +166,7 @@ def make_test_out(cases, file):
     
     TODO Implement this for your problem by changing the import below.
     """
-    from submissions.accepted.subway_dictionary import solve
+    from submissions.accepted.subway_pathfinder_heap import solve
     for case in cases:
         print(solve(case.N, case.M, case.K, case.starts, case.ends, case.pos), file=file)
 
