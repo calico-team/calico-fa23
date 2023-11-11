@@ -19,8 +19,7 @@ def main():
         N, M, K = [int(x) for x in input().split()]
         S = [int(x) for x in input().split()]
         E = [int(x) for x in input().split()]
-        P = [int(x) for x in input().split()]
-        print(solve(N, M, K, S, E, P))
+        print(solve(N, M, K, S, E))
 
 
 if __name__ == '__main__':
