@@ -126,26 +126,26 @@ def make_secret_tests():
             return TestCase(N, M, 1, starts, ends)
         return [case() for _ in range(T)]
 
-    for _ in range(3):
-        for i in range(3):
+    for i in range(3):
+        for _ in range(3):
             K = choose_k(i, 10)
             make_secret_test(random_cases(MAIN_MAX_N, MAIN_MAX_M, K, 100), f'main_random_{K}')
     
     make_secret_test(anti_M(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_anti_m')
     
-    for _ in range(3):
-        for i in range(3):
+    for i in range(3):
+        for _ in range(3):
             K = choose_k(i, 100)
             make_secret_test(random_cases(BONUS_1_MAX_N, BONUS_1_MAX_M, K, 100), f'bonus_1_random_{K}')
     
     make_secret_test(anti_M(BONUS_1_MAX_N, BONUS_1_MAX_M, 100), f'bonus_1_anti_m')
     
-    for _ in range(3):
-        for i in range(3):
+    for i in range(3):
+        for _ in range(3):
             K = choose_k(i, 10 ** 5)
             make_secret_test(random_cases(BONUS_2_MAX_N, BONUS_2_MAX_M, K, 1), f'bonus_2_random_{K}')
     
-    make_secret_test(anti_M(BONUS_2_MAX_N, BONUS_2_MAX_M, 1), f'bonus_1_anti_m')
+    make_secret_test(anti_M(BONUS_2_MAX_N, BONUS_2_MAX_M, 1), f'bonus_2_anti_m')
 
 
 def make_test_in(cases, file):
