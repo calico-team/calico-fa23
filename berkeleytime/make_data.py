@@ -26,8 +26,6 @@ class TestCase:
     """
     Represents all the information needed to create the input and output for a
     single test case.
-    
-    TODO Change this to store the relevant information for your problem.
     """
 
 
@@ -43,10 +41,6 @@ def make_sample_tests():
     To create a pair of sample test files, call make_sample_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_sample_test for more info.
-    
-    TODO Write sample tests. Consider creating cases that help build
-    understanding of the problem, help with debugging, or possibly help
-    identify edge cases.
     """
     main_sample_cases = [
         TestCase(20),
@@ -66,21 +60,19 @@ def make_secret_tests():
     To create a pair of sample test files, call make_secret_test with a list of
     TestCase as the first parameter and an optional name for second parameter.
     See calico_lib.make_secret_test for more info.
-    
-    TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """   
     def make_random_case(max_num):
         multiples_10 = []
-        for i in max_num:
-            if i % 10 == 0:
-                multiples_10.append(i)
-            i += 1
-        return random.shuffle(multiples_10)
+        for i in range(0, max_num + 1, 10):
+            multiples_10.append(i)
+        random.shuffle(multiples_10)
+        return [TestCase(x) for x in multiples_10]
     
     main_edge_cases = [
         TestCase(0),
         TestCase(500),
+        TestCase(170),
     ]
     make_secret_test(main_edge_cases, 'main_edge')
     
@@ -91,12 +83,13 @@ def make_test_in(cases, file):
     """
     Print the input of each test case into the file in the format specified by
     the input format.
-    
-    TODO Implement this for your problem.
     """
     T = len(cases)
     print(T, file=file)
+    assert T == len(cases), 'Invalid value of T = {} when there are/were {} test case(s)'.format(T, len(cases))
     for case in cases:
+        assert 0 <= case.N <= 500, 'N = {} out of range'.format(case.N)
+        assert case.N % 10 == 0, 'N = {} not a multiple of 10'.format(case.N)
         print(f'{case.N}', file=file)
 
 
@@ -107,8 +100,6 @@ def make_test_out(cases, file):
     
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
-    
-    TODO Implement this for your problem by changing the import below.
     """
     from submissions.accepted.berkeley_time_solution import solve
     for case in cases:

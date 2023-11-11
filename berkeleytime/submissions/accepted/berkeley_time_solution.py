@@ -4,7 +4,7 @@ def solve(N: int) -> str:
     elif N >= 180:
         return 'canceled'
     else:
-        return 'berkeley' * (N % 10)
+        return 'berkeley' * (N // 10)
 
 
 def main():
