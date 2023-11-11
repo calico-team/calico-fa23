@@ -15,7 +15,10 @@ const string SENTINEL = "";
 long long SEED = 33;
 mt19937_64 rng;
 
-const int A_MAXN = 1E6;
+const int MAIN_MAXN = 1E3;
+const int A_MAXN = 5e5;
+const int B_MAXN = 1e4;
+const int C_MAXN = 5e5;
 
 struct TestCase {
 
@@ -88,7 +91,7 @@ bool is_correct_main_case(vector<TestCase> const& v) {
         if (tc.S != 1) return false;
     }
 
-    return total_N <= 1e3 && total_M <= 1e3;
+    return total_N <= MAIN_MAXN && total_M <= MAIN_MAXN;
 
 }
 
@@ -120,9 +123,23 @@ bool is_correct_bonus_b_case(vector<TestCase> const& v) {
         total_N += tc.N;
         total_M += tc.M;
     }
-    if (total_N > 1e4) dbg("Too many nodes for B");
-    if (total_M > 1e4) dbg("Too many edges for B");
-    return total_N <= 1e4 && total_M <= 1e4;
+    if (total_N > B_MAXN) dbg("Too many nodes for B");
+    if (total_M > B_MAXN) dbg("Too many edges for B");
+    return total_N <= B_MAXN && total_M <= B_MAXN;
+}
+
+bool is_correct_bonus_c_case(vector<TestCase> const& v) {
+    // A bonus test case is correct if the sum for values of N and M in the case of S=1 is less or equal than 1e6
+    // and the values for N and M in the case S > 1 is less or equal than 1e4
+    int total_N = 0, total_M = 0;
+    for (auto& tc : v) {
+        if (!tc.isCorrect()) { dbg("Single wrong tc in C"); return false; }
+        total_N += tc.N;
+        total_M += tc.M;
+    }
+    if (total_N > C_MAXN) dbg("Too many nodes for C");
+    if (total_M > C_MAXN) dbg("Too many edges for C");
+    return total_N <= C_MAXN && total_M <= C_MAXN;
 }
 
 inline ostream& operator << (ostream& out, TestCase const& tc) {
@@ -242,29 +259,32 @@ void make_secret_tests() {
         make_secret_test(bonus_b_secret_one_random, "bonus_b_single");
     }
 
-    // cerr << "Generating edge cases" << endl;
-    
-    // // Make edge cases??? If this doesn't end then we have a problem
-    // vector<TestCase> bonus_b_edge_cases;
-    // for (int i = 0; true; ++i) {
-    //     Graph G = build_random_graph(2000, 10000, rng);
-    //     dbg("wtf");
-    //     TestCase tc;
-    //     tc.importGraph(G);
-    //     int low = G.stomachs_needed();
-    //     dbg(low);
-    //     int high = greedy(tc.N, tc.M, tc.S, tc.U, tc.V);
-    //     dbg(high);
-    //     if (low >= high) {
-    //         cerr << i << endl;
-    //     } else {
-    //         tc.S = G.stomachs_needed();
-    //         bonus_b_edge_cases.push_back(tc);
-    //         break;
-    //     }
-    // }
-    // assert(is_correct_bonus_b_case(bonus_b_edge_cases));
-    // make_secret_test(bonus_b_edge_cases, "bonus_b_edge_case");
+    // Test cases for bonus C
+
+    dbg("Generating random C");
+
+    for (int i = 0; i < 10; ++i) {
+        // Small multiple cases
+        vector<TestCase> bonus_c_secret_multiple_random;
+        for (int i = 0; i < 5; ++i) {
+            Graph G = build_random_graph(100000, 100000, rng);
+            TestCase tc;
+            tc.importGraph(G);
+            tc.S = max(int(G.stomachs_needed() - rng() % 2), 0);
+            bonus_c_secret_multiple_random.push_back(tc);
+        }
+        assert(is_correct_bonus_c_case(bonus_c_secret_multiple_random));
+        make_secret_test(bonus_c_secret_multiple_random, "bonus_c_multiple");
+        // One big case
+        vector<TestCase> bonus_c_secret_one_random;
+        Graph G = build_random_graph(500000, 500000, rng);
+        TestCase tc;
+        tc.importGraph(G);
+        tc.S = max(int(G.stomachs_needed() - rng() % 2), 0);
+        bonus_c_secret_one_random.push_back(tc);
+        assert(is_correct_bonus_c_case(bonus_c_secret_one_random));
+        make_secret_test(bonus_c_secret_one_random, "bonus_c_single");
+    }    
 
 }
 

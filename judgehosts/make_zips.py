@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus_a', 'bonus_b']
+TEST_SET_NAMES = ['main', 'bonus_a', 'bonus_b', 'bonus_c']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -61,6 +61,8 @@ def is_data_in_test_set(data_file_name, test_set_name):
         return 'main' in data_file_name or 'bonus_a' in data_file_name
     elif test_set_name == 'bonus_b':
         return 'main' in data_file_name or 'bonus_b' in data_file_name
+    elif test_set_name == 'bonus_c':
+        return 'sample' in data_file_name or 'bonus_c' in data_file_name
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -75,7 +77,8 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'judgehosts_simulation':        ['main'],
         'judgehosts_bfs_naive':         ['main', 'bonus_a'],
         'judgehosts_bfs' :              ['main', 'bonus_a'],
-        'judgehosts_dinic' :            ['main', 'bonus_b'],
+        'judgehosts_dinic' :            ['main', 'bonus_b', 'bonus_c'],
+        'judgehosts_push_relabel':      ['main', 'bonus_b'],
         'judgehosts_combined' :         ['main', 'bonus_a', 'bonus_b'],
         
         # run_time_error
@@ -83,6 +86,9 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         # time_limit_exceeded
         'judgehosts_simulation_tle' :   ['bonus_a'],
         'judgehosts_dinic_tle' :        ['bonus_a'],
+        'judgehosts_edmonds_karp_tle' : ['bonus_b', 'bonus_c'],
+        'judgehosts_push_relabel_tle' : ['bonus_c'],
+
     
         # wrong_answer
         'judgehosts_bfs_wa':            ['bonus_b'],
