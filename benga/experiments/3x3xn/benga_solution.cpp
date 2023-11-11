@@ -48,14 +48,10 @@ tcT> bool ckmax(T& a, const T& b) {
 	return a < b ? a = b, 1 : 0; } // set a = max(a,b)
 
 
-
-
-
 /**
  * Description: modular arithmetic operations 
  * Source: (BenQ) https://github.com/bqi343/cp-notebook/blob/master/Implementations/content/number-theory%20(11.1)/Modular%20Arithmetic/ModInt.h
  */
-
 
 const int MOD = 3359232;
 

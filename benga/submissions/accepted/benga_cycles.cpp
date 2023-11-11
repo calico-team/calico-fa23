@@ -199,21 +199,23 @@ vvll A =
 
 const int dim_A = 19;
 
+const bigint LAMBDA = (ll) 84LL * 312LL * 6LL * (ll) MOD;
 
-ll LAMBDA = (ll) 84LL * 312LL * 6LL * (ll) MOD;
+int solveLargeN(bigint& N) {
+	return (int) (matMul(matPow(A, LAMBDA.longValue()), matPow(A, (N % LAMBDA).longValue()))[sz(A)-1][0] - 1);
+}
 
-/**
-* Return the number of unique Benga towers that can be built using N or fewer
-* bricks. Give your answer modulo 3359232.
-* 
-* N: the maximum number of bricks to use
-*/
-int solve(string const& N) {
-    // YOUR CODE HERE
-	bigint pwr = N;
-	pwr = (pwr / 3) % LAMBDA;
-	return (int)((matPow(A, pwr.longValue())[dim_A - 1][0] - 1) + MOD) % MOD;
-    
+int solveSmallN(ll N) {
+	return (int) (matPow(A, N)[sz(A)-1][0] - 1);
+}
+
+int solve(string& S) {
+	bigint N = S;
+	N /= 3;
+	if (N == 0) return 0;
+	N += 1;
+	if (N > LAMBDA) return solveLargeN(N);
+	else return solveSmallN(N.longValue());
 }
 
 int main() {
