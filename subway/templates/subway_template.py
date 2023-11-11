@@ -1,4 +1,4 @@
-def solve(N: int, M: int, K: int, S: list[int], E: list[int], P: list[int]) -> int:
+def solve(N: int, M: int, K: int, S: list[int], E: list[int]) -> int:
     """
     Find the total distance the subway must travel until all passengers have
     arrived at their ending station.
@@ -8,7 +8,6 @@ def solve(N: int, M: int, K: int, S: list[int], E: list[int], P: list[int]) -> i
     K: the maximum number of passengers the subway can carry
     S: list of starting stations for each passenger
     E: list of ending stations for each passenger
-    P: list of positions in line at their starting station for each passenger
     """
     # YOUR CODE HERE
     return -1

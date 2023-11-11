@@ -10,9 +10,8 @@ class Solution {
      * K: the maximum number of passengers the subway can carry
      * S: list of starting stations for each passenger
      * E: list of ending stations for each passenger
-     * P: list of positions in line at their starting station for each passenger
      */
-    static int solve(int N, int M, int K, int[] S, int[] E, int[] P) {
+    static int solve(int N, int M, int K, int[] S, int[] E) {
         // YOUR CODE HERE
         return -1;
     }
@@ -38,11 +37,7 @@ class Solution {
                 E[j] = Integer.parseInt(temp[j]);
             }
             temp = in.readLine().split(" ");
-            int[] P = new int[N];
-            for (int j = 0; j < N; j++) {
-                P[j] = Integer.parseInt(temp[j]);
-            }
-            out.println(solve(N, M, K, S, E, P));
+            out.println(solve(N, M, K, S, E));
         }
         out.flush();
     }

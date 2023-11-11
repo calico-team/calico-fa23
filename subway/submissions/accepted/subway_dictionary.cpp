@@ -12,21 +12,13 @@ using ll = long long;
  * K: the maximum number of passengers the subway can carry
  * S: list of starting stations for each passenger
  * E: list of ending stations for each passenger
- * P: list of positions in line at their starting station for each passenger
  */
-ll solve(int N, int M, int K, vector<int> &S, vector<int> &E, vector<int> &P) {
-    
-    map<int, vector<int>> shit_format;
-    for (int i = 0; i < N; ++i) {
-        if (shit_format[--S[i]].size() < P[i])
-            shit_format[S[i]].resize(P[i]);
-        shit_format[S[i]][--P[i]] = --E[i];
-    }
+ll solve(int N, int M, int K, vector<int> &S, vector<int> &E) {
     
     map<int, queue<int>> stations;
-    for (auto& station : shit_format)
-        for (int depressed_comuter : station.second)
-            stations[station.first].push(depressed_comuter);
+    for (int i = 0; i < N; ++i) {
+        stations[S[i]-1].push(E[i]-1);
+    }
 
     priority_queue<ll, vector<ll>, greater<ll>> soobway;
     ll t = 0;
@@ -83,10 +75,6 @@ int main() {
         for (int &item : E) {
             cin >> item;
         }
-        vector<int> P(N);
-        for (int &item : P) {
-            cin >> item;
-        }
-        cout << solve(N, M, K, S, E, P) << '\n';
+        cout << solve(N, M, K, S, E) << '\n';
     }
 }
