@@ -6,8 +6,8 @@ using namespace std;
 using ll = long long;
 
 /**
- * Output a single line containing K - 1 space-separated values denoting
- * the maximum fuel charge possible for each leg of the journey.
+ * Output Q lines, where the i-th line contains the maximum
+ * fuel charge possible for the i-th errand
  *     
  * N: the number of universes
  * M: the number of portals

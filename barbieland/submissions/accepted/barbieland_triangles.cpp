@@ -4,16 +4,18 @@ using namespace std;
 using ll = long long;
 
 /**
- * Output a single line containing K - 1 space-separated values denoting
- * the maximum fuel charge possible for each leg of the journey.
+ * Output Q lines, where the i-th line contains the maximum
+ * fuel charge possible for the i-th errand
  *     
  * N: the number of universes
  * M: the number of portals
- * K: the number of errands
- * U: the list containing the sequence of universes in which errands are to be completed
+ * Q: the number of queries
+ * U: the list containing U_i for each query
+ * V: the list containing V_i for each query
  * A: the list of A_i for each portal
  * B: the list of B_i for each portal
  * C: the list of fuel charges for each portal
+ * 
  */
 void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, vector<int>& B, vector<ll>& C) {
 
@@ -38,7 +40,7 @@ void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, 
         for (auto& [v, w] : g[u]) {
             if (!visited[v]) {
                 nodes_xor[v] = nodes_xor[u] ^ w;
-                dfs_tree.emplace_back(v, w);
+                dfs_tree[u].emplace_back(v, w);
                 dfs(v);
             }
         }
