@@ -13,6 +13,9 @@ desktop.ini
 # For Albert
 .ccls-cache/
 
+# for the mexican
+.idea/
+
 # Local History for Visual Studio Code
 .history/
 

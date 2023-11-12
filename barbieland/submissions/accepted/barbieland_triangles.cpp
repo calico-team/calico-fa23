@@ -26,7 +26,7 @@ void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, 
         g[B[i]].emplace_back(A[i], C[i]);
     }
 
-    vector<vector<pair<int,ll>>> dfs_tree(N + 1);
+    vector<vector<int>> dfs_tree(N + 1);
     vector<bool> visited(N + 1, false);
     vector<ll> basis;
 
@@ -35,28 +35,28 @@ void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, 
         if (x) basis.push_back(x);
     };
 
+    // Create DFS tree
     function<void(int)> dfs = [&](int u) {
         visited[u] = true;
         for (auto& [v, w] : g[u]) {
             if (!visited[v]) {
                 nodes_xor[v] = nodes_xor[u] ^ w;
-                dfs_tree[u].emplace_back(v, w);
+                dfs_tree[u].push_back(v);
                 dfs(v);
             }
         }
     };
 
-    function<void(int,int)> triangles = [&](int u, int p) {
-        for (auto& [v, w] : dfs_tree[u]) triangles(v, u);
+    function<void(int)> triangles = [&](int u) {
+        for (int v : dfs_tree[u]) triangles(v);
         for (auto& [v, w] : g[u]) {
-            if (v != p) {
-                add_to_basis(w ^ nodes_xor[u] ^ nodes_xor[v]);
-            }
+            // Triange 1 -> u -> v
+            add_to_basis(w ^ nodes_xor[u] ^ nodes_xor[v]);
         }
     };
 
     dfs(1);
-    triangles(1, 0);
+    triangles(1);
 
     for (int i = 0; i < Q; ++i) {
         ll answer = nodes_xor[U[i]] ^ nodes_xor[V[i]];

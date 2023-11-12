@@ -20,18 +20,17 @@ def solve(N: int, M: int, Q: int, U: list[int], V: list[int], A: list[int], B: l
         for v, w in graph[u]:
             if v not in visited:
                 nodes_xor[v] = nodes_xor[u] ^ w
-                dfs_tree[u].append({v, w})
+                dfs_tree[u].append(v)
                 dfs(v)
 
-    def triangles(u, p):
-        for v, w in dfs_tree[u]:
-            triangles(v, u)
+    def triangles(u):
+        for v in dfs_tree[u]:
+            triangles(v)
         for v, w in graph[u]:
-            if v != p:
-                add_to_basis(w ^ nodes_xor[u] ^ nodes_xor[v])
+            add_to_basis(w ^ nodes_xor[u] ^ nodes_xor[v])
 
     dfs(1)
-    triangles(1, 0)
+    triangles(1)
 
     for i in range(Q):
         answer = nodes_xor[U[i]] ^ nodes_xor[V[i]]
