@@ -19,8 +19,9 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'TODO Change this to something different, long, and arbitrary.'
+SEED = '†ø∂ø çhåñgé +≠îß †ø ∫0nnë†h1ñg ∂îƒƒé®éñ†, 10¬g, åπ∂ ª®ßi†®a‰¥.'
 
+from graph_randomizer import *
 
 class TestCase:
     """
@@ -31,9 +32,41 @@ class TestCase:
     """
 
 
-    def __init__(self, A, B):
-        self.A = A
-        self.B = B
+    def __init__(self, N, M, Q, hardcoded_edges= None, hardcoded_queries= None, stability= 10):
+        assert stability >= 0
+        attractability = [ra.expovariate(1) + stability for _ in range(N)]
+
+        self.N = N
+        if hardcoded_edges is not None:
+            assert isinstance(hardcoded_edges, list) and len(hardcoded_edges) == M
+            assert all([isinstance(edge, tuple) and len(edge) == 2 for edge in hardcoded_edges])
+            assert all([0 < edge[0] <= N and 0 < edge[1] <= N for edge in hardcoded_edges])
+            self.edges = hardcoded_edges
+        else:
+            self.graph = GraphRandomizer(range(1, N + 1), M, False, force_edge_lim= False, base_attractibility= attractability)
+            self.edges = self.graph.edge_set
+            self.M = len(self.edges)
+
+        self.Q = Q
+        if hardcoded_queries is not None:
+            assert isinstance(hardcoded_queries, list) and len(hardcoded_queries) == Q
+            assert all([isinstance(q, tuple) and len(q) == 2 for q in hardcoded_queries])
+            assert all([0 < q[0] <= N and 0 < q[1] <= N for q in hardcoded_queries])
+            self.queries = hardcoded_queries
+        else:
+            self.queries = [(ra.randint(1, N), ra.randint(1, N)) for _ in range(Q)]
+    
+    def assign_edge_weights(self, basis):
+        self.edge_weights = {}
+        for edge in self.edges:
+            w = 0
+            basis_bitmask = random.randint(0, 2 ** len(basis) - 1)
+            for i in range(len(basis)):
+                if basis_bitmask & (1 << i) > 0:
+                    w = w ^ basis[i]
+            assert 0 <= w <= 10 ** 18
+            self.edge_weights[edge] = w
+            
 
 
 def make_sample_tests():
@@ -48,18 +81,13 @@ def make_sample_tests():
     understanding of the problem, help with debugging, or possibly help
     identify edge cases.
     """
-    main_sample_cases = [
-        TestCase(7, 9),
-        TestCase(420, 69),
-        TestCase(3, 0),
-    ]
-    make_sample_test(main_sample_cases, 'main')
-    
-    bonus_sample_cases = [
-        TestCase(123456789, 987654321),
-        TestCase(3141592653589793238462643, 3832795028841971693993751),
-    ]
-    make_sample_test(bonus_sample_cases, 'bonus')
+    # main_sample_cases = [
+    #     TestCase(7, 9),
+    #     TestCase(420, 69),
+    #     TestCase(3, 0),
+    # ]
+    # make_sample_test(main_sample_cases, 'main')
+    pass
 
 
 def make_secret_tests():
@@ -73,38 +101,63 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    def make_random_case(max_digits):
-        def random_n_digit_number(n):
-            return random.randint(10 ** (n - 1), (10 ** n) - 1) if n != 0 else 0
-        A_digits = random.randint(0, max_digits)
-        B_digits = random.randint(0, max_digits)
-        A, B = random_n_digit_number(A_digits), random_n_digit_number(B_digits)
-        return TestCase(A, B)
+    UPPER_LIM = 10 ** 5
+
+    stabilities = [10, 1, 5, 0, 100]
     
-    main_edge_cases = [
-        TestCase(0, 0),
-        TestCase(1, 0),
-        TestCase(0, 1),
-        TestCase(10 ** 9, 0),
-        TestCase(0, 10 ** 9),
-        TestCase(10 ** 9, 10 ** 9),
+    def create_basis(size):
+        assert 0 < size <= 59
+        return [1 << p for p in random.sample(range(59), size)]
+    basis_sizes = [4, 10, 59]
+
+    graph_node_amt_limits = [10 ** 3, 10 ** 4, 10 ** 5]
+
+    graph_edge_amt_funcs = [
+        lambda N : min(5 * N // 4, N + 20, UPPER_LIM),
+        lambda N : min(3 * N, UPPER_LIM),
+        lambda N : min(N * (N - 1) // 2, UPPER_LIM)
     ]
-    make_secret_test(main_edge_cases, 'main_edge')
+
+    graph_batches = []
+    for basis_size in basis_sizes:
+        for node_lim in graph_node_amt_limits:
+            for f in graph_edge_amt_funcs:
+                batch = []
+                N_remain, M_remain = UPPER_LIM, UPPER_LIM
+                for stability in stabilities:
+                    N = random.randint(9 * node_lim // 10, node_lim)
+                    M = f(N)
+                    N_remain -= N
+                    M_remain -= M
+                    if not (N_remain > 0 and M_remain > 0):
+                        break
+                    batch.append((N, M, basis_size, stability))
+                graph_batches.append(batch)
     
-    for i in range(5):
-        main_random_cases = [make_random_case(9) for _ in range(100)]
-        make_secret_test(main_random_cases, 'main_random')
-    
-    bonus_edge_cases = [
-        TestCase(10 ** 100, 0),
-        TestCase(0, 10 ** 100),
-        TestCase(10 ** 100, 10 ** 100),
-    ]
-    make_secret_test(bonus_edge_cases, 'bonus_edge')
-    
-    for i in range(5):
-        bonus_random_cases = [make_random_case(100) for _ in range(100)]
-        make_secret_test(bonus_random_cases, 'bonus_random')
+    def basis_size_to_name(size):
+        return {
+            4: 'small_basis',
+            10: 'med_basis',
+            59: 'max_basis',
+        }[size]
+
+    def edge_node_ratio_to_name(N, M):
+        if N + 50 > M:
+            return 'sparse_graph'
+        if M == min(N * (N - 1) // 2, UPPER_LIM):
+            return 'max_graph'
+        return 'med_graph'
+
+    # FUCK TODO
+    # for batch in graph_batches:
+    #     avg_Q = UPPER_LIM // len(batch)
+
+    #     test_cases = []
+    #     for graph in batch:
+
+    #     make_secret_test('{}_{}'.format(basis_size_to_name()))
+
+
 
 
 def make_test_in(cases, file):
