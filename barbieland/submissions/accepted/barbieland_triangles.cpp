@@ -10,20 +10,20 @@ using ll = long long;
  * N: the number of universes
  * M: the number of portals
  * Q: the number of queries
- * U: the list containing U_i for each query
- * V: the list containing V_i for each query
- * A: the list of A_i for each portal
- * B: the list of B_i for each portal
- * C: the list of fuel charges for each portal
+ * U: the list of U_i for each portal
+ * V: the list of V_i for each portal
+ * W: the list of W_i for each portal
+ * A: the list of A_i for each errand
+ * B: the list of B_i for each errand
  * 
  */
-void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, vector<int>& B, vector<ll>& C) {
+void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<ll>& W, vector<int>& A, vector<int>& B) {
 
     vector<ll> nodes_xor(N + 1);
     vector<vector<pair<int,ll>>> g(N + 1);
     for (int i = 0; i < M; ++i) {
-        g[A[i]].emplace_back(B[i], C[i]);
-        g[B[i]].emplace_back(A[i], C[i]);
+        g[U[i]].emplace_back(V[i], W[i]);
+        g[V[i]].emplace_back(U[i], W[i]);
     }
 
     vector<vector<int>> dfs_tree(N + 1);
@@ -59,7 +59,7 @@ void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, 
     triangles(1);
 
     for (int i = 0; i < Q; ++i) {
-        ll answer = nodes_xor[U[i]] ^ nodes_xor[V[i]];
+        ll answer = nodes_xor[A[i]] ^ nodes_xor[B[i]];
         for (ll b : basis) answer = max(answer, answer ^ b);
         cout << answer << '\n';
     }
@@ -72,16 +72,14 @@ int main() {
     for (int i = 0; i < T; i++) {
         int N, M, Q;
         cin >> N >> M >> Q;
-        vector<int> A(M);
-        vector<int> B(M);
-        vector<ll> C(M);
-        for (int j = 0; j < M; j++) {
-            cin >> A[j] >> B[j] >> C[j];
+        vector<int> U(M), V(M), A(Q), B(Q);
+        vector<ll> W(M);
+        for (int j = 0; j < M; ++j) {
+            cin >> U[j] >> V[j] >> W[j];
         }
-        vector<int> U(Q), V(Q);
         for (int j = 0; j < Q; ++j) {
-            cin >> U[j] >> V[j];
+            cin >> A[j] >> B[j];
         }
-        solve(N, M, Q, U, V, A, B, C);
+        solve(N, M, Q, U, V, W, A, B);
     }
 }

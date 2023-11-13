@@ -12,14 +12,14 @@ using ll = long long;
  * N: the number of universes
  * M: the number of portals
  * Q: the number of queries
- * U: the list containing U_i for each query
- * V: the list containing V_i for each query
- * A: the list of A_i for each portal
- * B: the list of B_i for each portal
- * C: the list of fuel charges for each portal
+ * U: the list of U_i for each portal
+ * V: the list of V_i for each portal
+ * W: the list of W_i for each portal
+ * A: the list of A_i for each errand
+ * B: the list of B_i for each errand
  * 
  */
-void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<int>& A, vector<int>& B, vector<ll>& C) {
+void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<ll>& W, vector<int>& A, vector<int>& B) {
     // YOUR CODE HERE
     return;
 }
@@ -30,16 +30,14 @@ int main() {
     for (int i = 0; i < T; i++) {
         int N, M, Q;
         cin >> N >> M >> Q;
-        vector<int> A(M);
-        vector<int> B(M);
-        vector<ll> C(M);
-        for (int j = 0; j < M; j++) {
-            cin >> A[j] >> B[j] >> C[j];
+        vector<int> U(M), V(M), A(Q), B(Q);
+        vector<ll> W(M);
+        for (int j = 0; j < M; ++j) {
+            cin >> U[j] >> V[j] >> W[j];
         }
-        vector<int> U(Q), V(Q);
         for (int j = 0; j < Q; ++j) {
-            cin >> U[j] >> V[j];
+            cin >> A[j] >> B[j];
         }
-        solve(N, M, Q, U, V, A, B, C);
+        solve(N, M, Q, U, V, W, A, B);
     }
 }

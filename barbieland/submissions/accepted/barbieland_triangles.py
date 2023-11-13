@@ -1,11 +1,16 @@
-def solve(N: int, M: int, Q: int, U: list[int], V: list[int], A: list[int], B: list[int], C: list[int]):
-    nodes_xor = [0 for _ in range(N + 1)]
-    graph = {}
-    for i in range(M):
-        graph[A[i]].append({B[i], C[i]})
-        graph[B[i]].append({A[i], C[i]})
+import sys
 
-    dfs_tree = {}
+sys.setrecursionlimit(10 ** 9)
+
+
+def solve(N: int, M: int, Q: int, U: list[int], V: list[int], W: list[int], A: list[int], B: list[int]):
+    nodes_xor = [0 for _ in range(N + 1)]
+    graph = [[] for i in range(N + 1)]
+    for i in range(M):
+        graph[U[i]].append((V[i], W[i]))
+        graph[V[i]].append((U[i], W[i]))
+
+    dfs_tree = [[] for i in range(N + 1)]
     visited = set()
     basis = []
 
@@ -33,7 +38,7 @@ def solve(N: int, M: int, Q: int, U: list[int], V: list[int], A: list[int], B: l
     triangles(1)
 
     for i in range(Q):
-        answer = nodes_xor[U[i]] ^ nodes_xor[V[i]]
+        answer = nodes_xor[A[i]] ^ nodes_xor[B[i]]
         for b in basis:
             answer = max(answer, answer ^ b)
         print(answer)
@@ -42,21 +47,10 @@ def solve(N: int, M: int, Q: int, U: list[int], V: list[int], A: list[int], B: l
 def main():
     T = int(input())
     for _ in range(T):
-        temp = input().split()
-        N, M, Q = int(temp[0]), int(temp[1]), int(temp[2])
-        U = [None for _ in range(Q)]
-        V = [None for _ in range(Q)]
-        A = [None for _ in range(M)]
-        B = [None for _ in range(M)]
-        C = [None for _ in range(M)]
-        for i in range(M):
-            temp = input().split()
-            A[i], B[i], C[i] = int(temp[0]), int(temp[1]), int(temp[2])
-        for i in range(Q):
-            temp = input().split()
-            U[i], V[i] = int(temp[0]), int(temp[1])
-
-        solve(N, M, Q, U, V, A, B, C)
+        N, M, Q = [int(i) for i in input().split()]
+        U, V, W = map(list, zip(*(map(int, input().split()) for _ in range(M))))
+        A, B = map(list, zip(*(map(int, input().split()) for _ in range(Q))))
+        solve(N, M, Q, U, V, W, A, B)
 
 
 if __name__ == '__main__':
