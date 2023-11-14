@@ -38,7 +38,7 @@ class Dinic:
     def calc(self, s, t):
         flow = 0
         self.q[0] = s
-        for L in range(0, 31):
+        for L in range(30, 31):
             while True:
                 self.lvl = [0] * len(self.q)
                 self.ptr = [0] * len(self.q)
