@@ -17,8 +17,8 @@ class Datamon:
             self.remove = lambda: self.data_struct.pop()
         elif type == 'heapeon':
             self.data_struct = []
-            self.add = lambda x: heapq.heappush(self.data_struct, x)
-            self.remove = lambda: heapq.heappop(self.data_struct)
+            self.add = lambda x: heapq.heappush(self.data_struct, -x)
+            self.remove = lambda: -heapq.heappop(self.data_struct)
         else:
             give_IE(f'Initializing invalid Datamon type: f"{type}"')
         

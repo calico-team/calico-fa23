@@ -7,14 +7,14 @@ int poop();
 string guess(string);
 
 void solve() {
-    feed(2);
     feed(1);
     feed(3);
+    feed(2);
     
     int num = poop();
-    if (num == 2) {
+    if (num == 1) {
         guess("queueon");
-    } else if (num == 1) {
+    } else if (num == 3) {
         guess("heapeon");
     } else {
         guess("stackeon");

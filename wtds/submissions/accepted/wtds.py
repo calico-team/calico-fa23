@@ -1,12 +1,12 @@
 def solve() -> None:
-    feed(2)
     feed(1)
     feed(3)
+    feed(2)
     
     num = poop()
-    if num == 2: 
+    if num == 1: 
         guess("queueon")
-    elif num == 1: 
+    elif num == 3: 
         guess("heapeon")
     else:
         guess("stackeon")
