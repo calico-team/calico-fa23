@@ -11,6 +11,7 @@ template <typename T> ostream& operator << (ostream& o, vector<T> const& v) {
 }
 
 bool check(vector<int> const& S, vector<int>& a, vector<int>& b) {
+
     vector<int> comb(4);
     for (comb[0] = 2; comb[0] <= 30; ++comb[0]) {
         for (comb[1] = comb[0] + 1; comb[1] <= 30; ++comb[1]) {
@@ -41,7 +42,6 @@ bool check(vector<int> const& S, vector<int>& a, vector<int>& b) {
 
                     if (ok) return true;
 
-
                 }
             }
         }
@@ -63,7 +63,7 @@ void solve(vector<int>& S) {
     b = { 1, 0, 0, 0, 0, 0 };
     if (check(S, a, b)) {
         cout << a << '\n' << b << '\n';
-        return ;
+        return;
     }
     cout << "IMPOSSIBLE\n";
 }
