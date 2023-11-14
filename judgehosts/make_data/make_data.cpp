@@ -232,6 +232,26 @@ void make_secret_tests() {
         make_secret_test(bonus_a_secret_one_random, "bonus_a_single");
     }
 
+    // Edge cases for A
+
+    for (int i = 0; i < 5; ++i) {
+        vector<TestCase> edge_cases;
+        Graph G = build_random_graph(A_MAXN / 3, A_MAXN / 2, rng);
+        Graph extended_G(G.V + 2);
+        for (auto edge : G.edgeList) extended_G.add_edge(edge.first, edge.second);
+        for (int i = 0; i < G.V; ++i)
+            if (!G.inDeg[i]) extended_G.add_edge(G.V, i);
+        for (int i = 0; i < G.V; ++i) {
+            if (!G.outDeg[i]) extended_G.add_edge(i, G.V + 1);
+        }
+        TestCase tc;
+        tc.importGraph(extended_G);
+        tc.S = 1;
+        edge_cases.push_back(tc);
+        assert(is_correct_bonus_a_case(edge_cases));
+        make_secret_test(edge_cases, "bonus_a_edge");
+    }
+
     // Test cases for bonus B
 
     dbg("Generating random B");
