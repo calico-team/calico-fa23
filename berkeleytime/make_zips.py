@@ -57,7 +57,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     Return True if the submission file named submission_file_name should be
     added to the test set named test_set_name.
     """
-    return 'berkeleytime' in submission_file_name
+    return 'berkeley_time' in submission_file_name
 
 
 def main():
