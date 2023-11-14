@@ -4,6 +4,22 @@ use rand_core::SeedableRng;
 use std::cmp::min;
 use std::collections::BTreeSet;
 
+/*
+
+The first line of the input contains an integer T denoting the number of test cases that follow. For each test case:
+The first line contains two space-separated integers F B, where:
+F denotes the number of floors in the mystery dungeon.
+B denotes your initial belly value.
+The second line contains four space-separated integers N M S E, where:
+N denotes the number of rooms in each floor of the mystery dungeon.
+M denotes the number of hallways in each floor of the mystery dungeon.
+S denotes the room number of the starting room for each floor.
+E denotes the room number of the exit room for each floor.
+The third line contains F space-separated integers K1 K2 … KF, denoting that the treasure on the ith floor is located at room Ki
+For each of the next M lines, the ith line contains two space-separated integers Xi Yi, denoting that a hallway connects rooms Xi and Yi in each floor of the dungeon.
+
+*/
+
 struct DSU {
     p: Vec<usize>,
     sz: Vec<usize>,
@@ -83,6 +99,22 @@ fn gen(maxn: usize, maxf: usize, maxb: usize) {
        edges.insert((dsu.find(a), dsu.find(b)));
        dsu.union(a, b);
     }
+
+    let mut vec = Vec::new(); 
+
+    for _ in 0..f {
+        let mut u = rng.gen_range(1..n+1);
+        while treas.contains(&u) {
+            u = rng.gen_range(1..n+1);
+        }
+        vec.push(u);
+        treas.insert(u);
+    }
+
+    for i in 0..f {
+        print!("{} ", vec[i]);
+    }
+
     for _ in n..m+1 {
        let mut b = rng.gen_range(1..n+1);
        let mut a = rng.gen_range(0..b);
@@ -92,14 +124,6 @@ fn gen(maxn: usize, maxf: usize, maxb: usize) {
        }
        edges.insert((a, b));
        println!("{} {}", a, b);
-    }
-    for _ in 0..f {
-        let mut u = rng.gen_range(1..n+1);
-        while treas.contains(&u) {
-            u = rng.gen_range(1..n+1);
-        }
-        println!("{}", u);
-        treas.insert(u);
     }
 }
 
