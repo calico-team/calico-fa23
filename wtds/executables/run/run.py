@@ -72,7 +72,7 @@ def run():
                     break
                 else:
                     if arg in Datamon.types:
-                        give_WA(f'Your program guessed {arg}, but the Datamon was actually {datamon}')
+                        give_WA(f'Your program guessed {arg}, but the Datamon was actually {datamon.type}')
                     else:
                         give_WA(f'Your program guessed {arg}, which is not a valid Datamon')
             else:
