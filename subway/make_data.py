@@ -25,7 +25,7 @@ SEED = 'fund bay area transit'
 MAIN_MAX_N = MAIN_MAX_K = 100
 MAIN_MAX_M = 100
 
-BONUS_1_MAX_N = BONUS_1_MAX_K = 1000
+BONUS_1_MAX_N = BONUS_1_MAX_K = 250
 BONUS_1_MAX_M = 10 ** 4
 
 BONUS_2_MAX_N = BONUS_2_MAX_K = 10 ** 5
@@ -125,6 +125,19 @@ def make_secret_tests():
             ends = [e] * N
             return TestCase(N, M, 1, starts, ends)
         return [case() for _ in range(T)]
+    
+    def anti_K(N, M, T):
+        def case():
+            start = random.randrange(1, M + 1)
+            starts = [start] * N
+            ends = []
+            while len(ends) != N:
+                temp_end = start
+                while temp_end == start:
+                    temp_end = random.randrange(1, M + 1)
+                ends.append(temp_end)
+            return TestCase(N, M, N, starts, ends)
+        return [case() for _ in range(T)]
 
     for i in range(3):
         for _ in range(3):
@@ -132,6 +145,7 @@ def make_secret_tests():
             make_secret_test(random_cases(MAIN_MAX_N, MAIN_MAX_M, K, 100), f'main_random_{K}')
     
     make_secret_test(anti_M(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_anti_m')
+    make_secret_test(anti_K(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_anti_k')
     
     for i in range(3):
         for _ in range(3):
@@ -139,6 +153,7 @@ def make_secret_tests():
             make_secret_test(random_cases(BONUS_1_MAX_N, BONUS_1_MAX_M, K, 100), f'bonus_1_random_{K}')
     
     make_secret_test(anti_M(BONUS_1_MAX_N, BONUS_1_MAX_M, 100), f'bonus_1_anti_m')
+    make_secret_test(anti_K(BONUS_1_MAX_N, BONUS_1_MAX_M, 100), f'bonus_1_anti_k')
     
     for i in range(3):
         for _ in range(3):
@@ -146,6 +161,7 @@ def make_secret_tests():
             make_secret_test(random_cases(BONUS_2_MAX_N, BONUS_2_MAX_M, K, 1), f'bonus_2_random_{K}')
     
     make_secret_test(anti_M(BONUS_2_MAX_N, BONUS_2_MAX_M, 1), f'bonus_2_anti_m')
+    make_secret_test(anti_K(BONUS_2_MAX_N, BONUS_2_MAX_M, 1), f'bonus_2_anti_k')
 
 
 def make_test_in(cases, file):

@@ -61,8 +61,14 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'subway_naive':     ['main'],
-        'subway_dsu_heap':  ['main', 'bonus_1', 'bonus_2'],
+        'subway_naive':         ['main'],
+        'subway_ignore':        ['main', 'bonus_1'],
+        'subway_dsu_heap':      ['main', 'bonus_1', 'bonus_2'],
+        'subway_map_priority':  ['main', 'bonus_1', 'bonus_2'],
+        
+        # tle
+        'subway_naive_tle':     ['bonus_1', 'bonus_2'],
+        'subway_ignore_tle':    ['bonus_2'],
     }
     
     # we only care about actual code files

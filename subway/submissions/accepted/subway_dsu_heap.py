@@ -1,5 +1,7 @@
 import heapq
-import time
+import sys
+
+sys.setrecursionlimit(10 ** 9)
 
 class StationFinder:
     """

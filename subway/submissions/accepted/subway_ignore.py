@@ -1,41 +1,36 @@
 def solve(N: int, M: int, K: int, S: list[int], E: list[int]) -> int:
-    unique_starts = set(S)
-    unique_ends = set(E)
-    waiting = {i: [] for i in unique_starts}
-    all_stations = sorted(set(S + E))
-
-    passengers_left = N
-    pointer = -1
-    distance = 0
-    last_visited = 0
-
-    train = {i: 0 for i in set(E)}
-    open_seats = K
-    
+    stations = {station: [] for station in S + E + [1]}
     for s, e in zip(S, E):
-        waiting[s].append(e)
-    for station in waiting.values():
+        stations[s].append(e)
+    for station in stations.values():
         station.reverse()
+    
+    all_stations = sorted(set(S + E + [1]))
+    curr_station_idx = 0
 
-    while passengers_left > 0:
-        pointer = (pointer + 1) % len(all_stations)
-        this_station = all_stations[pointer]
+    passengers_done, total_dist = 0, 0
+    train, open_seats = {i: 0 for i in set(E)}, K
+    while True:
+        curr_station = all_stations[curr_station_idx]
+        
+        if curr_station in train:
+            open_seats += train[curr_station]
+            passengers_done += train[curr_station]
+            train[curr_station] = 0
 
-        if this_station in unique_ends:
-            open_seats += train[this_station] # let passengers off first
-            passengers_left -= train[this_station] 
-            train[this_station] = 0
+        while open_seats > 0 and stations[curr_station]:
+            next_to_add = stations[curr_station].pop()
+            train[next_to_add] += 1
+            open_seats -= 1
+        
+        if passengers_done < N:
+            next_station_idx = (curr_station_idx + 1) % len(all_stations)
+            total_dist += (all_stations[next_station_idx] - curr_station) % M
+            curr_station_idx = next_station_idx
+        else:
+            break
 
-        if this_station in unique_starts:
-            while open_seats > 0 and waiting[this_station]: # new passengers board
-                next_to_add = waiting[this_station].pop(0)
-                train[next_to_add] += 1
-                open_seats -= 1
-
-        distance += ((this_station - last_visited) % M)
-        last_visited = this_station
-
-    return distance
+    return total_dist
     
 
 def main():

@@ -5,18 +5,21 @@ def solve(N: int, M: int, K: int, S: list[int], E: list[int]) -> int:
     
     passengers_done, total_dist, curr_station = 0, 0, 1
     train = []
-    while passengers_done < N:
+    while True:
         while curr_station in train:
             train.remove(curr_station)
             passengers_done += 1
         
-        while len(stations[curr_station]) > 0 and len(train) < K:
+        while stations[curr_station] and len(train) < K:
             train.append(stations[curr_station].pop(0))
         
-        curr_station = curr_station % M + 1
-        total_dist += 1
+        if passengers_done < N:
+            curr_station = curr_station % M + 1
+            total_dist += 1
+        else:
+            break
     
-    return total_dist - 1
+    return total_dist
 
 
 def main():
