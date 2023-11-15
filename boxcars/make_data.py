@@ -74,19 +74,31 @@ def make_secret_tests():
     """
 
     def random_dice():
-        import random
         a = [random.randint(1, 5 * 10 ** 8) for _ in range(6)]
         b = [random.randint(1, 5 * 10 ** 8) for _ in range(6)]
         return a, b
 
     def random_dice_repetitions():
-        import random
         a = [random.randint(1, 6) for _ in range(4)] + [random.randint(1, 5 * 10 ** 8)] * 2
         b = [random.randint(1, 6) for _ in range(5)] + [random.randint(1, 5 * 10 ** 8)]
         return a, b
 
+    def random_possible_case():
+        rng = random.randint(1, 5)
+        d1, d2 = random_dice() if rng < 5 else random_dice_repetitions()
+        distribution = pair_sums(d1, d2)
+        return TestCase(distribution)
+
+    def random_impossible_case():
+        rng = random.randint(1, 5)
+        d1, d2 = random_dice() if rng < 5 else random_dice_repetitions()
+        distribution = pair_sums(d1, d2)
+        if distribution[35] != 2:
+            distribution[35] -= 1  # Maybe this makes some solutions impossible??
+            distribution.sort()
+        return TestCase(distribution)
+
     def random_test_case():
-        import random
         rng = random.randint(1, 5)
         d1, d2 = random_dice() if rng < 5 else random_dice_repetitions()
         distribution = pair_sums(d1, d2)
@@ -99,6 +111,11 @@ def make_secret_tests():
     for i in range(10):
         main_random_cases = [random_test_case() for _ in range(10)]
         make_secret_test(main_random_cases, 'main_random')
+
+    for i in range(10):
+        main_random_cases = [random_impossible_case() for _ in range(10)]
+        make_secret_test(main_random_cases, 'main_edge')
+
 
 
 def make_test_in(cases, file):

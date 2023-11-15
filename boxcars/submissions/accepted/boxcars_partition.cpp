@@ -20,10 +20,10 @@ bool check(vector<int> const& S, vector<int>& a, vector<int>& b) {
 
 
                     multiset<int> remaining;
+                    vector<bool> add(36, true);
+                    for (int i = 0; i < 4; ++i) add[comb[i]] = false;
                     for (int i = 2; i < 36; ++i) {
-                        bool add = true;
-                        for (int j = 0; j < 4; ++j) if (comb[j] == i) add = false;
-                        if (add) remaining.insert(S[i]);
+                        if (add[i]) remaining.insert(S[i]);
                     }
 
                     

@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main']
+TEST_SET_NAMES = ['main', 'bonus']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -57,6 +57,8 @@ def is_data_in_test_set(data_file_name, test_set_name):
     """
     if test_set_name == 'main':
         return 'main' in data_file_name
+    elif test_set_name == 'bonus':
+        return 'main' in data_file_name # lol
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -69,11 +71,12 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     file_to_sets = {
         # accepted
         'boxcars':              ['main'],
-        'boxcars_partition':    ['main'],
+        'boxcars_partition':    ['main', 'bonus'],
         
         # run_time_error
         
         # time_limit_exceeded
+        'boxcars_tle':          ['bonus']
         
         # wrong_answer
 

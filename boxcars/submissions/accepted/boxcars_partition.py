@@ -83,6 +83,7 @@ def check(S, a, b):
     Returns True with the assignment stored in a and b if found.
     """
     for i13_i14_i15_i16 in itertools.combinations(range(2, 31), 4):
+        i13_i14_i15_i16 = set(i13_i14_i15_i16)
         remaining = [S[i] for i in range(2, 36) if i not in i13_i14_i15_i16]
         a[2:] = [S[i] - b[0] for i in i13_i14_i15_i16]
         try:
