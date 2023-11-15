@@ -36,7 +36,6 @@ class Solution {
             for (int j = 0; j < N; j++) {
                 E[j] = Integer.parseInt(temp[j]);
             }
-            temp = in.readLine().split(" ");
             out.println(solve(N, M, K, S, E));
         }
         out.flush();
