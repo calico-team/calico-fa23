@@ -82,6 +82,21 @@ fn gen(maxn: usize, maxf: usize, maxb: usize) {
     }
     print!("{} {}\n", f, b);
     print!("{} {} {} {}\n", n, m, s, e);
+
+    let mut vec = Vec::new(); 
+
+    for _ in 0..f {
+        let mut u = rng.gen_range(1..n+1);
+        while treas.contains(&u) {
+            u = rng.gen_range(1..n+1);
+        }
+        vec.push(u);
+        treas.insert(u);
+    }
+
+    for i in 0..f {
+        print!("{} ", vec[i]);
+    }
     
     let mut p = Vec::<usize>::new();
     let mut sz = Vec::<usize>::new();
@@ -100,20 +115,7 @@ fn gen(maxn: usize, maxf: usize, maxb: usize) {
        dsu.union(a, b);
     }
 
-    let mut vec = Vec::new(); 
-
-    for _ in 0..f {
-        let mut u = rng.gen_range(1..n+1);
-        while treas.contains(&u) {
-            u = rng.gen_range(1..n+1);
-        }
-        vec.push(u);
-        treas.insert(u);
-    }
-
-    for i in 0..f {
-        print!("{} ", vec[i]);
-    }
+    
 
     for _ in n..m+1 {
        let mut b = rng.gen_range(1..n+1);
