@@ -87,11 +87,12 @@ def make_sample_tests():
     identify edge cases.
     """
     main_sample_cases = [
-        TestCase(4, 5, 4, [], 10, hardcoded_edges=[(1, 2, 6), (2, 3, 4), (3, 4, 2), (4, 1, 5), (1, 3, 1)],
-                 hardcoded_queries=[(1, 3), (3, 2), (2, 1), (1, 1)]),
         TestCase(4, 3, 4, [], hardcoded_edges=[(1, 2, 5), (2, 3, 9), (3, 4, 33)],
                  hardcoded_queries=[(1, 3), (2, 4), (1, 4), (2, 3)]),
-        TestCase(4, 4, 2, [], hardcoded_edges=[(1, 2, 5), (2, 3, 3), (3, 4, 6), (4, 1, 3)])]
+        TestCase(4, 4, 2, [], hardcoded_edges=[(1, 2, 5), (2, 3, 3), (3, 4, 6), (4, 1, 3)],
+                 hardcoded_queries=[(1, 1), (2, 4)]),
+        TestCase(5, 6, 4, [], hardcoded_edges=[(1, 2, 6), (2, 3, 4), (3, 4, 2), (4, 1, 5), (1, 3, 1), (4, 5, 4)],
+                 hardcoded_queries=[(1, 3), (5, 4), (2, 1), (1, 1)])]
     make_sample_test(main_sample_cases, 'main')
 
 
