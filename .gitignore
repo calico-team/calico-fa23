@@ -10,6 +10,9 @@ desktop.ini
 */.vscode/*
 .vscode/
 
+# For the mexican
+.idea/
+
 # For Albert
 .ccls-cache/
 
