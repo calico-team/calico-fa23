@@ -137,7 +137,7 @@ fn main() {
     let t = 1;
     for _ in 0..t {
         // customize these
-        let mut file = File::create(format!("inputs/{}.in", t)).expect("Failed to create file");
+        let mut file = File::create(format!("inputs/gen_{}.in", t)).expect("Failed to create file");
         writeln!(file, "{}", t).expect("Failed to write to file");
         gen(100000, 1000, 1000, &mut file);
     }
