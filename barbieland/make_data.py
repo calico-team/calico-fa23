@@ -86,16 +86,13 @@ def make_sample_tests():
     understanding of the problem, help with debugging, or possibly help
     identify edge cases.
     """
-    main_sample_cases = [TestCase(4, 5, 4, {}, 10, hardcoded_edges=[(1, 2, 6), (2, 3, 4), (3, 4, 2), (4, 1, 5), (1, 3, 1)],
-                                  hardcoded_queries=[(1, 3), (3, 2), (2, 1), (1, 1)])]
+    main_sample_cases = [
+        TestCase(4, 5, 4, [], 10, hardcoded_edges=[(1, 2, 6), (2, 3, 4), (3, 4, 2), (4, 1, 5), (1, 3, 1)],
+                 hardcoded_queries=[(1, 3), (3, 2), (2, 1), (1, 1)]),
+        TestCase(4, 3, 4, [], hardcoded_edges=[(1, 2, 5), (2, 3, 9), (3, 4, 33)],
+                 hardcoded_queries=[(1, 3), (2, 4), (1, 4), (2, 3)]),
+        TestCase(4, 4, 2, [], hardcoded_edges=[(1, 2, 5), (2, 3, 3), (3, 4, 6), (4, 1, 3)])]
     make_sample_test(main_sample_cases, 'main')
-    # main_sample_cases = [
-    #     TestCase(7, 9),
-    #     TestCase(420, 69),
-    #     TestCase(3, 0),
-    # ]
-    # make_sample_test(main_sample_cases, 'main')
-    pass
 
 
 def make_secret_tests():
@@ -162,8 +159,8 @@ def make_secret_tests():
                         break
                     batch.append(TestCase(N, M, node_lim, create_basis(basis_size), stability))
                 make_secret_test(batch, 'main_{}_{}_{}'.format(node_limit_to_name(batch[0].N),
-                                                        edge_node_ratio_to_name(batch[0].N, batch[0].M),
-                                                        basis_size_to_name(basis_size)))
+                                                               edge_node_ratio_to_name(batch[0].N, batch[0].M),
+                                                               basis_size_to_name(basis_size)))
 
     # Make extra non-trivial stressed cases
     for s in stabilities:
