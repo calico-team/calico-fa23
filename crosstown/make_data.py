@@ -54,9 +54,9 @@ def make_sample_tests():
             [5]
         ),
         TestCase(
-            2, 6,
-            [1, 4],
-            [5, 6]
+            1, 6,
+            [5],
+            [3]
         ),
         TestCase(
             2, 6,
