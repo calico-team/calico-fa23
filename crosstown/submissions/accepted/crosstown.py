@@ -8,8 +8,10 @@ def solve(N: int, M: int, S: list[int], E: list[int]) -> int:
     S: list of starting stations for each passenger
     E: list of ending stations for each passenger
     """
-    # YOUR CODE HERE
-    return -1
+    longest = 0
+    for i in range(N):
+        longest = max(longest, (E[i] - S[i] + M) % M)
+    return longest
 
 
 def main():

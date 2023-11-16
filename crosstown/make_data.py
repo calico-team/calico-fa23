@@ -32,7 +32,7 @@ class TestCase:
     single test case.
     """
 
-    def __init__(self, N, M, K, starts, ends):
+    def __init__(self, N, M, starts, ends):
         self.N = N
         self.M = M
         self.starts = starts
@@ -115,7 +115,7 @@ def make_secret_tests():
 
     for i in range(3):
         for _ in range(3):
-            make_secret_test(random_cases(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_random_{K}')
+            make_secret_test(random_cases(MAIN_MAX_N, MAIN_MAX_M, 100), 'main_random')
     
     make_secret_test(anti_M(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_anti_m')
 
@@ -158,7 +158,7 @@ def make_test_out(cases, file):
     The easiest way to do this is to import a python reference solution to the
     problem and print the output of that.
     """
-    from submissions.accepted.subway_dsu_heap import solve
+    from submissions.accepted.crosstown import solve
     for case in cases:
         ans = solve(case.N, case.M, case.starts, case.ends)
         print(ans, file=file)
