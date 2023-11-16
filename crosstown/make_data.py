@@ -20,16 +20,10 @@ from calico_lib import make_sample_test, make_secret_test, make_data
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'imagine sitting on a bus for hours'
+SEED = 'big ben sits on a bus for twelve hours'
 
-MAIN_MAX_N = MAIN_MAX_K = 100
+MAIN_MAX_N = 100
 MAIN_MAX_M = 100
-
-BONUS_1_MAX_N = BONUS_1_MAX_K = 250
-BONUS_1_MAX_M = 10 ** 4
-
-BONUS_2_MAX_N = BONUS_2_MAX_K = 10 ** 5
-BONUS_2_MAX_M = 10 ** 9
 
 
 class TestCase:
@@ -41,7 +35,6 @@ class TestCase:
     def __init__(self, N, M, K, starts, ends):
         self.N = N
         self.M = M
-        self.K = K
         self.starts = starts
         self.ends = ends
 
@@ -56,32 +49,32 @@ def make_sample_tests():
     """
     main_sample_cases = [
         TestCase(
-            1, 6, 1,
+            1, 6,
             [3],
             [5]
         ),
         TestCase(
-            2, 6, 2,
+            2, 6,
             [1, 4],
             [5, 6]
         ),
         TestCase(
-            2, 6, 1,
+            2, 6,
             [1, 4],
             [5, 6]
         ),
         TestCase(
-            2, 8, 2,
+            2, 8,
             [2, 3],
             [6, 5]
         ),
         TestCase(
-            4, 5, 2,
+            4, 5,
             [1, 3, 3, 5],
             [4, 5, 1, 2]
         ),
         TestCase(
-            7, 7, 1,
+            7, 7,
             [1, 1, 1, 1, 1, 1, 1],
             [7, 7, 7, 7, 7, 7, 7]
         ),
@@ -101,21 +94,15 @@ def make_secret_tests():
     def get_possible_trip(m):
         return random.sample(range(1, m + 1), k=2)
     
-    def choose_k(i, n):
-        if i % 3 == 0:
-            return 1
-        elif i % 3 == 1:
-            return int(pow(n, 0.5))
-        return n
 
-    def random_cases(max_N, max_M, K, T):
+    def random_cases(max_N, max_M, T):
         def case():
             N = random.randint(9 * max_N // 10, max_N)
             M = random.randint(9 * max_M // 10, max_M)
             trips = [get_possible_trip(M) for _ in range(N)]
             starts = [t[0] for t in trips]
             ends = [t[1] for t in trips]
-            return TestCase(N, M, K, starts, ends)
+            return TestCase(N, M, starts, ends)
         return [case() for _ in range(T)]
     
     def anti_M(N, M, T):
@@ -123,46 +110,14 @@ def make_secret_tests():
             s, e = get_possible_trip(M)
             starts = [s] * N
             ends = [e] * N
-            return TestCase(N, M, 1, starts, ends)
-        return [case() for _ in range(T)]
-    
-    def anti_K(N, M, T):
-        def case():
-            start = random.randrange(1, M + 1)
-            starts = [start] * N
-            ends = []
-            while len(ends) != N:
-                temp_end = start
-                while temp_end == start:
-                    temp_end = random.randrange(1, M + 1)
-                ends.append(temp_end)
-            return TestCase(N, M, N, starts, ends)
+            return TestCase(N, M, starts, ends)
         return [case() for _ in range(T)]
 
     for i in range(3):
         for _ in range(3):
-            K = choose_k(i, 10)
-            make_secret_test(random_cases(MAIN_MAX_N, MAIN_MAX_M, K, 100), f'main_random_{K}')
+            make_secret_test(random_cases(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_random_{K}')
     
     make_secret_test(anti_M(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_anti_m')
-    make_secret_test(anti_K(MAIN_MAX_N, MAIN_MAX_M, 100), f'main_anti_k')
-    
-    for i in range(3):
-        for _ in range(3):
-            K = choose_k(i, 100)
-            make_secret_test(random_cases(BONUS_1_MAX_N, BONUS_1_MAX_M, K, 100), f'bonus_1_random_{K}')
-    
-    make_secret_test(anti_M(BONUS_1_MAX_N, BONUS_1_MAX_M, 100), f'bonus_1_anti_m')
-    make_secret_test(anti_K(BONUS_1_MAX_N, BONUS_1_MAX_M, 100), f'bonus_1_anti_k')
-    
-    for i in range(3):
-        for _ in range(3):
-            K = choose_k(i, 10 ** 5)
-            make_secret_test(random_cases(BONUS_2_MAX_N, BONUS_2_MAX_M, K, 1), f'bonus_2_random_{K}')
-    
-    make_secret_test(anti_M(BONUS_2_MAX_N, BONUS_2_MAX_M, 1), f'bonus_2_anti_m')
-    make_secret_test(anti_K(BONUS_2_MAX_N, BONUS_2_MAX_M, 1), f'bonus_2_anti_k')
-
 
 def make_test_in(cases, file):
     """
@@ -176,20 +131,11 @@ def make_test_in(cases, file):
     
     print(T, file=file)
     for case in cases:
-        print(f'{case.N} {case.M} {case.K}', file=file)
+        print(f'{case.N} {case.M}', file=file)
         
         if 'main' in file_name:
             assert 1 <= case.N <= MAIN_MAX_N
-            assert 1 <= case.K <= MAIN_MAX_K
             assert 2 <= case.M <= MAIN_MAX_M
-        elif 'bonus_1' in file_name:
-            assert 1 <= case.N <= BONUS_1_MAX_N
-            assert 1 <= case.K <= BONUS_1_MAX_K
-            assert 2 <= case.M <= BONUS_1_MAX_M
-        elif 'bonus_2' in file_name:
-            assert 1 <= case.N <= BONUS_2_MAX_N
-            assert 1 <= case.K <= BONUS_2_MAX_K
-            assert 2 <= case.M <= BONUS_2_MAX_M
         else:
             raise 'bruh wtf u named ur test file wrong'
         
@@ -214,7 +160,7 @@ def make_test_out(cases, file):
     """
     from submissions.accepted.subway_dsu_heap import solve
     for case in cases:
-        ans = solve(case.N, case.M, case.K, case.starts, case.ends)
+        ans = solve(case.N, case.M, case.starts, case.ends)
         print(ans, file=file)
         
         assert 1 <= ans <= (case.N + 2) * case.M
