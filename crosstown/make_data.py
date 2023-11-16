@@ -22,8 +22,8 @@ generate the same thing every time. Seeds can be integers or strings.
 """
 SEED = 'big ben sits on a bus for twelve hours'
 
-MAIN_MAX_N = 100
-MAIN_MAX_M = 100
+MAIN_MAX_N = 10
+MAIN_MAX_M = 10
 
 
 class TestCase:
@@ -137,6 +137,7 @@ def make_test_in(cases, file):
             assert 1 <= case.N <= MAIN_MAX_N
             assert 2 <= case.M <= MAIN_MAX_M
         else:
+            # https://cdn.discordapp.com/attachments/1157421192026800179/1174577632671711303/image.png
             raise 'bruh wtf u named ur test file wrong'
         
         print(*case.starts, file=file)
@@ -145,9 +146,6 @@ def make_test_in(cases, file):
         assert all(1 <= s <= case.M for s, e in zip(case.starts, case.ends))
         assert all(1 <= e <= case.M for s, e in zip(case.starts, case.ends))
         assert all(s != e for s, e in zip(case.starts, case.ends))
-    
-    if 'bonus_2' in file_name:
-        assert(sum(case.N for case in cases) <= 10 ** 5)        
 
 
 def make_test_out(cases, file):
