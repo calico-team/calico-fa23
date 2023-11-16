@@ -133,13 +133,18 @@ fn gen(maxn: usize, maxf: usize, maxb: usize, file: &mut File) {
 }
 
 fn main() {
-    // customize this
-    let t = 1;
+    let t = 10;
     for _ in 0..t {
         // customize these
         let mut file = File::create(format!("inputs/gen_{}.in", t)).expect("Failed to create file");
-        writeln!(file, "{}", t).expect("Failed to write to file");
+        writeln!(file, "secret_{}_main", t).expect("Failed to write to file");
         gen(100000, 1000, 1000, &mut file);
+    }
+    for _ in 0..t {
+        // customize these
+        let mut file = File::create(format!("inputs/gen_{}.in", t)).expect("Failed to create file");
+        writeln!(file, "secret_{}_bonus", t).expect("Failed to write to file");
+        gen(100000, 100000, 1000000000, &mut file);
     }
     // too lazy for io prompt
 }
