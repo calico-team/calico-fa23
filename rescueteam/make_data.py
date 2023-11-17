@@ -94,7 +94,10 @@ def make_sample_tests():
                  hardcoded_edges=[(3, 5), (3, 1), (1, 5), (6, 1), (1, 4), (4, 2), (4, 6), (2, 6)]),
         TestCase(F=4, B=8, N=5, M=6, S=1, E=3,
                  hardcoded_treasures=[4, 2, 2, 5],
-                 hardcoded_edges=[(4, 3), (4, 2), (2, 3), (2, 5), (5, 3), (5, 1)])
+                 hardcoded_edges=[(4, 3), (4, 2), (2, 3), (2, 5), (5, 3), (5, 1)]),
+        TestCase(F=1, B=3, N=6, M=5, S=2, E=4,
+                 hardcoded_treasures=[5],
+                 hardcoded_edges=[(1, 6), (5, 1), (1, 4), (3, 5), (2, 3)])
     ]
     make_sample_test(main_sample_cases, 'main')
 
@@ -181,7 +184,7 @@ def make_secret_tests():
         B = random.randint(9 * upper_lim_b_main // 10, upper_lim_b_main)
         nodes = [i + 1 for i in range(N)]
         random.shuffle(nodes)
-        hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]
+        hardcoded_edges = [(nodes[i], nodes[i + 1]) for i in range(N - 1)]
         M = N - 1
         make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[1], hardcoded_edges=hardcoded_edges)],
                          'main_edge')
@@ -238,7 +241,7 @@ def make_secret_tests():
         B = random.randint(9 * upper_lim_b_bonus // 1000, upper_lim_b_bonus)
         nodes = [i + 1 for i in range(N)]
         random.shuffle(nodes)
-        hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]
+        hardcoded_edges = [(nodes[i], nodes[i + 1]) for i in range(N - 1)]
         M = N - 1
         make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[1], hardcoded_edges=hardcoded_edges)],
                          'bonus_edge')
@@ -249,7 +252,7 @@ def make_secret_tests():
         B = min(N // 2, upper_lim_b_bonus) + _ * (N - 1)
         nodes = [i + 1 for i in range(N)]
         random.shuffle(nodes)
-        hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]
+        hardcoded_edges = [(nodes[i], nodes[i + 1]) for i in range(N - 1)]
         M = N - 1
         make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[-1], hardcoded_edges=hardcoded_edges)],
                          'bonus_edge_low_b')
