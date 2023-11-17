@@ -53,7 +53,7 @@ def make_sample_tests():
         TestCase(6),
         TestCase(11),
         TestCase(16),
-        TestCase(369),
+        TestCase(705),
     ]
     make_sample_test(main_sample_cases, 'main')
     
