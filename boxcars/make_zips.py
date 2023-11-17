@@ -35,7 +35,7 @@ Typically this is 1 but feel free to adjust as necessary for your problem.
 
 TODO Change for your problem if desired.
 """
-TIME_LIMIT = 1
+TIME_LIMIT = 2
 
 """
 A list with strings containing the names of every test set.
@@ -58,7 +58,7 @@ def is_data_in_test_set(data_file_name, test_set_name):
     if test_set_name == 'main':
         return 'main' in data_file_name
     elif test_set_name == 'bonus':
-        return 'main' in data_file_name # lol
+        return True
 
 
 def is_submission_in_test_set(submission_file_name, test_set_name):
@@ -70,13 +70,15 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'boxcars':              ['main'],
-        'boxcars_partition':    ['main', 'bonus'],
+        'boxcars':                  ['main'],
+        'boxcars_partition':        ['main'],
+        'boxcars_bt':               ['main', 'bonus'],
         
         # run_time_error
         
         # time_limit_exceeded
-        'boxcars_tle':          ['bonus']
+        'boxcars_tle':              ['bonus'],
+        'boxcars_partition_tle':    ['bonus'],
         
         # wrong_answer
 
