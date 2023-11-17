@@ -16,9 +16,9 @@ long long SEED = 33;
 mt19937_64 rng;
 
 const int MAIN_MAXN = 1E3;
-const int A_MAXN = 5e5;
-const int B_MAXN = 1e4;
-const int C_MAXN = 5e5;
+const int A_MAXN = 1e5;
+const int B_MAXN = 1e3;
+const int C_MAXN = 1e5;
 
 struct TestCase {
 
@@ -154,7 +154,8 @@ void make_sample_tests() {
     vector<TestCase> main_sample_cases = {
         TestCase(7, 8, 1, {5,7,7,1,1,2,3,3}, {1,1,2,2,3,4,4,6}),
         TestCase(5, 4, 1, {1,2,3,3}, {3,3,4,5}),
-        TestCase(9, 10, 1, {1,2,2,2,8,4,6,3,9,9},{6,6,3,4,4,3,3,9,5,7})
+        TestCase(9, 10, 1, {1,2,2,2,8,4,6,3,9,9},{6,6,3,4,4,3,3,9,5,7}),
+        TestCase(6, 4, 1, {1,2,4,5}, {2,3,5,6})
     };
     assert(is_correct_main_case(main_sample_cases));
     make_sample_test(main_sample_cases, "main");
@@ -260,7 +261,7 @@ void make_secret_tests() {
         // Small multiple cases
         vector<TestCase> bonus_b_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
-            Graph G = build_random_graph(2000, 2000, rng);
+            Graph G = build_random_graph(B_MAXN / 5, B_MAXN / 5, rng);
             TestCase tc;
             tc.importGraph(G);
             tc.S = max(int(G.stomachs_needed() - rng() % 2), 0);
@@ -270,7 +271,7 @@ void make_secret_tests() {
         make_secret_test(bonus_b_secret_multiple_random, "bonus_b_multiple");
         // One big case
         vector<TestCase> bonus_b_secret_one_random;
-        Graph G = build_random_graph(10000, 10000, rng);
+        Graph G = build_random_graph(B_MAXN, B_MAXN, rng);
         TestCase tc;
         tc.importGraph(G);
         tc.S = max(int(G.stomachs_needed() - rng() % 2), 0);
@@ -287,7 +288,7 @@ void make_secret_tests() {
         // Small multiple cases
         vector<TestCase> bonus_c_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
-            Graph G = build_random_graph(100000, 100000, rng);
+            Graph G = build_random_graph(C_MAXN / 5, C_MAXN / 5, rng);
             TestCase tc;
             tc.importGraph(G);
             tc.S = max(int(G.stomachs_needed() - rng() % 2), 0);
@@ -297,7 +298,7 @@ void make_secret_tests() {
         make_secret_test(bonus_c_secret_multiple_random, "bonus_c_multiple");
         // One big case
         vector<TestCase> bonus_c_secret_one_random;
-        Graph G = build_random_graph(500000, 500000, rng);
+        Graph G = build_random_graph(C_MAXN, C_MAXN, rng);
         TestCase tc;
         tc.importGraph(G);
         tc.S = max(int(G.stomachs_needed() - rng() % 2), 0);

@@ -35,7 +35,7 @@ Typically this is 1 but feel free to adjust as necessary for your problem.
 
 TODO Change for your problem if desired.
 """
-TIME_LIMIT = 2
+TIME_LIMIT = 1
 
 """
 A list with strings containing the names of every test set.
@@ -45,7 +45,7 @@ should only return names from this list.
 
 TODO Change for your problem if desired.
 """
-TEST_SET_NAMES = ['main', 'bonus_a', 'bonus_b', 'bonus_c']
+TEST_SET_NAMES = ['m', 'bA', 'bB', 'bC']
 
 
 def is_data_in_test_set(data_file_name, test_set_name):
@@ -55,13 +55,13 @@ def is_data_in_test_set(data_file_name, test_set_name):
     
     TODO Change this to reflect your tests and test sets.
     """
-    if test_set_name == 'main':
+    if test_set_name == 'm':
         return 'main' in data_file_name
-    elif test_set_name == 'bonus_a':
+    elif test_set_name == 'bA':
         return 'main' in data_file_name or 'bonus_a' in data_file_name
-    elif test_set_name == 'bonus_b':
+    elif test_set_name == 'bB':
         return 'main' in data_file_name or 'bonus_b' in data_file_name
-    elif test_set_name == 'bonus_c':
+    elif test_set_name == 'bC':
         return 'sample' in data_file_name or 'bonus_c' in data_file_name
 
 
@@ -74,34 +74,34 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
     """
     file_to_sets = {
         # accepted
-        'judgehosts_simulation':        ['main'],
-        'judgehosts_bfs_naive':         ['main', 'bonus_a'],
-        'judgehosts_bfs' :              ['main', 'bonus_a'],
-        'judgehosts_dinic' :            ['main', 'bonus_b', 'bonus_c'],
-        'judgehosts_push_relabel':      ['main', 'bonus_b'],
-        'judgehosts_combined' :         ['main', 'bonus_a', 'bonus_b'],
-        
-        # run_time_error
-        
-        # time_limit_exceeded
-        'judgehosts_simulation_tle' :   ['bonus_a'],
-        'judgehosts_dinic_tle' :        ['bonus_a'],
-        'judgehosts_edmonds_karp_tle' : ['bonus_b', 'bonus_c'],
-        'judgehosts_push_relabel_tle' : ['bonus_c'],
+        'judgehosts_simulation': ['m'],
+        'judgehosts_bfs_naive': ['m', 'bA'],
+        'judgehosts_bfs': ['m', 'bA'],
+        'judgehosts_dinic': ['m', 'bB', 'bC'],
+        'judgehosts_push_relabel': ['m', 'bB'],
+        'judgehosts_combined': ['m', 'bA', 'bB'],
+        'judgehosts_edmonds_karp': ['m', 'bB'],
 
-    
+        # run_time_error
+
+        # time_limit_exceeded
+        'judgehosts_simulation_tle': ['bA'],
+        'judgehosts_dinic_tle': ['bA'],
+        'judgehosts_edmonds_karp_tle': ['bB', 'bC'],
+        'judgehosts_push_relabel_tle': ['bC'],
+
         # wrong_answer
-        'judgehosts_bfs_wa':            ['bonus_b'],
-        'judgehosts_bfs_naive_wa' :     ['bonus_b'],
+        'judgehosts_bfs_wa': ['bB'],
+        'judgehosts_bfs_naive_wa': ['bB'],
     }
-    
+
     # we only care about actual code files
     if submission_file_name.split('.')[-1] not in ['cpp', 'java', 'py']:
         return False
-    
+
     # trim file extensions
     submission_file_name = submission_file_name.split('.')[0]
-    
+
     return test_set_name in file_to_sets[submission_file_name]
 
 
