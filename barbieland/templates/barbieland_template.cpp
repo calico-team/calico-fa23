@@ -7,16 +7,16 @@ using ll = long long;
 
 /**
  * Output Q lines, where the i-th line contains the maximum
- * fuel charge possible for the i-th errand
+ * route length possible for the i-th query
  *     
- * N: the number of universes
- * M: the number of portals
+ * N: the number of dreamhouses
+ * M: the number of roads
  * Q: the number of queries
- * U: the list of U_i for each portal
- * V: the list of V_i for each portal
- * W: the list of W_i for each portal
- * A: the list of A_i for each errand
- * B: the list of B_i for each errand
+ * U: the list of U_i for each road
+ * V: the list of V_i for each road
+ * W: the list of W_i for each road
+ * A: the list of A_i for each query
+ * B: the list of B_i for each query
  * 
  */
 void solve(int N, int M, int Q, vector<int>& U, vector<int>& V, vector<ll>& W, vector<int>& A, vector<int>& B) {
