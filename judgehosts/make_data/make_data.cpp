@@ -159,14 +159,6 @@ void make_sample_tests() {
     };
     assert(is_correct_main_case(main_sample_cases));
     make_sample_test(main_sample_cases, "main");
-    
-    vector<TestCase> bonus_a_sample_cases = {
-        TestCase(7, 8, 1, {5,7,7,1,1,2,3,3}, {1,1,2,2,3,4,4,6}),
-        TestCase(5, 4, 1, {1,2,3,3}, {3,3,4,5}),
-        TestCase(9, 10, 1, {1,2,2,2,8,4,6,3,9,9},{6,6,3,4,4,3,3,9,5,7})
-    };
-    assert(is_correct_bonus_a_case(bonus_a_sample_cases));
-    make_sample_test(bonus_a_sample_cases, "bonus_a");
 
     vector<TestCase> bonus_b_sample_cases = {
         TestCase(7, 8, 2, {5,7,7,1,1,2,3,3}, {1,1,2,2,3,4,4,6}),
