@@ -243,21 +243,10 @@ def make_secret_tests():
         make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[1], hardcoded_edges=hardcoded_edges)],
                          'bonus_edge')
 
-    for _ in range(3):
+    for _ in range(5):
         N = random.randint(9 * upper_lim_n // 10, upper_lim_n)
         F = random.randint(9 * upper_lim_f_bonus // 10, upper_lim_f_bonus)
-        B = N // 2
-        nodes = [i + 1 for i in range(N)]
-        random.shuffle(nodes)
-        hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]
-        M = N - 1
-        make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[1], hardcoded_edges=hardcoded_edges)],
-                         'bonus_edge')
-
-    for _ in range(3):
-        N = random.randint(9 * upper_lim_n // 10, upper_lim_n)
-        F = random.randint(9 * upper_lim_f_bonus // 10, upper_lim_f_bonus)
-        B = min(N // 2, upper_lim_b_bonus)
+        B = min(N // 2, upper_lim_b_bonus) + _ * (N - 1)
         nodes = [i + 1 for i in range(N)]
         random.shuffle(nodes)
         hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]

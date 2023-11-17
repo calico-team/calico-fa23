@@ -73,6 +73,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'rescueteam_heap':          ['main', 'bonus'],
         'rescueteam_dp_f2':         ['main'],
         'rescueteam_knapsack':      ['main'],
+        'james':                    ['main', 'bonus'],
         
         # run_time_error
         
@@ -81,6 +82,8 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'rescueteam_knapsack_tle':  ['bonus'],
         
         # wrong_answer
+        'ariel':                    ['bonus'],
+        'james_wa':                 ['bonus']
     }
     
     # we only care about actual code files
