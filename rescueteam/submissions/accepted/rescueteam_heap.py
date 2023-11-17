@@ -2,12 +2,12 @@ import collections
 import heapq
 
 
-def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[int], K: list[int]):
+def solve(F: int, B: int, N: int, M: int, S: int, E: int, R: list[int], U: list[int], V: list[int]):
     
     dungeon = [[] for _ in range(N + 1)]
-    for x, y in zip(X, Y):
-        dungeon[x].append(y)
-        dungeon[y].append(x)
+    for u, v in zip(U, V):
+        dungeon[u].append(v)
+        dungeon[v].append(u)
     
     def bfs_dists(graph, start):
         dists = [float('inf') for _ in graph]
@@ -35,7 +35,7 @@ def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[
     selected_treasure_deltas = []
     best_treasures = 0
     # invariant: iteration i gives the best treasures if we exit floor i
-    for k in K:
+    for r in R:
         # we always need to include skip_dist, so remove prior treasures if
         # necessary to allow us to get here in the first place
         while selected_treasure_deltas and curr_belly + skip_dist > B:
@@ -46,7 +46,7 @@ def solve(F: int, B: int, N: int, M: int, S: int, E: int, X: list[int], Y: list[
         curr_belly += skip_dist
         
         # consider picking up the treasure on this floor
-        curr_treasure_delta = treasure_deltas[k]
+        curr_treasure_delta = treasure_deltas[r]
         if curr_belly + curr_treasure_delta <= B:
             # if we can pick it up at no cost, its always optimal to pick it up
             heapq.heappush(selected_treasure_deltas, -curr_treasure_delta)
@@ -69,17 +69,12 @@ def main():
     for _ in range(T):
         F, B = map(int, input().split())
         N, M, S, E = map(int, input().split())
-
-        X, Y = [None] * M, [None] * M
+        R = [int(r) for r in input().split()]
+        U, V = [None] * M, [None] * M
         for i in range(M):
-            X[i], Y[i] = map(int, input().split())
-
-        U, V = [None] * F, [None] * F
-        for i in range(F):
-            U[i] = int(input()) 
-            V[i] = 1
+            U[i], V[i] = map(int, input().split())
         
-        print(solve(F, B, N, M, S, E, X, Y, U, V))
+        print(solve(F, B, N, M, S, E, R, U, V))
 
 
 if __name__ == '__main__':

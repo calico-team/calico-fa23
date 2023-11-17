@@ -12,16 +12,21 @@ Everything else will be handled by the make_data function in calico_lib.py.
 You can also run this file with the -v argument to see debug prints.
 """
 
-import random as ra
+import random
 from calico_lib import make_sample_test, make_secret_test, make_data
 
 """
 Seed for the random number generator. We need this so randomized tests will
 generate the same thing every time. Seeds can be integers or strings.
 """
-SEED = 'hey it\'s lady gaga, I need $145 to continue working on my new song. ra ra ah ah ah'
+SEED = 'bespinben i hate you why did you delete your primal dialga piano version pdf now i cant find it im gonna cry'
 
 from graph_randomizer import *
+
+import sys
+
+sys.setrecursionlimit(10 ** 9)
+
 
 class TestCase:
     """
@@ -30,52 +35,39 @@ class TestCase:
     
     TODO Change this to store the relevant information for your problem.
     """
-    def __init__(self, B, F, N, M, force_lim= False, base_attractibility= None, incoming_attractibility= None, sink_attractability= None, edge_to_weight= lambda graph : lambda u, v : 1, XYK= None):
-        if XYK is not None:
-            self.B = B
-            self.F = F
-            self.N = N
-            self.M = M
-            self.X = XYK[0]
-            self.Y = XYK[1]
-            self.K = XYK[2]
-            self.ready = True
-            return
 
+    def __init__(self, F, B, N, M, S, E, stability=10, hardcoded_edges=None, hardcoded_treasures=None):
+        assert stability >= 0
+        attractability = [ra.expovariate(1) + stability for _ in range(N)]
+        assert (S != E)
+        self.S = S
+        self.E = E
         self.N = N
+        self.B = B
+        if hardcoded_edges is not None:
+            assert isinstance(hardcoded_edges, list) and len(hardcoded_edges) == M
+            assert all([isinstance(edge, tuple) and len(edge) == 2 for edge in hardcoded_edges])
+            assert all([0 < edge[0] <= N and 0 < edge[1] <= N for edge in hardcoded_edges])
+            self.edges = hardcoded_edges
+            self.M = M
+        else:
+            self.graph = GraphRandomizer(range(1, N + 1), M, False, force_edge_lim=False,
+                                         base_attractibility=attractability)
+            self.edges = [(u, v) for u, v in self.graph.edge_set]
+            self.M = len(self.edges)
+
         self.F = F
-        self.ready = False
-
-        self.graph = GraphRandomizer(range(1, N + 1), M, True, force_lim, base_attractibility, incoming_attractibility)
-        self.M = len(self.graph.edge_set)
-        self.graph.convert_to_dag(sink_attractability)
-
-        self.X = []
-        self.Y = []
-        self.Z = []
-        
-        self.edge_to_weight = edge_to_weight
-        self.weight_edges()
-
-    def weight_edges(self):
-        adj_ls = self.graph.make_adj_list()
-        get_weight = self.edge_to_weight(adj_ls)
-
-        for x, y in self.graph.edge_set:
-            z = get_weight(x, y)
-            self.X.append(x)
-            self.Y.append(y)
-            self.Z.append(z)
-        
-        self.ready = True
-    
-    def print_graph(self):
-        assert self.ready
-        for i in self.graph.node_list:
-            print(i)
-        
-        for x, y, z in self.X, self.Y, self.Z:
-            print(x, y, z)
+        if hardcoded_treasures is not None:
+            assert isinstance(hardcoded_treasures, list) and len(hardcoded_treasures) == F
+            assert all([isinstance(Ri, int) for Ri in hardcoded_treasures])
+            assert all([0 < Ri <= N for Ri in hardcoded_treasures])
+            assert all([(Ri != S and Ri != E) for Ri in hardcoded_treasures])
+            self.treasures = hardcoded_treasures
+        else:
+            self.treasures = [ra.randint(1, N) for i in range(F)]
+            for i in range(F):
+                while self.treasures[i] == S or self.treasures[i] == E:
+                    self.treasures[i] = ra.randint(1, N)
 
 
 def make_sample_tests():
@@ -90,22 +82,19 @@ def make_sample_tests():
     understanding of the problem, help with debugging, or possibly help
     identify edge cases.
     """
-    x1 = [1, 1, 2, 2, 3, 5, 3]
-    y1 = [2, 3, 3, 4, 4, 4, 5]
-    z1 = [1, 2, 2, 3, 4, 7, 1]
-
-    x2 = [2, 2, 2, 4, 4, 1]
-    y2 = [4, 1, 3, 1, 3, 3]
-    z2 = [2, 2, 4, 1, 3, 4]
-
-    x3 = [4, 4, 9, 3, 1, 5, 5, 6, 2, 8, 8]
-    y3 = [3, 1, 6, 5, 5, 2, 8, 8, 7, 7, 10]
-    z3 = [3, 1, 4, 9, 2, 3, 2, 2, 1, 4, 3]
-
     main_sample_cases = [
-        TestCase(5, 7, XYZ= [x1, y1, z1]),
-        TestCase(4, 6, XYZ= [x2, y2, z2]),
-        TestCase(10, 11, XYZ= [x3, y3, z3]),
+        TestCase(F=3, B=6, N=5, M=5, S=3, E=4,
+                 hardcoded_treasures=[1, 2, 5],
+                 hardcoded_edges=[(2, 4), (4, 1), (1, 5), (1, 3), (5, 3)]),
+        TestCase(F=3, B=12, N=3, M=3, S=3, E=1,
+                 hardcoded_treasures=[2, 2, 2],
+                 hardcoded_edges=[(3, 2), (3, 1), (2, 1)]),
+        TestCase(F=4, B=7, N=6, M=8, S=2, E=6,
+                 hardcoded_treasures=[5, 1, 3, 4],
+                 hardcoded_edges=[(3, 5), (3, 1), (1, 5), (6, 1), (1, 4), (4, 2), (4, 6), (2, 6)]),
+        TestCase(F=4, B=8, N=5, M=6, S=1, E=3,
+                 hardcoded_treasures=[4, 2, 2, 5],
+                 hardcoded_edges=[(4, 3), (4, 2), (2, 3), (2, 5), (5, 3), (5, 1)])
     ]
     make_sample_test(main_sample_cases, 'main')
 
@@ -121,125 +110,127 @@ def make_secret_tests():
     TODO Write sample tests. Consider creating edge cases and large randomized
     tests.
     """
-    CEIL = 10 ** 3
-    FLOOR = 1
 
-    def safe_gauss(mu, sig):
-        return int(max(min(ra.gauss(mu, sig), CEIL), FLOOR))
-    
-    def rev_adj_list(adj_ls):
-        new_adj_ls = {x : [] for x in adj_ls}
-        for x in adj_ls:
-            for y in adj_ls[x]:
-                new_adj_ls[y].append(x)
-        return new_adj_ls
+    stabilities = [10, 1, 5, 0, 100]
+    upper_lim_n = 10 ** 5
+    upper_lim_m = 10 ** 5
 
-    def make_deeper_heavier_dist(sig, damp, inv= False):
-        assert 0 < damp <= 1
+    graph_node_amt_limits = [10 ** 3, 10 ** 4, 10 ** 4, 10 ** 5, 10 ** 5, 10 ** 5, 10 ** 5]
 
-        def deeper_heavier(adj_ls):
-            reversed = rev_adj_list(adj_ls)
+    graph_edge_amt_funcs = [
+        lambda N: min(5 * N // 4, N + 20, upper_lim_m),
+        lambda N: min(3 * N, upper_lim_m),
+        lambda N: min(N * (N - 1) // 2, upper_lim_m)
+    ]
 
-            min_depth_from_source = {}
+    def edge_node_ratio_to_name(N, M):
+        if N + 50 > M:
+            return 'sparse_graph'
+        if M == min(N * (N - 1) // 2, upper_lim_m):
+            return 'max_graph'
+        return 'med_graph'
 
-            from collections import deque
-            q = deque([])
-            seen = set()
-            for x in reversed:
-                if len(reversed[x]) == 0:
-                    q.append((x, 0))
-                    seen.add(x)
-            
-            deepest = 0
-            while len(q) > 0:
-                x, d = q.popleft()
-                min_depth_from_source[x] = d
-                for y in adj_ls[x]:
-                    if y not in seen:
-                        deepest = max(deepest, d + 1)
+    def node_limit_to_name(N):
+        if N <= 10 ** 3:
+            return 'few_nodes'
+        if N <= 10 ** 4:
+            return 'medium_nodes'
+        return 'many_nodes'
 
-                        q.append((y, d + 1))
-                        seen.add(y)
-            
-            assert len(min_depth_from_source) == len(adj_ls), "{}\n{}".format(adj_ls, min_depth_from_source)
+    # Generating cases for main
 
-            def w(u, v):
-                depth = max(min_depth_from_source[u], min_depth_from_source[v])
-                factor = depth / deepest # alternatively, can divide by sum of depths
-                assert 0 < factor <= 1
-                return safe_gauss((factor if not inv else (1 - factor)) * CEIL * damp, sig)
+    upper_lim_f_main = 100
+    upper_lim_b_main = 10 ** 3
 
-            return w
-        
-        return deeper_heavier
-    
-    make_secret_test([
-        TestCase(5, 12, edge_to_weight= make_deeper_heavier_dist(3, 25 / 1000)),
-        TestCase(24, 60, edge_to_weight= make_deeper_heavier_dist(3, 25 / 1000)),
-        TestCase(24, 40, edge_to_weight= make_deeper_heavier_dist(2, 10 / 1000)),
-    ], 'main_small_uniform')
+    for node_lim in graph_node_amt_limits:
+        for f in graph_edge_amt_funcs:
+            batch = []
+            remaining_n = upper_lim_n
+            remaining_m = upper_lim_m
+            remaining_f = upper_lim_f_main
+            remaining_b = upper_lim_b_main
+            max_f = upper_lim_f_main * node_lim / upper_lim_n
+            max_b = upper_lim_b_main * node_lim / upper_lim_n
+            while True:
+                stability = random.choice(stabilities)
+                N = max(random.randint(9 * node_lim // 10, node_lim), 3)
+                M = f(N)
+                F = max(random.randint(9 * max_f // 10, max_f), 1)
+                B = max(random.randint(9 * max_b // 10, max_b), 1)
+                remaining_n -= N
+                remaining_m -= M
+                remaining_f -= F
+                remaining_b -= B
+                if not (
+                        len(batch) < 100 and remaining_n >= 0 and remaining_m >= 0 and remaining_b >= 0 and remaining_f >= 0):
+                    break
+                S = random.randint(1, N)
+                E = random.randint(1, N)
+                while S == E:
+                    E = random.randint(1, N)
+                batch.append(TestCase(F, B, N, M, S, E, stability=stability))
 
-    make_secret_test([
-        TestCase(5, 4, edge_to_weight= make_deeper_heavier_dist(3, 25 / 1000)),
-        TestCase(24, 23, edge_to_weight= make_deeper_heavier_dist(3, 25 / 1000)),
-        TestCase(24, 23, edge_to_weight= make_deeper_heavier_dist(2, 10 / 1000)),
-    ], 'main_small_trees')
+            make_secret_test(batch, 'main_{}_{}'.format(node_limit_to_name(batch[0].N),
+                                                        edge_node_ratio_to_name(batch[0].N, batch[0].M)))
 
-    sigs = [0, 1, 3, 5, 10, 50, 100, 250]
-    damps = [x / 1000 for x in [5, 10, 25, 50, 100, 250, 500, 1000]]
+    # TODO EDGE TEST CASES (not edging them just doing them lmao)
 
-    fuzz_trees_tests = []
-    for d in damps:
-        for s in sigs:
-            if s > d / 2:
-                continue
-            fuzz_trees_tests.append(TestCase(1000, 999, edge_to_weight= make_deeper_heavier_dist(s, d)))
-            fuzz_trees_tests.append(TestCase(1000, 999, edge_to_weight= make_deeper_heavier_dist(s, d, inv= True)))
+    for _ in range(3):
+        N = random.randint(9 * upper_lim_n // 10, upper_lim_n)
+        F = random.randint(9 * upper_lim_f_main // 10, upper_lim_f_main)
+        B = random.randint(9 * upper_lim_b_main // 10, upper_lim_b_main)
+        nodes = [i + 1 for i in range(N)]
+        random.shuffle(nodes)
+        hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]
+        M = N - 1
+        make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[1], hardcoded_edges=hardcoded_edges)],
+                         'main_edge')
 
-    make_secret_test(fuzz_trees_tests, 'main_tree_fuzz')
+    # Generating test cases for bonus
 
-    degree_factor = [1.0, 1.25, 2.5, 5.5, 10.5]
-    degree_factor_reduced = [1.0, 1.25, 10.5, 50.5]
-    node_values_low = [10, 25, 50]
-    node_values_med = [125] #, 250]
-    # node_values_high = [500, 1000]
+    upper_lim_f_bonus = 10 ** 5
+    upper_lim_b_bonus = 10 ** 9
 
-    fuzz_dag_tests = []
-    for d in damps:
-        for s in sigs:
-            if s > d / 2 or e() < 0.5:
-                continue
-            for n in node_values_low:
-                for df in degree_factor:
-                    if df > n:
-                        continue
-                    fuzz_dag_tests.append(TestCase(n, int(n * df), edge_to_weight= make_deeper_heavier_dist(s, d)))
-                    fuzz_dag_tests.append(TestCase(n, int(n * df), edge_to_weight= make_deeper_heavier_dist(s, d, inv= True)))
+    for node_lim in graph_node_amt_limits:
+        for f in graph_edge_amt_funcs:
+            batch = []
+            remaining_n = upper_lim_n
+            remaining_m = upper_lim_m
+            remaining_f = upper_lim_f_bonus
+            max_f = upper_lim_f_bonus * node_lim / upper_lim_n
+            max_b = upper_lim_b_bonus
+            while True:
+                stability = random.choice(stabilities)
+                N = max(random.randint(9 * node_lim // 10, node_lim), 3)
+                M = f(N)
+                F = max(random.randint(9 * max_f // 10, max_f), 1)
+                B = max(random.randint(9 * max_b // 10, max_b), 1)
+                remaining_n -= N
+                remaining_m -= M
+                remaining_f -= F
+                if not (len(batch) < 100 and remaining_n >= 0 and remaining_m >= 0 and remaining_f >= 0):
+                    break
+                S = random.randint(1, N)
+                E = random.randint(1, N)
+                while S == E:
+                    E = random.randint(1, N)
+                batch.append(TestCase(F, B, N, M, S, E, stability=stability))
 
-    make_secret_test(fuzz_dag_tests, 'main_dag_fuzz_small')
+            make_secret_test(batch, 'bonus_{}_{}'.format(node_limit_to_name(batch[0].N),
+                                                         edge_node_ratio_to_name(batch[0].N, batch[0].M)))
 
-    fuzz_dag_tests = []
-    for d in damps:
-        for s in sigs:
-            if s > d / 2 or e() < 0.5:
-                continue
-            for n in node_values_med:
-                for df in degree_factor_reduced:
-                    if df > n:
-                        continue
-                    fuzz_dag_tests.append(TestCase(n, int(n * df), edge_to_weight= make_deeper_heavier_dist(s, d)))
-                    fuzz_dag_tests.append(TestCase(n, int(n * df), edge_to_weight= make_deeper_heavier_dist(s, d, inv= True)))
+    # TODO EDGE TEST CASES (not edging them just doing them lmao)
 
-    make_secret_test(fuzz_dag_tests, 'main_dag_fuzz_med')
-
-    make_secret_test([TestCase(5000, 10000, edge_to_weight= make_deeper_heavier_dist(20, 100 / 1000))], 'main_dag_stress')
-    make_secret_test([TestCase(5000, 10000, edge_to_weight= make_deeper_heavier_dist(20, 100 / 1000, inv= True))], 'main_dag_stress_inv')
-    make_secret_test([TestCase(10000, 10000 - 1, edge_to_weight= make_deeper_heavier_dist(20, 100 / 1000))], 'main_tree_stress')
-    make_secret_test([TestCase(10000, 10000 - 1, edge_to_weight= make_deeper_heavier_dist(20, 100 / 1000, inv= True))], 'main_tree_stress_inv')
-
-    # TODO: nonuniform attractibility values
-
-
+    for _ in range(3):
+        N = random.randint(9 * upper_lim_n // 10, upper_lim_n)
+        F = random.randint(9 * upper_lim_f_bonus // 10, upper_lim_f_bonus)
+        B = random.randint(9 * upper_lim_b_bonus // 1000, upper_lim_b_bonus)
+        nodes = [i + 1 for i in range(N)]
+        random.shuffle(nodes)
+        hardcoded_edges = [(nodes[i], nodes[i+1]) for i in range(N-1)]
+        M = N - 1
+        make_secret_test([TestCase(F=F, B=B, N=N, M=M, S=nodes[0], E=nodes[1], hardcoded_edges=hardcoded_edges)],
+                         'bonus_edge')
 
 
 def make_test_in(cases, file):
@@ -250,37 +241,15 @@ def make_test_in(cases, file):
     TODO Implement this for your problem.
     """
     T = len(cases)
+    assert T <= 100
     print(T, file=file)
-    total_N = 0
-    total_M = 0
-    total_T = 0
     for case in cases:
-        assert case.ready
-        assert len(case.X) == len(case.Y) == len(case.Z) == case.M, "X:{}:Y:{}:Z:{}:M:{}".format(len(case.X), len(case.Y), len(case.Z), case.M)
-
-        print(case.F, case.B, file=file)
-        print(case.N, case.M, case.S, case.E, file=file)
-        assert(case.S != case.E)
-        total_T += 1
-        total_N += case.N
-        total_M += case.M
-
-        print(total_T)
-
-        assert total_T <= 100
-        assert total_N <= 10 ** 5 and total_M <= 10 ** 5, "T:{}:TN:{}:TM:{}".format(total_T, total_N, total_M)
-        
-        print(*case.K)
-        for k in case.K:
-            assert(k != case.S and k != case.E and 1 <= k <= case.N)
-
-        edges_zero_indexed = []
-        for x, y in zip(case.X, case.Y):
-            edges_zero_indexed.append((x - 1, y - 1))
-            print(x, y, file=file)
-
-        from dag_check import Graph, isConnected
-        assert isConnected(Graph(edges_zero_indexed, case.N), case.N)
+        print(f'{case.F} {case.B}', file=file)
+        print(f'{case.N} {case.M} {case.S} {case.E}', file=file)
+        print(*case.treasures, file=file)
+        for u, v in case.edges:
+            print(f'{u} {v}', file=file)
+        assert case.N <= 10 ** 5 and case.M <= 10 ** 5
 
 
 def make_test_out(cases, file):
@@ -295,7 +264,16 @@ def make_test_out(cases, file):
     """
     from submissions.accepted.rescueteam_heap import solve
     for case in cases:
-        print(solve(case.F, case.B, case.N, case.M, case.S, case.E, case.X, case.Y, case.K), file=file)
+        F = case.F
+        B = case.B
+        N = case.N
+        M = case.M
+        S = case.S
+        E = case.E
+        R = case.treasures
+        U = [edge[0] for edge in case.edges]
+        V = [edge[1] for edge in case.edges]
+        print(solve(F, B, N, M, S, E, R, U, V), file=file)
 
 
 def main():
