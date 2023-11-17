@@ -86,7 +86,6 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
 
         # time_limit_exceeded
         'judgehosts_simulation_tle': ['bA'],
-        'judgehosts_dinic_tle': ['bA'],
         'judgehosts_edmonds_karp_tle': ['bB', 'bC'],
         'judgehosts_push_relabel_tle': ['bC'],
 

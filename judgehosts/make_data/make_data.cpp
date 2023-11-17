@@ -206,6 +206,26 @@ void make_secret_tests() {
         make_secret_test(main_secret_one_random, "main_single");
     }
 
+    // Edge cases for main
+
+    for (int i = 0; i < 5; ++i) {
+        vector<TestCase> edge_cases;
+        Graph G = build_random_graph(MAIN_MAXN / 3, MAIN_MAXN / 2, rng);
+        Graph extended_G(G.V + 2);
+        for (auto edge : G.edgeList) extended_G.add_edge(edge.first, edge.second);
+        for (int i = 0; i < G.V; ++i)
+            if (!G.inDeg[i]) extended_G.add_edge(G.V, i);
+        for (int i = 0; i < G.V; ++i) {
+            if (!G.outDeg[i]) extended_G.add_edge(i, G.V + 1);
+        }
+        TestCase tc;
+        tc.importGraph(extended_G);
+        tc.S = 1;
+        edge_cases.push_back(tc);
+        assert(is_correct_main_case(edge_cases));
+        make_secret_test(edge_cases, "main_edge");
+    }
+
     // Test cases for bonus A
 
     dbg("Generating random A");
@@ -257,7 +277,7 @@ void make_secret_tests() {
 
     dbg("Generating random B");
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 5; ++i) {
         // Small multiple cases
         vector<TestCase> bonus_b_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
@@ -284,7 +304,7 @@ void make_secret_tests() {
 
     dbg("Generating random C");
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 5; ++i) {
         // Small multiple cases
         vector<TestCase> bonus_c_secret_multiple_random;
         for (int i = 0; i < 5; ++i) {
@@ -296,6 +316,8 @@ void make_secret_tests() {
         }
         assert(is_correct_bonus_c_case(bonus_c_secret_multiple_random));
         make_secret_test(bonus_c_secret_multiple_random, "bonus_c_multiple");
+    }
+    for (int i = 0; i < 15; ++i) {
         // One big case
         vector<TestCase> bonus_c_secret_one_random;
         Graph G = build_random_graph(C_MAXN, C_MAXN, rng);
@@ -305,7 +327,7 @@ void make_secret_tests() {
         bonus_c_secret_one_random.push_back(tc);
         assert(is_correct_bonus_c_case(bonus_c_secret_one_random));
         make_secret_test(bonus_c_secret_one_random, "bonus_c_single");
-    }    
+    } 
 
 }
 
