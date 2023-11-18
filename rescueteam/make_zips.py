@@ -83,7 +83,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         
         # wrong_answer
         'ariel':                    ['bonus'],
-        'james_wa':                 ['bonus']
+        'james_wa':                 ['main', 'bonus']
     }
     
     # we only care about actual code files

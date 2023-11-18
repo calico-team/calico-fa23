@@ -118,7 +118,7 @@ def make_secret_tests():
     upper_lim_n = 10 ** 5
     upper_lim_m = 10 ** 5
 
-    graph_node_amt_limits = [10 ** 3, 10 ** 4, 10 ** 4, 10 ** 5, 10 ** 5, 10 ** 5, 10 ** 5]
+    graph_node_amt_limits = [10 ** 3, 10 ** 4, 10 ** 5, 10 ** 5, 10 ** 5]
 
     graph_edge_amt_funcs = [
         lambda N: min(5 * N // 4, N + 20, upper_lim_m),
@@ -190,9 +190,9 @@ def make_secret_tests():
                          'main_edge')
 
     for _ in range(3):
-        N = random.randint(9 * upper_lim_n // 10, upper_lim_n)
+        N = 250
         F = random.randint(9 * upper_lim_f_main // 10, upper_lim_f_main)
-        B = min(N // 2, upper_lim_b_main)
+        B = 125 + _ * N
         nodes = [i + 1 for i in range(N)]
         random.shuffle(nodes)
         hardcoded_edges = [(nodes[i], nodes[i + 1]) for i in range(N - 1)]
@@ -265,6 +265,8 @@ def make_test_in(cases, file):
     
     TODO Implement this for your problem.
     """
+    import os
+    file_name = os.path.basename(file.name)
     T = len(cases)
     assert T <= 100
     print(T, file=file)
@@ -275,6 +277,18 @@ def make_test_in(cases, file):
         for u, v in case.edges:
             print(f'{u} {v}', file=file)
         assert case.N <= 10 ** 5 and case.M <= 10 ** 5
+        assert case.E != case.S
+
+    if 'main' in file_name:
+        assert sum(case.F for case in cases) <= 100
+        assert sum(case.B for case in cases) <= 10 ** 3
+        assert all([1 <= case.F <= 100 for case in cases])
+        assert all([1 <= case.B <= 10 ** 3 for case in cases])
+    elif 'bonus' in file_name:
+        assert sum(case.F for case in cases) <= 10 ** 5
+        assert all([1 <= case.F <= 10 ** 5 for case in cases])
+        assert all([1 <= case.B <= 10 ** 9 for case in cases])
+        
 
 
 def make_test_out(cases, file):
