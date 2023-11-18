@@ -10,8 +10,14 @@ desktop.ini
 */.vscode/*
 .vscode/
 
+# For the mexican
+.idea/
+
 # For Albert
 .ccls-cache/
+
+# For the Mexican
+.idea/
 
 # Local History for Visual Studio Code
 .history/

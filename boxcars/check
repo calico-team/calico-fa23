@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Example usage: ./check submissions/accepted/add_arbitrary.py data/sample/sample_00_main
+
+# A simple checker script that runs a program against an input. Nice to use for
+# local testing. You may need to modify the exact run commands to work on your
+# system.
+
+if [[ "$1" == *py ]] # Python 3
+then
+  output=$(python3 "$1" < "$2.in" | diff -Z "$2.ans" -)
+  found=true
+elif [[ "$1" == *java ]] # Java
+then
+  javac "$1" -d ./bin
+  output=$(java -cp ./bin "$1" < "$2.in" | diff -Z "$2.ans" -)
+  rm -rf ./bin
+  found=true
+else
+  echo "Unrecognized solution format: $1";
+fi
+
+# If the diff output is empty, then it matches perfectly, so it passes.
+# Otherwise, it fails.
+
+if [[ $found == "true" ]]
+then
+  if [[ $output == "" ]]
+  then
+    echo "Passed!"
+  else
+    echo "$output"
+    echo "Failed!"
+  fi
+fi
