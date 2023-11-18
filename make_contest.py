@@ -27,7 +27,19 @@ import zipfile
 
 
 PROBLEMS = [
-    'berkeleytime'
+    'berkeleytime',
+    'birthday',
+    'crosstown',
+    'wtds',
+    'jenga',
+    'rotate',
+    'plus9qh',
+    'subway',
+    'judgehosts',
+    'boxcars',
+    'rescueteam',
+    'benga',
+    'barbieland',
 ]
 
 
