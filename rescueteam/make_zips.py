@@ -82,7 +82,7 @@ def is_submission_in_test_set(submission_file_name, test_set_name):
         'rescueteam_knapsack_tle':  ['bonus'],
         
         # wrong_answer
-        'ariel':                    ['bonus'],
+        'ariel_wa':                 ['bonus'],
         'james_wa':                 ['main', 'bonus']
     }
     
