@@ -96,7 +96,7 @@ def make_test_in(cases, file):
     assert 0 < T <= 10 ** 5
     for case in cases:
         print(f'{case.A}', file=file)
-    assert 0 < case.A <= 10 ** 5
+        assert 0 < case.A <= 10 ** 5
 
 
 def make_test_out(cases, file):
