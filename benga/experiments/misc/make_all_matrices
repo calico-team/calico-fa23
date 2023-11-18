@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for k in {3..4}
+do
+    pypy3 make_matrix.py $k noprint
+    pypy3 make_matrix.py $k symmetry noprint
+    pypy3 make_matrix.py $k visible noprint
+    pypy3 make_matrix.py $k visible symmetry noprint
+done
