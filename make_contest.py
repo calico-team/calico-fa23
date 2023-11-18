@@ -27,7 +27,7 @@ import zipfile
 
 
 PROBLEMS = [
-    'add'
+    'berkeleytime'
 ]
 
 
@@ -55,8 +55,8 @@ def zip_problem(zip_path, problem_name):
         samples_path = Path(problem_name) / 'data' / 'sample'
         zip_dir(zip_obj, samples_path, ['.in', '.ans'], 2)
         
-        pdf_path = Path(problem_name) / f'{problem_name}.pdf'
-        zip_file(zip_obj, pdf_path)
+        pdf_path = Path(problem_name)
+        zip_dir(zip_obj, pdf_path, ['.pdf'], 1)
     
     debug_print(f'Added zipping problem {problem_name} to contest.zip!')
 
@@ -85,7 +85,7 @@ def zip_dir(zip_obj, dir_path, allowed_extensions, min_file_count=0):
                 zip_and_log(zip_obj, os_file_path, zip_file_path)
                 files_zipped += 1
     assert (
-        files_zipped >= min_file_count, 
+        files_zipped >= min_file_count and
         f'Not enough files. Expected {min_file_count} but got {files_zipped}'
     )
     
