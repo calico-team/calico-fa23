@@ -47,28 +47,28 @@ def main():
     debug_print(f'Creating contest.zip...')
     
     zip_path = Path(__file__).parents[0] / 'contest.zip'
-    for problem_name in PROBLEMS:
-        zip_problem(zip_path, problem_name)
+    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_obj:
+        for problem_name in PROBLEMS:
+            zip_problem(zip_obj, problem_name)
     
     debug_print(f'Done creating contest.zip!')
 
 
-def zip_problem(zip_path, problem_name):
+def zip_problem(zip_obj, problem_name):
     """
     Add all files for a problem to contest.zip. Each problem consists of sample
     test cases, templates, and the problem PDF.
     """
     debug_print(f'Adding problem {problem_name} to contest.zip...')
     
-    with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zip_obj:
-        templates_path = Path(problem_name) / 'templates'
-        zip_dir(zip_obj, templates_path, ['.py', '.java', '.cpp'], 3)
-        
-        samples_path = Path(problem_name) / 'data' / 'sample'
-        zip_dir(zip_obj, samples_path, ['.in', '.ans'], 2)
-        
-        pdf_path = Path(problem_name)
-        zip_dir(zip_obj, pdf_path, ['.pdf'], 1)
+    templates_path = Path(problem_name) / 'templates'
+    zip_dir(zip_obj, templates_path, ['.py', '.java', '.cpp'], 3)
+    
+    samples_path = Path(problem_name) / 'data' / 'sample'
+    zip_dir(zip_obj, samples_path, ['.in', '.ans'], 2)
+    
+    pdf_path = Path(problem_name)
+    zip_dir(zip_obj, pdf_path, ['.pdf'], 1)
     
     debug_print(f'Added zipping problem {problem_name} to contest.zip!')
 
