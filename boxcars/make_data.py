@@ -135,6 +135,8 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     for case in cases:
+        assert len(case.distribution) == 36
+        assert all([2 <= Si <= 10 ** 9 for Si in case.distribution])
         print(*case.distribution, file=file)
 
 
