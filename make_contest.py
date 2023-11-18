@@ -86,7 +86,7 @@ def zip_file(zip_obj, file_path):
 
 def zip_dir(zip_obj, dir_path, allowed_extensions, min_file_count=0):
     """Zip all files in dir_path with allowed extensions into zip_obj."""
-    debug_print(f'Zipping directory {dir_path}...')
+    debug_print(f'Zipping directory {dir_path} with {allowed_extensions}...')
     
     files_zipped = 0
     for path_object in (Path(__file__).parents[0] / dir_path).glob('*'):
@@ -101,7 +101,7 @@ def zip_dir(zip_obj, dir_path, allowed_extensions, min_file_count=0):
         f'Not enough files. Expected {min_file_count} but got {files_zipped}'
     )
     
-    debug_print(f'Done zipping directory {dir_path}!',
+    debug_print(f'Done zipping directory {dir_path} with {allowed_extensions}!',
                 f'Found {files_zipped} files.')
 
 
