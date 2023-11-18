@@ -87,6 +87,7 @@ def make_test_in(cases, file):
     T = len(cases)
     print(T, file=file)
     assert T == len(cases), 'Invalid value of T = {} when there are/were {} test case(s)'.format(T, len(cases))
+    assert T <= 100
     for case in cases:
         assert 0 <= case.N <= 500, 'N = {} out of range'.format(case.N)
         assert case.N % 10 == 0, 'N = {} not a multiple of 10'.format(case.N)
