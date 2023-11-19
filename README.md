@@ -15,10 +15,8 @@ You can explore this repository using GitHub in your browser or download an [arc
 
 Although the contest is over, you can still submit solutions to the [judge platform](https://calicojudge.com) under the `calico-fa23-archive` contest. Sign in or register if you don't have an account already. Then change the selected contest to `calico-fa23-archive` on the right side of the navigation bar.
 
-This is our first time publishing solutions and editorials for a CALICO contest! We highly encourage you to take a look as we're very happy how they turned out; we hope you find this to be a useful and interesting educational resource!
-
 ## Repository Structure
-The root of the repository has `calico-fa23.pdf`, which contains all problem statements, and `calico-fa23-editorial.pdf`, which contains all editorials. Subdirectories are named after each problem and contain their solutions, editorials, tests, templates, and problem statements.
+Subdirectories are named after problem IDs and contain their solutions, editorials, tests, templates, and problem statements.
 
 ### Solutions
 Solutions are programs written by us that implement different approaches of varying efficiency in multiple programming languages to solve each problem. As a result, some solutions may pass more test sets than others. Solution files are named `[problem name]_[solution name].[extension]`, where `[solution_name]` is a keyword that describes the solution, and `[extension]` is the extension used by that language's source files (for example, `.cpp`, `.java`, or `.py`).
@@ -32,7 +30,7 @@ These are the inputs and outputs we use to test your program for correctness. In
 ### Templates
 Templates provide starter code that handle parsing input in multiple languages, so contestants can jump right into problem solving. They are named `[problem name]_template.[extension]`.
 
-Note that these templates are only guaranteed to apply to the main test set of each problem; completing bonus test sets may require modifying the templates.
+Note that these templates are only guaranteed to apply to the main test set of each problem; completing bonus test sets may require modifying the templates. When this is the case, we make it clear in the problem statement.
 
 ### Problem Statements
 Problem statements describe the problem contestants need to solve, as well as their input and output format. They are named `[problem name].pdf`.
@@ -41,7 +39,7 @@ Problem statements describe the problem contestants need to solve, as well as th
 |File|Description|
 |---|---|
 |`submissions/accepted/*`|These are identical to the respective programs in `solutions/*`. For each problem, one of the Python models is used by the generators to generate the reference outputs.|
-|`submissions/runtime_error/*`<br>`submissions/time_limit_exceeded/*`<br>`submissions/wrong_answer/*`|These are implementations (generally written by organizers pre-contest) that seem perfect at first glance but have small bugs that cause the respective issues when judged. We predicted that most failed in-contest submissions would be categorized under one of these bugs.|
+|`submissions/runtime_error/*`<br>`submissions/time_limit_exceeded/*`<br>`submissions/wrong_answer/*`|These are implementations written by organizers pre-contest that seem perfect at first glance but have small bugs that cause the respective issues when judged. We predicted that most failed in-contest submissions would be categorized under one of these bugs.|
 
 ### Directory Tree
 ```
