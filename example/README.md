@@ -3,8 +3,8 @@ This is a problem in the CALICO problem package format, a derivative of the [DOM
 
 ## Resources
 Include resources for your problem here:
-- Problem statement: (TODO Copy problem statement link here)
-- Editorial: (TODO Copy editorial link here)
+- Problem statement: https://calico.cs.berkeley.edu/files/demo-contest/contest/add/add.pdf
+- Editorial: ~~its literally adding a+b~~
 
 ## Getting Started
 To get started, make a copy of this folder in your branch and rename it with your problem's short name. Then, implement data generation in `make_data.py`. Write your templates in the `template` directory. Write your solutions in the `submissions` directory. Finally, configure `make_zips.py` with your test set
