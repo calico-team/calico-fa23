@@ -4,9 +4,9 @@
 ***Note**: This repo is under construction. Check back occasionally for updates! Last Updated: 11/18*
 
 ## Editorial Progress
-**Published**: None yet!
+**Published**: rotate
 
-**Drafted**: berkeleytime, birthday, crosstown, wtds, jenga, rotate, plus9qh, subway, judgehosts, boxcars, rescueteam, benga, barbieland 
+**Drafted**: berkeleytime, birthday, crosstown, wtds, jenga, plus9qh, subway, judgehosts, boxcars, rescueteam, benga, barbieland 
 
 ## Quick Start
 This repository contains all contest materials for CALICO Fall '23, including solutions, editorials, tests, templates, and problem statements.
