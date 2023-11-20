@@ -14,14 +14,14 @@ After the shuffle, simply index into the list with $**K** - 1$ to get the answer
 
 To implement this in each language:
 - Python
-    - Use the builtin `list` class.
-    - Use `deck.pop(i)` and `deck.append(i)`.
+    - Use the builtin [`list`](https://docs.python.org/3/library/stdtypes.html#typesseq-list).
+    - Use `l.pop(i)` and `l.append(i)`.
 - Java
-    - Import `java.util.ArrayList` and use `ArrayList<Integer>`.
-    - Use `deck.remove(i)` and `deck.add(i)`.
+    - Use [`java.util.ArrayList<Integer>`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ArrayList.html).
+    - Use `l.remove(i)` and `l.add(i)`.
 - C++
-    - Include `<vector>` and use `vector<int>`.
-    - Use `deck.erase(deck.begin() + i)` and `deck.push_back(card)`.
+    - Use [`std::vector<int>`](https://en.cppreference.com/w/cpp/container/vector).
+    - Use `l.erase(deck.begin() + i)` and `l.push_back(card)`.
 
 ## Bonus Test Set 1
 
@@ -31,7 +31,7 @@ The time complexity of the simulation solution of the main test set is $O(**N**^
 
 Observe that after shuffling index $i$, we will never touch any values between $0$ and $i$ ever again. As such, we can instead represent just the values between $i + 1$ and $**N** - 1$ using a queue, while using a regular list to represent the values between $0$ and $i$.
 
-A [queue](https://TODO) is a data structure that supports insertions at the front and deletions at the end of a sequence of elements. Most programming languages have a queue implementation in their standard library that is optimized for fast $O(1)$ insertion and deletion.
+A [queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type)) is a data structure that supports insertions at the front and deletions at the end of a sequence of elements. Most programming languages have a queue implementation in their standard library that is optimized for fast $O(1)$ insertion and deletion.
 
 Begin by loading all the cards into the queue. To shuffle, remove a value from the front of the queue and insert it back into the end of the queue. This is equivalent to moving a card. Then, remove the next element of the queue and insert it to the end of the list. This is equivalent to incrementing our shuffle index. Repeat this process until the queue runs out.
 
@@ -41,18 +41,18 @@ Since performing insertions and deletions from queues and lists for a single shu
 
 To implement this in each language:
 - Python
-    - Import `collections.deque` and use `deque()`.
-    - Use `deck.popleft()` and `deck.append(i)`.
+    - Use [`collections.deque()`](https://docs.python.org/3/library/collections.html#collections.deque).
+    - Use `d.popleft()` and `d.append(i)`.
 - Java
-    - Import `java.util.ArrayDeque` and use `ArrayDeque<Integer>`.
-    - Use `deck.remove(i)` and `deck.add(i)`.
+    - Use [`java.util.ArrayDeque<Integer>`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/ArrayDeque.html).
+    - Use `d.remove(i)` and `d.add(i)`.
 - C++
-    - Include `<queue>` and use `queue<int>`.
-    - Use `deck.erase(deck.begin() + i)` and `deck.push_back(card)`.
+    - Use `std::queue<int>`.
+    - Use `d.erase(deck.begin() + i)` and `d.push_back(card)`.
 
 ### Linked List
 
-We can also solve this problem using a linked list. A [linked list](https://TODO) is a data structure that represents a list using a sequence of nodes. Each node contains a list value and also a pointer to the next node.
+We can also solve this problem using a linked list. A [linked list](https://en.wikipedia.org/wiki/Linked_list) is a data structure that represents a list using a sequence of nodes. Each node contains a list value and also a pointer to the next node.
 
 The idea is that we represent the deck as a linked list. Maintain pointers to the start of the list, the end of the list, and also the current index being shuffled. Each time we want to shuffle, we make the node before the current index point to the node after the current index. We also make the node at the end of the list point to the node at the current index.
 
@@ -92,4 +92,4 @@ In hindsight, the problem shares a number of overlapping properties with the rel
 
 ## Problem Credits
 
-Under construction!
+TODO
