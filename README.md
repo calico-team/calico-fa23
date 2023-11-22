@@ -1,12 +1,12 @@
 ![CALICO Logo](https://calico.berkeley.edu/images/banner/blocks.png)
 
 # calico-fa23
-***Note**: This repo is under construction. Check back occasionally for updates! Last Updated: 11/18*
+***Note**: This repo is under construction. Check back occasionally for updates! Last Updated: 11/21*
 
 ## Editorial Progress
-**Published**: rotate
+**Published**: birthday, jenga, rotate
 
-**Drafted**: berkeleytime, birthday, crosstown, wtds, jenga, plus9qh, subway, judgehosts, boxcars, rescueteam, benga, barbieland 
+**Drafted**: berkeleytime, crosstown, wtds, plus9qh, subway, judgehosts, boxcars, rescueteam, benga, barbieland 
 
 ## Quick Start
 This repository contains all contest materials for CALICO Fall '23, including solutions, editorials, tests, templates, and problem statements.
